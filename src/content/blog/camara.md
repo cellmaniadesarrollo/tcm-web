@@ -5,7 +5,7 @@ heroImage: /images/contents/Camara-300x212.webp
 pubDate: Jul 08 2022
 modDate: Jul 08 2022
 draft: false
-tags: 
+tags:  
     - Reparación
 ---
 

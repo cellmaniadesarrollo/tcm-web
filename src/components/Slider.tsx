@@ -63,8 +63,8 @@ const Slider = () => {
 										<img
 											src="images/products/Combo CONEXIÓN TOTAL.webp"
 											className="h-80 w-80 md:h-64 z-30 aspect-auto"
-                      width={320}
-                      height={320}
+												width={320}
+												height={320}
 											alt="iphone 14 pro max 512gb"
 											loading={"eager"}
 										/>
@@ -372,6 +372,70 @@ const Slider = () => {
 									<div className="absolute mr-28 md:mr-16 brightness-125 contrast-200 saturate-50">
 										<img
                       src="/images/products/P5.webp"
+                      className="h-80 w-[223px] md:h-56 md:w-[156px] aspect-auto"
+                      width={223}
+                      height={320}
+											alt="touchsurface3pro"
+											loading={"eager"}
+										/>
+									</div>
+								</div>
+							</section>
+						</section>
+					</div>
+				</div>
+			</SwiperSlide>
+			<SwiperSlide>
+				<div className="w-full h-[664px] md:h-80 z-0">
+					<div className="w-full h-full">
+						<img
+							alt="quantum-gradient-background"
+							src="/images/backgrounds/quantum-gradient.svg"
+							className="object-cover h-full"
+							width={864}
+							height={664}
+							loading={"eager"}
+						/>
+					</div>
+					<div className="absolute h-full z-20 top-0 w-full">
+						<section className="grid h-full grid-cols-1 md:grid-cols-3 mx-5 md:ml-20 md:mr-7">
+							<div className="col-span-1 md:col-span-2 md:mt-20 mt-10">
+								<header>
+									<h2 className="font-roboto font-bold text-white text-center md:text-left text-5xl">
+										<span className="block">LCD SAMSUNG</span>
+										<span>LCD Samsung Watch Active SM-R500</span>
+									</h2>
+								</header>
+								<section className="mt-6 flex justify-center md:justify-start">
+									<div className="items-center fade-up inline-flex flex-wrap gap-4">
+										<a
+											target="_blank"
+											rel="noopener noreferrer"
+											href={STOREPAGE_URL + "/products/lcd-samsung-watch-active-sm-r500"}
+											className="btn bg-black text-zinc-300"
+										>
+											<span className="text-xl md:text-base font-bold">
+												Comprar ahora
+											</span>
+										</a>
+									</div>
+								</section>
+							</div>
+							<section className="relative z-20 mt-20">
+								<div className="relative w-full h-52 flex justify-center items-center">
+									<div className="absolute ml-24 md:ml-16 mb-14 md:mb-6 brightness-75 saturate-50 contrast-200">
+										<img
+											src="/images/products/Pantalla-Garmin-1.webp"
+											className="h-80 w-[218px] md:h-56  aspect-auto"
+                      width={218}
+                      height={320}
+											alt="touchsurface3pro"
+											loading={"eager"}
+										/>
+									</div>
+									<div className="absolute mr-28 md:mr-16 brightness-125 contrast-200 saturate-50">
+										<img
+                      src="/images/products/Pantalla-Garmin.webp"
                       className="h-80 w-[223px] md:h-56 md:w-[156px] aspect-auto"
                       width={223}
                       height={320}

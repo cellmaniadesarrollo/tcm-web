@@ -402,8 +402,8 @@ const Slider = () => {
 							<div className="col-span-1 md:col-span-2 md:mt-20 mt-10">
 								<header>
 									<h2 className="font-roboto font-bold text-white text-center md:text-left text-5xl">
-										<span className="block">LCD SAMSUNG</span>
-										<span>LCD Samsung Watch Active SM-R500</span>
+										<span className="block">LCD Vivo</span>
+										<span>Pantalla LCD Vivo Y33s</span>
 									</h2>
 								</header>
 								<section className="mt-6 flex justify-center md:justify-start">
@@ -411,7 +411,7 @@ const Slider = () => {
 										<a
 											target="_blank"
 											rel="noopener noreferrer"
-											href={STOREPAGE_URL + "/products/lcd-samsung-watch-active-sm-r500"}
+											href={STOREPAGE_URL + "/products/pantalla-lcd-vivo-y33s"}
 											className="btn bg-black text-zinc-300"
 										>
 											<span className="text-xl md:text-base font-bold">
@@ -425,20 +425,20 @@ const Slider = () => {
 								<div className="relative w-full h-52 flex justify-center items-center">
 									<div className="absolute ml-24 md:ml-16 mb-14 md:mb-6 brightness-75 saturate-50 contrast-200">
 										<img
-											src="/images/products/Pantalla-Garmin-1.webp"
+											src="/images/products/Diseño-sin-título-_1_.webp"
 											className="h-80 w-[218px] md:h-56  aspect-auto"
-                      width={218}
-                      height={320}
+											width={218}
+											height={320}
 											alt="touchsurface3pro"
 											loading={"eager"}
 										/>
 									</div>
 									<div className="absolute mr-28 md:mr-16 brightness-125 contrast-200 saturate-50">
 										<img
-                      src="/images/products/Pantalla-Garmin.webp"
-                      className="h-80 w-[223px] md:h-56 md:w-[156px] aspect-auto"
-                      width={223}
-                      height={320}
+											src="/images/products/Diseño-sin-título.webp"
+											className="h-80 w-[223px] md:h-56 md:w-[156px] aspect-auto"
+											width={223}
+											height={320}
 											alt="touchsurface3pro"
 											loading={"eager"}
 										/>

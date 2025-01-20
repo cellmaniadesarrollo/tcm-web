@@ -80,7 +80,7 @@ export default function CarouselSucursales() {
 				<div className="bg-sky-800 rounded-xl text-zinc-50 p-10 lg:p-12 w-[400px] lg:w-[600px]">
 					<section className="mb-4">
 						<span className="font-semibold text-xl lg:text-2xl block text-center">
-							Luis Corderdo (Principal)
+							Luis Cordero (Principal)
 						</span>
 						<span className="block text-center text-xs lg:text-lg">
 							C. Luis Cordero Crespo 4-17, y Antonio José de Sucre

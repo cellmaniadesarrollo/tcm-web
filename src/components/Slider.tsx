@@ -21,7 +21,7 @@ const Slider = () => {
 			}}
 			modules={[Autoplay, Navigation, EffectFade]}
 		>
-						<SwiperSlide>
+			{/* <SwiperSlide>
 				<div className="w-full h-[664px] md:h-80">
 					<div className="w-full h-full">
 						<img
@@ -74,7 +74,7 @@ const Slider = () => {
 						</section>
 					</div>
 				</div>
-			</SwiperSlide>
+			</SwiperSlide> */}
  			<SwiperSlide>
 				<div className="w-full h-[664px] md:h-80 z-0">
 					<div className="w-full h-full">
@@ -475,7 +475,7 @@ const Slider = () => {
 										<a
 											target="_blank"
 											rel="noopener noreferrer"
-											href={STOREPAGE_URL + "products/cargador-para-laptop-asus-rog-strix-gl70ge"}
+											href={STOREPAGE_URL + "/products/cargador-para-laptop-asus-rog-strix-gl70ge"}
 											className="btn bg-black text-zinc-300"
 										>
 											<span className="text-xl md:text-base font-bold">

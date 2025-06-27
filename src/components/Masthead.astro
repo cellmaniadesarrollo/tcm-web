@@ -1,74 +1,87 @@
 ---
 import Button from "./Button.astro";
-import ImagesStories from "./ImagesStories";
-import StoriesItem from "./StoriesItem.astro";
 import { STOREPAGE_URL } from "../config";
-
-const stories = [
-  {
-    type: 'video',
-    url: '/videos/video.mp4',
-    thumbnail: "/images/stories/thumbnail1.png",
-    duration: 15000
-  },
-  {
-    type: 'video',
-    url: '/videos/video1.mp4',
-    thumbnail: "/images/stories/thumbnail2.png",
-    duration: 15000
-  },
-  {
-    type: 'video',
-    url: '/videos/video4.mp4',
-    thumbnail: "/images/stories/thumbnail3.png",
-    duration: 28000
-  },
-  {
-    type: 'video',
-    url: '/videos/video5.mp4',
-    thumbnail: "/images/stories/thumbnail3.png",
-    duration: 8000,
-  },
-  {
-    type: 'video',
-    url: '/videos/video6.mp4',
-    duration: 34000,
-    thumbnail: "/images/stories/thumbnail3.png",
-  },
-  {
-    type: 'video',
-    url: '/videos/video7.mp4',
-    thumbnail: "/images/stories/thumbnail3.png",
-    duration: 24000,
-  },
-  {
-    type: 'video',
-    url: '/videos/video8.mp4',
-    thumbnail: "/images/stories/thumbnail3.png",
-    duration: 30000,
-  },
-];
 ---
-<section class="h-700px">
-  <section class="mx-auto max-w-4xl flex justify-center md:justify-between gap-2 items-center p-4">
-    <div class="w-[400px]">
-      <aside class="flex flex-col gap-6">
-        <article>
-          <p class="text-center text-xl md:text-left">🚀 Reparación y Venta de Celulares, Personalización y Mantenimiento de Computadoras</p>
-        </article>
-        <article>
-          <p class="text-center text-xl md:text-left">✌️  Ofrecemos soluciones efectivas para tus consolas, además de una amplia gama de modelos de videojuegos</p>
-        </article>
-        <article>
-          <p class="text-center text-xl md:text-left">⚡Compartimos nuestro conocimiento y experiencia a través de videos, entrevistas y podcasts</p>
-        </article>
-        <article>
-          <p class="text-center text-xl md:text-left">🪛Soporte técnico experto para asegurar que tus dispositivos electrónicos estén siempre en óptimas condiciones</p
-        </article>
-      </header>
+
+<style>
+  .services-section {
+    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  }
+  .service-card {
+    transition: all 0.3s ease;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  }
+  .service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  .service-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+</style>
+
+<section class="services-section py-16 md:py-24">
+  <div class="container mx-auto px-4 max-w-6xl">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        Nuestros Servicios Integrales
+      </h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        Soluciones tecnológicas completas para todos tus dispositivos electrónicos
+      </p>
     </div>
-    <div class="w-[328px] h-[568px] border border-slate-300 rounded-3xl md:inline hidden overflow-hidden" transition:animate="slide" >
-      <ImagesStories stories={stories} index={0} client:load />
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Tarjeta 1 -->
+      <div class="service-card p-6">
+        <div class="service-icon">🚀</div>
+        <h3 class="text-xl font-bold text-gray-800 mb-3">Reparación y Venta</h3>
+        <p class="text-gray-600">
+          Servicio profesional para celulares, personalización y mantenimiento de computadoras
+        </p>
+      </div>
+
+      <!-- Tarjeta 2 -->
+      <div class="service-card p-6">
+        <div class="service-icon">✌️</div>
+        <h3 class="text-xl font-bold text-gray-800 mb-3">Soluciones para Consolas</h3>
+        <p class="text-gray-600">
+          Reparación especializada y amplia variedad de videojuegos para todas las plataformas
+        </p>
+      </div>
+
+      <!-- Tarjeta 3 -->
+      <div class="service-card p-6">
+        <div class="service-icon">⚡</div>
+        <h3 class="text-xl font-bold text-gray-800 mb-3">Contenido Educativo</h3>
+        <p class="text-gray-600">
+          Compartimos conocimiento a través de videos, entrevistas y podcasts técnicos
+        </p>
+      </div>
+
+      <!-- Tarjeta 4 -->
+      <div class="service-card p-6">
+        <div class="service-icon">🪛</div>
+        <h3 class="text-xl font-bold text-gray-800 mb-3">Soporte Técnico</h3>
+        <p class="text-gray-600">
+          Asesoría experta para mantener tus dispositivos en óptimas condiciones
+        </p>
+      </div>
     </div>
-  </section>
+
+    <div class="text-center mt-16">
+      <a
+        href={STOREPAGE_URL}
+        class="inline-flex items-center px-8 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition duration-300"
+      >
+        <span>Ver todos nuestros servicios</span>
+        <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
 </section>

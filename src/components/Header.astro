@@ -4,27 +4,111 @@ import { Image } from "astro:assets";
 import { STOREPAGE_URL } from "../config";
 import tcmLogo from "../../public/tcm-logo.webp"
 ---
-<header class="fixed w-full py-2 backdrop-blur-xl z-20">
-  <section class="max-w-4xl mx-auto">
-    <div class="flex px-4">
-      <a href="/" class="my-1">
-        <Image
-          class="max-w-44 max-h-12 w-full object-cover" 
-          src={tcmLogo} 
-          width={176}
-          height={45}
-          loading="eager"
-          decoding="sync"
-          alt="Logo Team cellmania">
-      </a>
-      <span class="flex-1"></span>
-      <nav class="flex flex-row gap-1 items-center">
-        <HeaderLink class="group px-2 py-2 rounded-lg opacity-60 hover:opacity-100 transition-all text-sm md:text-base" href={"/sucursales"}>Sucursales</HeaderLink>
-        <HeaderLink class="group px-2 py-2 rounded-lg opacity-60 hover:opacity-100 transition-all text-sm md:text-base" href={"/contenido"}>Contenido</HeaderLink>
-        <HeaderLink class="group px-2 py-2 rounded-lg opacity-60 hover:opacity-100 transition-all text-sm md:text-base" href={"/social"}>Redes</HeaderLink>
-        <a class="group pl-2 pr-1 py-2 rounded-lg opacity-60 hover:opacity-100 transition-all text-sm md:text-base" href={STOREPAGE_URL} target="_blank">Tienda</a>
-      </nav>
-    </div>
-  </section>
-</header>
 
+<style>
+  .header-gradient {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 58, 138, 0.95) 100%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  .nav-link {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: #3b82f6;
+    transition: width 0.3s ease;
+  }
+  .nav-link:hover::after {
+    width: 70%;
+  }
+  .shop-btn {
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  }
+  .shop-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+</style>
+
+<header class="fixed w-full py-3 header-gradient backdrop-blur-md z-50 border-b border-blue-900/20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a href="/" class="flex items-center">
+          <Image
+            class="h-10 w-auto transition-transform duration-300 hover:scale-105" 
+            src={tcmLogo} 
+            width={160}
+            height={40}
+            loading="eager"
+            decoding="sync"
+            alt="Logo Team CellMania"
+          />
+        </a>
+      </div>
+
+      <!-- Navegación principal - Desktop -->
+      <nav class="hidden md:flex items-center space-x-1">
+        <HeaderLink 
+          class="nav-link px-4 py-2 text-blue-100 hover:text-white font-medium text-sm"
+          href="/sucursales"
+        >
+          Sucursales
+        </HeaderLink>
+        
+        <HeaderLink 
+          class="nav-link px-4 py-2 text-blue-100 hover:text-white font-medium text-sm"
+          href="/contenido"
+        >
+          Contenido
+        </HeaderLink>
+        
+        <HeaderLink 
+          class="nav-link px-4 py-2 text-blue-100 hover:text-white font-medium text-sm"
+          href="/social"
+        >
+          Redes Sociales
+        </HeaderLink>
+        
+        <a 
+          href={STOREPAGE_URL}
+          target="_blank"
+          class="ml-4 shop-btn inline-flex items-center px-4 py-2 rounded-md text-white font-medium text-sm"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          Tienda Online
+        </a>
+      </nav>
+
+      <!-- Menú móvil (opcional) -->
+      <div class="md:hidden flex items-center">
+        <button type="button" class="text-blue-200 hover:text-white focus:outline-none">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menú móvil expandido (opcional) -->
+  <!-- <div class="md:hidden hidden">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      <a href="/sucursales" class="block px-3 py-2 rounded-md text-base font-medium text-blue-100 hover:text-white">Sucursales</a>
+      <a href="/contenido" class="block px-3 py-2 rounded-md text-base font-medium text-blue-100 hover:text-white">Contenido</a>
+      <a href="/social" class="block px-3 py-2 rounded-md text-base font-medium text-blue-100 hover:text-white">Redes Sociales</a>
+      <a href={STOREPAGE_URL} target="_blank" class="block px-3 py-2 rounded-md text-base font-medium text-blue-100 hover:text-white">Tienda</a>
+    </div>
+  </div> -->
+</header>

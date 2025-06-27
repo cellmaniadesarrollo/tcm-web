@@ -24,9 +24,9 @@ import Slider from "../components/Slider";
 let videos = await GET(Astro);
 const result = await videos.json();
 const sortedVideos = getSortedVideos(result);
-
 const sortedPosts = await getSortedPosts(posts);
  
+// Configuración del sitio
 const siteTitle = "TeamCellMania - Reparación y Venta de Celulares en Azogues y Biblián";
 const siteDescription = "Expertos en reparación de celulares, iPhone, Android, Apple Watch, y otros dispositivos electrónicos. Venta de celulares, accesorios y servicios en Azogues y Biblián, Ecuador.";
 const siteUrl = "https://www.teamcellmania.com";
@@ -43,9 +43,100 @@ const address = {
 };
 ---
 
+<style>
+  :root {
+    --primary: #1e40af;
+    --primary-light: #3b82f6;
+    --secondary: #10b981;
+    --dark: #1f2937;
+    --light: #f9fafb;
+  }
+  
+  .section-padding {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  
+  @media (min-width: 768px) {
+    .section-padding {
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+    }
+  }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .card-hover {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .btn-hover {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-hover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: all 0.6s ease;
+  }
+  
+  .btn-hover:hover::after {
+    left: 100%;
+  }
+  
+  .section-title {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--primary-light);
+  }
+  
+  .fade-up {
+    animation: fadeInUp 0.8s ease forwards;
+    opacity: 0;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
 <html lang="es" class="scroll-smooth">
   <head>
-    <!-- <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} /> -->
     <title>{siteTitle}</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -60,26 +151,26 @@ const address = {
     <meta property="og:description" content={siteDescription} />
     <meta property="og:url" content={siteUrl} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/path-to-image.jpg" />
+    <meta property="og:image" content="/images/social-preview.jpg" />
     <meta property="og:locale" content="es_EC" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={siteTitle} />
     <meta name="twitter:description" content={siteDescription} />
-    <meta name="twitter:image" content="/path-to-image.jpg" />
+    <meta name="twitter:image" content="/images/social-preview.jpg" />
 
     <!-- Marcado de datos estructurados Schema.org -->
     <script type="application/ld+json">
-    {{
+    {JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Store",
       "name": "TeamCellMania",
-      "url": {siteUrl},
-      "logo": "/path-to-logo.jpg",
-      "description": {siteDescription},
-      "telephone": {contactPhone},
-      "email": {contactEmail},
-      "address": {JSON.stringify(address)},
+      "url": siteUrl,
+      "logo": "/images/logo.jpg",
+      "description": siteDescription,
+      "telephone": contactPhone,
+      "email": contactEmail,
+      "address": address,
       "openingHoursSpecification": [
         {
           "@type": "OpeningHoursSpecification",
@@ -113,38 +204,64 @@ const address = {
         }
       },
       "sameAs": [
-        "https://www.facebook.com/yourpage",
-        "https://www.instagram.com/yourpage",
-        "https://twitter.com/yourpage"
+        "https://www.facebook.com/teamcellmania",
+        "https://www.instagram.com/teamcellmania",
+        "https://twitter.com/teamcellmania"
       ]
-    }}
+    })}
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4823314192086788"
-    crossorigin="anonymous"></script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4823314192086788" crossorigin="anonymous"></script>
 
     <!-- Favicon -->
-    <link rel="icon" href="/path-to-favicon.ico" />
-
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   </head>
-  <Body>
+
+  <Body class="bg-gray-50">
     <Header />
+    
     <main class="pt-[76px]">
-      <section class="mx-auto max-w-4xl p-0 md:p-4">
-        <Slider client:load />
+      <!-- Hero Slider -->
+      <section class="bg-gradient-to-r from-blue-900 to-blue-700 py-8 md:py-12">
+        <div class="mx-auto max-w-7xl px-4">
+          <Slider client:load />
+        </div>
       </section>
+
+      <!-- Resumen de servicios -->
       <Summary articlesLength={sortedPosts.length} />
+
+      <!-- Nuestros servicios -->
       <Services />
-      <section class="py-12">
-        <section class="mx-auto max-w-4xl p-4 my-4">
-          <section class="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-56">
-            <div>
-              <div class="sticky top-[76px]">
-                <header class="mb-6 items-center ">
-                  <h2 class="leading-none font-bold my-6">Revisa nuestros articulos</h2>
-                  <p class="text-xl opacity-70">¡Conoce más y mantén tus dispositivos en perfecto estado!"</p>
-                </header>
+
+      <!-- Sección de artículos -->
+      <section class="section-padding bg-white">
+        <div class="mx-auto max-w-7xl px-4">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div class="lg:sticky lg:top-[100px] h-fit">
+              <header class="mb-8">
+                <h2 class="section-title text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                  Artículos Técnicos
+                </h2>
+                <p class="text-xl text-gray-600">
+                  ¡Conoce más y mantén tus dispositivos en perfecto estado!
+                </p>
+              </header>
+              
+              <div class="hidden lg:block">
+                <a 
+                  href="/contenido/articulos" 
+                  class="btn-hover inline-flex items-center px-6 py-3 bg-blue-900 text-white rounded-lg font-medium hover:bg-blue-800 transition"
+                >
+                  <div class="w-6 fill-white mr-2">
+                    <ArticleIcon />
+                  </div>
+                  <span>Ver todos los artículos</span>
+                </a>
               </div>
             </div>
+
             <section class="grid grid-cols-1">
               <section class="group">
                 {sortedPosts.map((data, index) => index < 3 && (
@@ -160,29 +277,42 @@ const address = {
                 </Button>
               </div>
             </section>
-          </section>
-        </section>
+          </div>
+        </div>
       </section>
+
+      <!-- Tienda -->
       <Store />
+
+      <!-- Testimonios -->
       <Masthead />
-      <section class=" mx-auto max-w-4xl p-4 mt-8">
-        <header class="flex justify-between mb-6 items-center">
-          <h4 class="">Videos</h4>
-          <div style="--animation-delay: 0.6s" class="items-center fade-up inline-flex justify-end flex-wrap gap-4">
-            <Button href={"contenido/videos"} className="bg-blue-900 items-center">
-              <div class="w-6 stroke-white fill-none">
+
+      <!-- Sección de videos -->
+      <section class="section-padding bg-gray-50">
+        <div class="mx-auto max-w-7xl px-4">
+          <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+            <h2 class="section-title text-3xl font-bold text-gray-900 mb-4 md:mb-0">
+              Videos Tutoriales
+            </h2>
+            <a 
+              href="/contenido/videos" 
+              class="btn-hover inline-flex items-center px-6 py-3 bg-blue-900 text-white rounded-lg font-medium hover:bg-blue-800 transition"
+            >
+              <div class="w-6 stroke-white fill-none mr-2">
                 <VideoIcon />
               </div>
-              <span>Ver mas videos</span>
-            </Button>
-          </div>
-        </header>
+              <span>Ver todos los videos</span>
+            </a>
+          </header>
+
         <section class="grid grid-cols-2 md:grid-cols-4 gap-4 group">
           {sortedVideos.map((video: VideoYoutube, index: number) => index < 4 && (
             <CardVideos data={video} loading="lazy"/>
           ))}
         </section>
+        </div>
       </section>
+
       <Footer />
     </main>
   </Body>

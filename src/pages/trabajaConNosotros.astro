@@ -1,0 +1,181 @@
+---
+// src/pages/trabajo.astro
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Únete a nuestro equipo. Completa nuestro formulario de solicitud de trabajo para postularte a nuestras vacantes disponibles." />
+    <title>Únete a Nuestro Equipo | Solicitud de Trabajo</title>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Únete a Nuestro Equipo" />
+    <meta property="og:description" content="Postúlate a nuestras vacantes disponibles completando nuestro formulario de solicitud de trabajo." />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <style>
+      :root {
+        --primary: #3b82f6;
+        --primary-hover: #2563eb;
+        --secondary: #10b981;
+        --text: #1f2937;
+        --light-bg: #f9fafb;
+        --white: #ffffff;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+      
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.6;
+        color: var(--text);
+        background-color: var(--light-bg);
+        margin: 0;
+        padding: 0;
+      }
+      
+      main {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem;
+        text-align: center;
+      }
+      
+      h1 {
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+        font-size: 2.5rem;
+        font-weight: 700;
+      }
+      
+      .description {
+        font-size: 1.125rem;
+        max-width: 600px;
+        margin: 0 auto 2.5rem;
+        color: #4b5563;
+      }
+      
+      .cta-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem 2rem;
+        background-color: var(--primary);
+        color: var(--white);
+        text-decoration: none;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        font-size: 1.125rem;
+        transition: all 0.2s ease;
+        box-shadow: var(--shadow);
+        margin-bottom: 2rem;
+      }
+      
+      .cta-button:hover {
+        background-color: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+      
+      .cta-button:focus {
+        outline: 2px solid var(--primary-hover);
+        outline-offset: 2px;
+      }
+      
+      .steps {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 3rem;
+        text-align: left;
+      }
+      
+      .step {
+        flex: 1;
+        min-width: 250px;
+        background: var(--white);
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        box-shadow: var(--shadow);
+      }
+      
+      .step-number {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        background-color: var(--primary);
+        color: var(--white);
+        border-radius: 50%;
+        text-align: center;
+        line-height: 32px;
+        font-weight: bold;
+        margin-bottom: 1rem;
+      }
+      
+      .step-title {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--primary);
+      }
+      
+      @media (max-width: 640px) {
+        h1 {
+          font-size: 2rem;
+        }
+        
+        .steps {
+          flex-direction: column;
+        }
+      }
+    </style>
+    
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <main>
+      <h1>Únete a Nuestro Equipo</h1>
+      
+      <p class="description">
+        Estamos buscando talentos excepcionales para formar parte de nuestra organización. 
+        Completa nuestro formulario para que podamos conocerte mejor.
+      </p>
+      
+      <a 
+        href="https://docs.google.com/forms/d/e/1FAIpQLScE0WjQdR_JQEs-tU2L12CMDyKpz06xcCXLRvCoJZtrtxj1fg/viewform?usp=header" 
+        target="_blank"
+        rel="noopener noreferrer"
+        class="cta-button"
+      >
+        Completar Solicitud
+      </a>
+      
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3 class="step-title">Completa el formulario</h3>
+          <p>Llena todos los campos requeridos con tu información personal y profesional.</p>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3 class="step-title">Revisión de tu perfil</h3>
+          <p>Nuestro equipo de RRHH evaluará tu solicitud cuidadosamente.</p>
+        </div>
+        
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3 class="step-title">Contacto contigo</h3>
+          <p>Si tu perfil coincide con nuestras necesidades, nos pondremos en contacto.</p>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

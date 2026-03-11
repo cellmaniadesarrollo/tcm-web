@@ -1,0 +1,115 @@
+---
+// src/pages/repuestos/[...slug].astro
+import { db, Repuestos } from "astro:db";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import Body from "../../components/Body.astro";
+import RepuestosPricing from "../../components/RepuestosPricing.astro";
+
+// Genera todos los paths posibles desde la base de datos
+export async function getStaticPaths() {
+  const todos = await db.select().from(Repuestos);
+
+  // Categorías únicas: ["pantalla", "bateria"]
+  const categorias = [...new Set(todos.map((r) => r.categoria))];
+
+  // Por cada categoría, modelos únicos (sin OLED duplicado de modelo base)
+  const modelosPorCategoria: Record<string, string[]> = {};
+  for (const cat of categorias) {
+    modelosPorCategoria[cat] = [
+      ...new Set(todos.filter((r) => r.categoria === cat).map((r) => r.modelo)),
+    ];
+  }
+
+  const paths = [];
+
+  // /repuestos → slug = undefined
+  paths.push({ params: { slug: undefined } });
+
+  for (const cat of categorias) {
+    // /repuestos/pantalla  o  /repuestos/bateria
+    paths.push({ params: { slug: cat } });
+
+    // /repuestos/pantalla/iphone-12  etc.
+    for (const modelo of modelosPorCategoria[cat]) {
+      paths.push({ params: { slug: `${cat}/${modelo}` } });
+    }
+  }
+
+  return paths;
+}
+
+// Leer parámetros de la URL
+const { slug } = Astro.params;
+const partes = slug ? slug.split("/") : [];
+const categoriaActiva = partes[0] ?? null;
+const modeloActivo = partes[1] ?? null;
+
+// Consultar todos los repuestos
+const todos = await db.select().from(Repuestos);
+
+// Filtrar según la URL
+const repuestosFiltrados = todos
+  .filter((r) => {
+    if (categoriaActiva && r.categoria !== categoriaActiva) return false;
+    if (modeloActivo && r.modelo !== modeloActivo) return false;
+    return true;
+  })
+  .map((r) => ({
+    ...r,
+    tags: r.tags as string[] | null | undefined,
+  }));
+
+// Categorías y modelos disponibles para los filtros de navegación
+const todasCategorias = [...new Set(todos.map((r) => r.categoria))];
+const todosModelos = categoriaActiva
+  ? [...new Set(todos.filter((r) => r.categoria === categoriaActiva).map((r) => r.modelo))]
+  : [];
+
+// Título dinámico para SEO
+function labelModelo(modelo: string): string {
+  return modelo
+    .split("-")
+    .map((w) =>
+      w === "iphone" ? "iPhone" : w === "pro" ? "Pro" : w === "max" ? "Max" :
+      w === "mini" ? "mini" : w === "plus" ? "Plus" : w === "oled" ? "OLED" :
+      w === "se" ? "SE" : w === "xs" ? "Xs" : w === "xr" ? "Xr" :
+      w.charAt(0).toUpperCase() + w.slice(1)
+    )
+    .join(" ");
+}
+
+const pageTitle = modeloActivo
+  ? `Precio ${categoriaActiva === "pantalla" ? "pantalla" : "batería"} ${labelModelo(modeloActivo)} | TeamCellMania`
+  : categoriaActiva
+  ? `Precios de ${categoriaActiva === "pantalla" ? "pantallas" : "baterías"} | TeamCellMania`
+  : "Precios de repuestos | TeamCellMania";
+
+const pageDescription = modeloActivo
+  ? `Consulta el precio de cambio de ${categoriaActiva} para ${labelModelo(modeloActivo)} en Azogues y Biblián.`
+  : "Precios de pantallas y baterías para iPhone en TeamCellMania, Azogues y Biblián, Ecuador.";
+---
+
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="icon" href="/favicon.ico" />
+  </head>
+
+  <Body class="bg-gray-50">
+    <Header />
+    <main class="pt-[76px]">
+      <RepuestosPricing
+        repuestos={repuestosFiltrados}
+        categoriaActiva={categoriaActiva}
+        modeloActivo={modeloActivo}
+        todasCategorias={todasCategorias}
+        todosModelos={todosModelos}
+      />
+    </main>
+    <Footer />
+  </Body>
+</html>

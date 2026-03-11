@@ -1,3 +1,4 @@
+//src\pages\products.json.ts
 import { getAllProducts } from "../utils/shopify";
 
 export const POST = async () => {

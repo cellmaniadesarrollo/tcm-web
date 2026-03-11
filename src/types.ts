@@ -41,9 +41,9 @@ export interface PriceRange {
 }
 
 export interface Edges {
-  node: {
-    originalSrc: string;
-  }
+	node: {
+		originalSrc: string;
+	}
 }
 
 export interface Node {
@@ -52,7 +52,7 @@ export interface Node {
 	priceRange: PriceRange;
 	images: {
 		edges: Edges[];
-  };
+	};
 }
 
 export interface Product {
@@ -64,3 +64,13 @@ export interface Location {
 	longitude: number;
 	name: string;
 }
+export type Repuesto = {
+	id: string;
+	categoria: string;
+	modelo: string;
+	precioConMensaje: number | null;
+	precioSinMensaje: number | null;
+	descripcion?: string | null;
+	stock?: boolean | null;
+	tags?: string[] | null;
+};

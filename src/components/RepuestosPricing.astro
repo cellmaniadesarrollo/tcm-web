@@ -1,0 +1,276 @@
+---
+// src/components/RepuestosPricing.astro
+import type { Repuesto } from "../types";
+
+interface Props {
+  repuestos: Repuesto[];
+  categoriaActiva: string | null;
+  modeloActivo: string | null;
+  todasCategorias: string[];
+  todosModelos: string[];
+}
+
+const { repuestos, categoriaActiva, modeloActivo, todasCategorias, todosModelos } = Astro.props;
+
+const labelCategoria: Record<string, string> = {
+  pantalla: "Pantallas",
+  bateria: "Baterías",
+};
+
+function labelModelo(modelo: string): string {
+  return modelo
+    .split("-")
+    .map((word) =>
+      word === "iphone" ? "iPhone" : word === "pro" ? "Pro" : word === "max" ? "Max" :
+      word === "mini" ? "mini" : word === "plus" ? "Plus" : word === "oled" ? "OLED" :
+      word === "se" ? "SE" : word === "xs" ? "Xs" : word === "xr" ? "Xr" :
+      word.charAt(0).toUpperCase() + word.slice(1)
+    )
+    .join(" ");
+}
+---
+
+<style>
+  .select-custom {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%236b7280' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+  }
+  .select-custom:focus {
+    outline: none;
+    border-color: #1e40af;
+    box-shadow: 0 0 0 3px rgba(30,64,175,0.15);
+  }
+  .tab-active {
+    background-color: #1e40af;
+    color: white;
+    font-weight: 600;
+  }
+  .price-row:hover {
+    background-color: #f0f4ff;
+  }
+  .badge-pantalla {
+    background: #dbeafe;
+    color: #1e40af;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .badge-bateria {
+    background: #d1fae5;
+    color: #065f46;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .tooltip {
+    position: relative;
+    cursor: help;
+  }
+  .tooltip:hover .tooltip-text {
+    display: block;
+  }
+  .tooltip-text {
+    display: none;
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1f2937;
+    color: white;
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    border-radius: 8px;
+    width: 220px;
+    z-index: 50;
+    line-height: 1.4;
+    text-align: center;
+  }
+  .tooltip-text::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #1f2937;
+  }
+</style>
+
+<section class="py-12 bg-gray-50 min-h-screen">
+  <div class="max-w-4xl mx-auto px-4">
+
+    <!-- Encabezado -->
+    <div class="mb-10 text-center">
+      <h1 class="text-4xl font-bold text-gray-900 mb-3">Cotiza tu Repuesto</h1>
+      <p class="text-lg text-gray-500 max-w-2xl mx-auto">
+        Consulta el costo de pantallas y baterías para tu dispositivo. Precios incluyen mano de obra.
+      </p>
+    </div>
+
+    <!-- Selectores estilo Apple -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+      <div class="flex flex-col sm:flex-row gap-4">
+
+        <!-- Select categoría -->
+        <div class="flex-1">
+          <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+            Tipo de repuesto
+          </label>
+          <select
+            id="select-categoria"
+            class="select-custom w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-800 font-medium text-sm cursor-pointer transition"
+          >
+            <option value="/repuestos" selected={!categoriaActiva}>Todos</option>
+            {todasCategorias.map((cat) => (
+              <option
+                value={`/repuestos/${cat}`}
+                selected={categoriaActiva === cat}
+              >
+                {labelCategoria[cat] ?? cat}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <!-- Select modelo (solo visible si hay categoría activa) -->
+        <div class="flex-1">
+          <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+            Modelo
+          </label>
+          <select
+            id="select-modelo"
+            disabled={!categoriaActiva || todosModelos.length === 0}
+            class="select-custom w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-800 font-medium text-sm cursor-pointer transition disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            <option value={categoriaActiva ? `/repuestos/${categoriaActiva}` : "/repuestos"} selected={!modeloActivo}>
+              {categoriaActiva ? "Todos los modelos" : "Selecciona un tipo primero"}
+            </option>
+            {todosModelos.map((modelo) => (
+              <option
+                value={`/repuestos/${categoriaActiva}/${modelo}`}
+                selected={modeloActivo === modelo}
+              >
+                {labelModelo(modelo)}
+              </option>
+            ))}
+          </select>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Tabla de precios -->
+    <div class="flex-1">
+      {repuestos.length === 0 ? (
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
+          <p class="text-gray-400 text-lg">No hay repuestos disponibles para esta selección.</p>
+        </div>
+      ) : (
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-gray-50 border-b border-gray-100">
+                <th class="text-left px-6 py-4 font-semibold text-gray-600">Modelo</th>
+                {!categoriaActiva && (
+                  <th class="text-left px-4 py-4 font-semibold text-gray-600">Tipo</th>
+                )}
+                <th class="text-center px-4 py-4 font-semibold text-gray-600">
+                  <div class="tooltip inline-flex items-center gap-1">
+                    <span>Sin mensaje</span>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z" />
+                    </svg>
+                    <span class="tooltip-text">
+                      Repuesto compatible. No aparece ninguna advertencia en iOS.
+                    </span>
+                  </div>
+                </th>
+                <th class="text-center px-4 py-4 font-semibold text-gray-600">
+                  <div class="tooltip inline-flex items-center gap-1">
+                    <span>Con chip anti-mensaje</span>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z" />
+                    </svg>
+                    <span class="tooltip-text">
+                      Incluye chip que elimina el aviso de iOS. Sin advertencias, experiencia original.
+                    </span>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {repuestos.map((r) => (
+                <tr class="price-row border-b border-gray-50 transition">
+                  <td class="px-6 py-4 font-medium text-gray-800">
+                    {labelModelo(r.modelo)}
+                    {r.modelo.includes("oled") && (
+                      <span class="ml-2 text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-semibold">OLED</span>
+                    )}
+                  </td>
+                  {!categoriaActiva && (
+                    <td class="px-4 py-4">
+                      <span class={r.categoria === "pantalla" ? "badge-pantalla" : "badge-bateria"}>
+                        {labelCategoria[r.categoria] ?? r.categoria}
+                      </span>
+                    </td>
+                  )}
+                  <td class="px-4 py-4 text-center">
+                    {r.precioSinMensaje != null ? (
+                      <span class="font-bold text-gray-900 text-base">${r.precioSinMensaje}</span>
+                    ) : (
+                      <span class="text-gray-300">—</span>
+                    )}
+                  </td>
+                  <td class="px-4 py-4 text-center">
+                    {r.precioConMensaje != null ? (
+                      <div class="flex flex-col items-center gap-1">
+                        <span class="font-bold text-blue-700 text-base">${r.precioConMensaje}</span>
+                        <span class="badge-pantalla">recomendado</span>
+                      </div>
+                    ) : (
+                      <span class="text-gray-300">—</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      <!-- Nota informativa -->
+      <div class="mt-6 bg-blue-50 border border-blue-100 rounded-2xl p-5 flex gap-3">
+        <svg class="w-5 h-5 text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z" />
+        </svg>
+        <p class="text-sm text-blue-700 leading-relaxed">
+          <strong>¿Qué es el mensaje de iOS?</strong> Apple muestra una advertencia cuando se instala un repuesto no original.
+          La opción <em>"Con chip anti-mensaje"</em> elimina ese aviso para una experiencia idéntica a la original.
+          Todos los precios incluyen mano de obra. <a href="https://wa.me/593963644323" class="underline font-semibold">Escríbenos si tienes dudas.</a>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  // Navegación por URL al cambiar los selects
+  const selectCategoria = document.getElementById("select-categoria") as HTMLSelectElement;
+  const selectModelo = document.getElementById("select-modelo") as HTMLSelectElement;
+
+  selectCategoria?.addEventListener("change", () => {
+    window.location.href = selectCategoria.value;
+  });
+
+  selectModelo?.addEventListener("change", () => {
+    window.location.href = selectModelo.value;
+  });
+</script>

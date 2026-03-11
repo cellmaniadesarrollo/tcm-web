@@ -1,4 +1,5 @@
-import { Videos, Locations, db } from "astro:db";
+//db\seed.ts
+import { Videos, Locations, db, Repuestos } from "astro:db";
 
 // https://astro.build/db/seed
 export default async function seed() {
@@ -183,5 +184,53 @@ export default async function seed() {
 			},
 			name: "Bolivar",
 		},
+	]);
+	await db.insert(Repuestos).values([
+		// ==================== PANTALLAS ====================
+		{ id: "rep-pantalla-iphone-x", categoria: "pantalla", modelo: "iphone-x", precioConMensaje: 70, precioSinMensaje: 100, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-x-oled", categoria: "pantalla", modelo: "iphone-x-oled", precioConMensaje: null, precioSinMensaje: 70, descripcion: "Pantalla OLED compatible con chip anti-mensaje", tags: ["pantalla", "oled", "iphone"] },
+		{ id: "rep-pantalla-iphone-xs", categoria: "pantalla", modelo: "iphone-xs", precioConMensaje: 100, precioSinMensaje: null, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-xs-oled", categoria: "pantalla", modelo: "iphone-xs-oled", precioConMensaje: 70, precioSinMensaje: null, descripcion: "Pantalla OLED compatible con chip anti-mensaje", tags: ["pantalla", "oled", "iphone"] },
+		{ id: "rep-pantalla-iphone-xr", categoria: "pantalla", modelo: "iphone-xr", precioConMensaje: null, precioSinMensaje: 90, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-xr-oled", categoria: "pantalla", modelo: "iphone-xr-oled", precioConMensaje: null, precioSinMensaje: 60, descripcion: "Pantalla OLED compatible con chip anti-mensaje", tags: ["pantalla", "oled", "iphone"] },
+		{ id: "rep-pantalla-iphone-xs-max", categoria: "pantalla", modelo: "iphone-xs-max", precioConMensaje: null, precioSinMensaje: 120, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-xs-max-oled", categoria: "pantalla", modelo: "iphone-xs-max-oled", precioConMensaje: null, precioSinMensaje: 90, descripcion: "Pantalla OLED compatible con chip anti-mensaje", tags: ["pantalla", "oled", "iphone"] },
+		{ id: "rep-pantalla-iphone-11", categoria: "pantalla", modelo: "iphone-11", precioConMensaje: 60, precioSinMensaje: 90, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-11-pro", categoria: "pantalla", modelo: "iphone-11-pro", precioConMensaje: 100, precioSinMensaje: 130, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-11-pro-max", categoria: "pantalla", modelo: "iphone-11-pro-max", precioConMensaje: 110, precioSinMensaje: 140, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-12", categoria: "pantalla", modelo: "iphone-12", precioConMensaje: 110, precioSinMensaje: 140, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-12-pro", categoria: "pantalla", modelo: "iphone-12-pro", precioConMensaje: 110, precioSinMensaje: 140, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-12-pro-max", categoria: "pantalla", modelo: "iphone-12-pro-max", precioConMensaje: 200, precioSinMensaje: 230, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-12-mini", categoria: "pantalla", modelo: "iphone-12-mini", precioConMensaje: 120, precioSinMensaje: 150, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-13", categoria: "pantalla", modelo: "iphone-13", precioConMensaje: 150, precioSinMensaje: 180, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-13-pro", categoria: "pantalla", modelo: "iphone-13-pro", precioConMensaje: 190, precioSinMensaje: 220, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-13-pro-max", categoria: "pantalla", modelo: "iphone-13-pro-max", precioConMensaje: 240, precioSinMensaje: 270, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-13-mini", categoria: "pantalla", modelo: "iphone-13-mini", precioConMensaje: 170, precioSinMensaje: 200, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-14", categoria: "pantalla", modelo: "iphone-14", precioConMensaje: 260, precioSinMensaje: 300, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-14-pro", categoria: "pantalla", modelo: "iphone-14-pro", precioConMensaje: 250, precioSinMensaje: 275, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-14-pro-max", categoria: "pantalla", modelo: "iphone-14-pro-max", precioConMensaje: 300, precioSinMensaje: 330, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-15-pro", categoria: "pantalla", modelo: "iphone-15-pro", precioConMensaje: 350, precioSinMensaje: 400, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-15-pro-max", categoria: "pantalla", modelo: "iphone-15-pro-max", precioConMensaje: 330, precioSinMensaje: 360, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-17-pro", categoria: "pantalla", modelo: "iphone-17-pro", precioConMensaje: 440, precioSinMensaje: 470, descripcion: "Pantalla compatible con chip anti-mensaje", tags: ["pantalla", "iphone"] },
+
+		// ==================== BATERÍAS ====================
+		{ id: "rep-bateria-iphone-4-4s", categoria: "bateria", modelo: "iphone-4-4s", precioConMensaje: null, precioSinMensaje: 10, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-5-5s", categoria: "bateria", modelo: "iphone-5-5s", precioConMensaje: null, precioSinMensaje: 15, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-6", categoria: "bateria", modelo: "iphone-6", precioConMensaje: null, precioSinMensaje: 20, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-6s", categoria: "bateria", modelo: "iphone-6s", precioConMensaje: null, precioSinMensaje: 20, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-6-plus", categoria: "bateria", modelo: "iphone-6-plus", precioConMensaje: null, precioSinMensaje: 25, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-7", categoria: "bateria", modelo: "iphone-7", precioConMensaje: null, precioSinMensaje: 30, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-se-2020", categoria: "bateria", modelo: "iphone-se-2020", precioConMensaje: null, precioSinMensaje: 25, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-x", categoria: "bateria", modelo: "iphone-x", precioConMensaje: null, precioSinMensaje: 40, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-11", categoria: "bateria", modelo: "iphone-11", precioConMensaje: 45, precioSinMensaje: 75, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-11-pro-max", categoria: "bateria", modelo: "iphone-11-pro-max", precioConMensaje: 49, precioSinMensaje: 79, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-12", categoria: "bateria", modelo: "iphone-12", precioConMensaje: 50, precioSinMensaje: 80, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-12-pro", categoria: "bateria", modelo: "iphone-12-pro", precioConMensaje: 55, precioSinMensaje: 85, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-12-pro-max", categoria: "bateria", modelo: "iphone-12-pro-max", precioConMensaje: 59, precioSinMensaje: 89, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-13", categoria: "bateria", modelo: "iphone-13", precioConMensaje: 60, precioSinMensaje: 90, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-13-pro-max", categoria: "bateria", modelo: "iphone-13-pro-max", precioConMensaje: 69, precioSinMensaje: 99, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-14", categoria: "bateria", modelo: "iphone-14", precioConMensaje: 60, precioSinMensaje: 90, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-15-pro", categoria: "bateria", modelo: "iphone-15-pro", precioConMensaje: 65, precioSinMensaje: 95, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-16-pro-max", categoria: "bateria", modelo: "iphone-16-pro-max", precioConMensaje: 69, precioSinMensaje: 99, descripcion: "Batería compatible con chip anti-mensaje", tags: ["bateria", "iphone"] },
 	]);
 }

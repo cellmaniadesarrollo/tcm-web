@@ -128,62 +128,69 @@ const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
     </div>
 
     <!-- SELECTORES -->
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-3">
-      <div class="space-y-5">
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-3">
+  <div class="space-y-5">
 
-        <!-- Paso 1 – Sin opción "iPhone…" -->
-        <div>
-          <div class="flex items-center gap-2 mb-2">
-            <span class="step-badge">1</span>
-            <label for="select-familia" class="text-sm font-semibold text-gray-700">
-              Elige el modelo de iPhone
-            </label>
-          </div>
-          <div class="select-wrapper">
-            <select
-              id="select-familia"
-              class="select-custom w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 pr-10 text-gray-800 font-medium text-base cursor-pointer transition"
-            >
-              {todasFamilias.map((f) => (
-                <option 
-                  value={`/repuestos/${f}`} 
-                  selected={familiaActiva === f}
-                >
-                  {labelModelo(f)}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        <!-- Paso 2 – Sin opción "Nombre del modelo…" ni "Primero elige el modelo" -->
-        <div>
-          <div class="flex items-center gap-2 mb-2">
-            <span class={`step-badge ${!familiaActiva ? "opacity-40" : ""}`}>2</span>
-            <label for="select-modelo" class={`text-sm font-semibold ${!familiaActiva ? "text-gray-400" : "text-gray-700"}`}>
-              Elige la variante
-            </label>
-          </div>
-          <div class="select-wrapper">
-            <select
-              id="select-modelo"
-              disabled={!familiaActiva || modelosDeFamilia.length === 0}
-              class="select-custom w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 pr-10 text-gray-800 font-medium text-base cursor-pointer transition"
-            >
-              {modelosDeFamilia.map((m) => (
-                <option 
-                  value={`/repuestos/${familiaActiva}/${m}`} 
-                  selected={modeloActivo === m}
-                >
-                  {labelModelo(m)}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
+    <div>
+      <div class="flex items-center gap-2 mb-2">
+        <span class="step-badge">1</span>
+        <label for="select-familia" class="text-sm font-semibold text-gray-700">
+          Elige el modelo de iPhone
+        </label>
+      </div>
+      <div class="select-wrapper">
+        <select
+          id="select-familia"
+          class="select-custom w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 pr-10 text-gray-800 font-medium text-base cursor-pointer transition"
+          onchange="window.location.href = this.value"
+        >
+          <option value="" disabled hidden selected={!familiaActiva}>
+            iPhone…
+          </option>
+          
+          {todasFamilias.map((f) => (
+            <option value={`/repuestos/${f}`} selected={familiaActiva === f}>
+              {labelModelo(f)}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
+
+    <div>
+      <div class="flex items-center gap-2 mb-2">
+        <span class={`step-badge ${!familiaActiva ? "opacity-40" : ""}`}>2</span>
+        <label for="select-modelo" class={`text-sm font-semibold ${!familiaActiva ? "text-gray-400" : "text-gray-700"}`}>
+          Elige la variante
+        </label>
+      </div>
+      <div class="select-wrapper">
+        <select
+          id="select-modelo"
+          disabled={!familiaActiva || modelosDeFamilia.length === 0}
+          class="select-custom w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 pr-10 text-gray-800 font-medium text-base cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed"
+          onchange="window.location.href = this.value"
+        >
+          <option
+            value=""
+            disabled
+            hidden
+            selected={!modeloActivo}
+          >
+            {familiaActiva ? `${labelModelo(familiaActiva)}…` : "Primero elige el modelo"}
+          </option>
+
+          {modelosDeFamilia.map((m) => (
+            <option value={`/repuestos/${familiaActiva}/${m}`} selected={modeloActivo === m}>
+              {labelModelo(m)}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
+
+  </div>
+</div>
 
     <!-- Link ayuda -->
     <p class="text-center text-xs text-gray-400 mb-8">

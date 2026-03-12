@@ -16,10 +16,8 @@ const ORDEN_FAMILIAS = [
 export async function getStaticPaths() {
   const todos = await db.select().from(Repuestos);
 
-  // Familias únicas
   const familias = [...new Set(todos.map((r) => r.familia))];
 
-  // Modelos base por familia (sin variantes -oled)
   const modelosPorFamilia: Record<string, string[]> = {};
   for (const familia of familias) {
     modelosPorFamilia[familia] = [
@@ -32,16 +30,11 @@ export async function getStaticPaths() {
   }
 
   const paths: { params: { slug: string | undefined } }[] = [];
-
-  // /repuestos
   paths.push({ params: { slug: undefined } });
 
   for (const familia of familias) {
-    // /repuestos/iphone-12
     paths.push({ params: { slug: familia } });
-
     for (const modelo of modelosPorFamilia[familia]) {
-      // /repuestos/iphone-12/iphone-12-pro
       paths.push({ params: { slug: `${familia}/${modelo}` } });
     }
   }
@@ -49,23 +42,21 @@ export async function getStaticPaths() {
   return paths;
 }
 
-// ── Leer params ──────────────────────────────────────────
+// ── Params ───────────────────────────────────────────────
 const { slug } = Astro.params;
 const partes = slug ? slug.split("/") : [];
 const familiaActiva = partes[0] ?? null;
 const modeloActivo  = partes[1] ?? null;
 
-// ── Datos ─────────────────────────────────────────────────
+// ── Datos ────────────────────────────────────────────────
 const todos = await db.select().from(Repuestos);
 
-// Primer select: familias ordenadas
 const familiasBruto = [...new Set(todos.map((r) => r.familia))];
 const todasFamilias = [
   ...ORDEN_FAMILIAS.filter((f) => familiasBruto.includes(f)),
   ...familiasBruto.filter((f) => !ORDEN_FAMILIAS.includes(f)),
 ];
 
-// Segundo select: modelos base de la familia activa
 const modelosDeFamilia: string[] = familiaActiva
   ? [
       ...new Set(
@@ -76,7 +67,6 @@ const modelosDeFamilia: string[] = familiaActiva
     ]
   : [];
 
-// Repuestos del modelo seleccionado (incluye variante OLED automáticamente)
 const repuestosDelModelo = modeloActivo
   ? todos
       .filter(
@@ -85,10 +75,9 @@ const repuestosDelModelo = modeloActivo
       .map((r) => ({ ...r, tags: r.tags as string[] | null | undefined }))
   : [];
 
-// Imagen del modelo seleccionado
 const imagenDelModelo = repuestosDelModelo[0]?.imageUrl ?? null;
 
-// ── SEO ───────────────────────────────────────────────────
+// ── Helpers ──────────────────────────────────────────────
 function labelModelo(m: string): string {
   return m.split("-").map((w) =>
     w === "iphone" ? "iPhone" : w === "pro" ? "Pro" : w === "max" ? "Max" :
@@ -98,6 +87,7 @@ function labelModelo(m: string): string {
   ).join(" ");
 }
 
+// ── SEO meta ─────────────────────────────────────────────
 const pageTitle = modeloActivo
   ? `Precio repuestos ${labelModelo(modeloActivo)} | TeamCellMania`
   : familiaActiva
@@ -105,18 +95,169 @@ const pageTitle = modeloActivo
   : "Precios de repuestos iPhone | TeamCellMania";
 
 const pageDescription = modeloActivo
-  ? `Precio de pantalla y batería para ${labelModelo(modeloActivo)} en TeamCellMania, Azogues y Biblián.`
-  : "Consulta los precios de pantallas y baterías para iPhone en TeamCellMania, Azogues y Biblián, Ecuador.";
+  ? `Precio de pantalla y batería para ${labelModelo(modeloActivo)} en TeamCellMania, Azogues y Biblián. Piezas de calidad con garantía. Instalación incluida.`
+  : "Consulta los precios de pantallas y baterías para iPhone en TeamCellMania, Azogues y Biblián, Ecuador. Instalación profesional incluida.";
+
+const canonicalUrl = `https://www.teamcellmania.com/repuestos${slug ? `/${slug}` : ""}`;
+
+// ── JSON-LD Schema.org ────────────────────────────────────
+// Solo se genera cuando hay un modelo específico seleccionado
+const jsonLd = modeloActivo
+  ? {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": `Repuestos ${labelModelo(modeloActivo)} - TeamCellMania`,
+      "description": pageDescription,
+      "url": canonicalUrl,
+      "numberOfItems": repuestosDelModelo.length,
+      "itemListElement": repuestosDelModelo
+        .filter((r) => !r.modelo.endsWith("-oled")) // evitar duplicados
+        .flatMap((r, i) => {
+          const items = [];
+          const nombreBase = r.categoria === "pantalla" ? "Pantalla" : "Batería";
+          const nombreModelo = labelModelo(r.modelo);
+
+          if (r.precioSinMensaje != null) {
+            items.push({
+              "@type": "ListItem",
+              "position": i * 2 + 1,
+              "item": {
+                "@type": "Offer",
+                "name": `${nombreBase} ${nombreModelo} sin advertencia`,
+                "description": `Cambio de ${nombreBase.toLowerCase()} para ${nombreModelo} con chip incluido. Sin avisos de iOS. Instalación incluida.`,
+                "price": r.precioSinMensaje,
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                "seller": {
+                  "@type": "LocalBusiness",
+                  "name": "TeamCellMania",
+                  "telephone": "+593969010178",
+                  "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "Matovelle",
+                    "addressLocality": "Azogues",
+                    "addressRegion": "Cañar",
+                    "addressCountry": "EC",
+                  },
+                },
+              },
+            });
+          }
+
+          if (r.precioConMensaje != null) {
+            items.push({
+              "@type": "ListItem",
+              "position": i * 2 + 2,
+              "item": {
+                "@type": "Offer",
+                "name": `${nombreBase} ${nombreModelo} con advertencia`,
+                "description": `Cambio de ${nombreBase.toLowerCase()} para ${nombreModelo} sin chip. Funciona normal, iOS puede mostrar aviso. Instalación incluida.`,
+                "price": r.precioConMensaje,
+                "priceCurrency": "USD",
+                "availability": "https://schema.org/InStock",
+                "seller": {
+                  "@type": "LocalBusiness",
+                  "name": "TeamCellMania",
+                  "telephone": "+593969010178",
+                  "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "Matovelle",
+                    "addressLocality": "Azogues",
+                    "addressRegion": "Cañar",
+                    "addressCountry": "EC",
+                  },
+                },
+              },
+            });
+          }
+
+          return items;
+        }),
+    }
+  : null;
+
+// LocalBusiness schema — aparece en TODAS las páginas /repuestos
+const localBusinessLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "TeamCellMania",
+  "description": "Reparación profesional de iPhone y celulares. Cambio de pantallas y baterías con garantía en Azogues y Biblián, Ecuador.",
+  "url": "https://www.teamcellmania.com",
+  "telephone": "+593969010178",
+  "image": "https://www.teamcellmania.com/favicon.ico",
+  "priceRange": "$$",
+  "address": [
+    {
+      "@type": "PostalAddress",
+      "streetAddress": "Matovelle",
+      "addressLocality": "Azogues",
+      "addressRegion": "Cañar",
+      "addressCountry": "EC",
+    },
+    {
+      "@type": "PostalAddress",
+      "streetAddress": "Principal",
+      "addressLocality": "Azogues",
+      "addressRegion": "Cañar",
+      "addressCountry": "EC",
+    },
+    {
+      "@type": "PostalAddress",
+      "streetAddress": "Bolívar",
+      "addressLocality": "Azogues",
+      "addressRegion": "Cañar",
+      "addressCountry": "EC",
+    },
+    {
+      "@type": "PostalAddress",
+      "streetAddress": "Biblián",
+      "addressLocality": "Biblián",
+      "addressRegion": "Cañar",
+      "addressCountry": "EC",
+    },
+  ],
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+      "opens": "09:00",
+      "closes": "19:00",
+    },
+  ],
+  "areaServed": ["Azogues", "Biblián", "Cañar"],
+  "sameAs": [
+    "https://www.facebook.com/teamcellmania",
+    "https://www.instagram.com/teamcellmania",
+  ],
+};
 ---
 
 <html lang="es" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO básico -->
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
-    <link rel="canonical" href={`https://www.teamcellmania.com/repuestos${slug ? `/${slug}` : ""}`} />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/favicon.ico" />
+
+    <!-- Open Graph (WhatsApp / Facebook preview) -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content={canonicalUrl} />
+    <meta property="og:title"       content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    {imagenDelModelo && <meta property="og:image" content={imagenDelModelo} />}
+    <meta property="og:locale"      content="es_EC" />
+
+    <!-- JSON-LD: LocalBusiness (todas las páginas) -->
+    <script type="application/ld+json" set:html={JSON.stringify(localBusinessLd)} />
+
+    <!-- JSON-LD: Ofertas del modelo (solo cuando hay modelo activo) -->
+    {jsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    )}
   </head>
 
   <Body class="bg-gray-50">

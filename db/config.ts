@@ -34,6 +34,14 @@ const Repuestos = defineTable({
 		stock: column.boolean({ optional: true, default: true }),
 		imageUrl: column.text({ optional: true }),             // URL S3 de la foto
 		tags: column.json({ optional: true }),
+		// ── NUEVOS CAMPOS ──────────────────────────────────
+		calidad: column.text({ optional: true, default: "original" }),
+		// "original" | "premium" | "estandar"
+		// "original"  → pieza de desguace Apple original
+		// "premium"   → aftermarket alta calidad
+		// "estandar"  → aftermarket económico
+		garantiaDias: column.number({ optional: true, default: 90 }),
+		// Días de garantía por defecto de fabricación
 	},
 });
 

@@ -70,91 +70,83 @@ export default async function seed() {
 		// =====================================================
 
 		// ==================== SERIE X (X / XS / XR / XS Max) ====================
-		// Todas agrupadas bajo la misma familia "iphone-x" (como pediste: XR y XS son "x nomás")
-		// Orden: X → XS → XR → XS Max (lógico por tamaño/lanzamiento)
+		{ id: "rep-pantalla-iphone-x", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-x", precioConMensaje: 70, precioSinMensaje: 100, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-x"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-x-oled", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-x-oled", precioConMensaje: null, precioSinMensaje: 70, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-x"], tags: ["pantalla", "iphone"] },
 
-		// iPhone X
-		{ id: "rep-pantalla-iphone-x", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-x", precioConMensaje: 70, precioSinMensaje: 100, imageUrl: IMGS["iphone-x"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-x-oled", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-x-oled", precioConMensaje: null, precioSinMensaje: 70, imageUrl: IMGS["iphone-x"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-xs", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xs", precioConMensaje: 100, precioSinMensaje: null, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xs"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-xs-oled", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xs-oled", precioConMensaje: 70, precioSinMensaje: null, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xs"], tags: ["pantalla", "iphone"] },
 
-		// iPhone Xs
-		{ id: "rep-pantalla-iphone-xs", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xs", precioConMensaje: 100, precioSinMensaje: null, imageUrl: IMGS["iphone-xs"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-xs-oled", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xs-oled", precioConMensaje: 70, precioSinMensaje: null, imageUrl: IMGS["iphone-xs"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-xr", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xr", precioConMensaje: null, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xr"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-xr-oled", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xr-oled", precioConMensaje: null, precioSinMensaje: 60, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xr"], tags: ["pantalla", "iphone"] },
 
-		// iPhone Xr
-		{ id: "rep-pantalla-iphone-xr", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xr", precioConMensaje: null, precioSinMensaje: 90, imageUrl: IMGS["iphone-xr"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-xr-oled", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xr-oled", precioConMensaje: null, precioSinMensaje: 60, imageUrl: IMGS["iphone-xr"], tags: ["pantalla", "iphone"] },
-
-		// iPhone Xs Max
-		{ id: "rep-pantalla-iphone-xs-max", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xs-max", precioConMensaje: null, precioSinMensaje: 120, imageUrl: IMGS["iphone-xs-max"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-xs-max-oled", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xs-max-oled", precioConMensaje: null, precioSinMensaje: 90, imageUrl: IMGS["iphone-xs-max"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-xs-max", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xs-max", precioConMensaje: null, precioSinMensaje: 120, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xs-max"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-xs-max-oled", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xs-max-oled", precioConMensaje: null, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xs-max"], tags: ["pantalla", "iphone"] },
 
 		// ==================== SERIE 11 ====================
-		{ id: "rep-pantalla-iphone-11", deviceType: "iphone", familia: "iphone-11", categoria: "pantalla", modelo: "iphone-11", precioConMensaje: 60, precioSinMensaje: 90, imageUrl: IMGS["iphone-11"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-11-pro", deviceType: "iphone", familia: "iphone-11", categoria: "pantalla", modelo: "iphone-11-pro", precioConMensaje: 100, precioSinMensaje: 130, imageUrl: IMGS["iphone-11-pro"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-11-pro-max", deviceType: "iphone", familia: "iphone-11", categoria: "pantalla", modelo: "iphone-11-pro-max", precioConMensaje: 110, precioSinMensaje: 140, imageUrl: IMGS["iphone-11-pro-max"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-11", deviceType: "iphone", familia: "iphone-11", categoria: "pantalla", modelo: "iphone-11", precioConMensaje: 60, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-11"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-11-pro", deviceType: "iphone", familia: "iphone-11", categoria: "pantalla", modelo: "iphone-11-pro", precioConMensaje: 100, precioSinMensaje: 130, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-11-pro"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-11-pro-max", deviceType: "iphone", familia: "iphone-11", categoria: "pantalla", modelo: "iphone-11-pro-max", precioConMensaje: 110, precioSinMensaje: 140, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-11-pro-max"], tags: ["pantalla", "iphone"] },
 
 		// ==================== SERIE 12 ====================
-		{ id: "rep-pantalla-iphone-12", deviceType: "iphone", familia: "iphone-12", categoria: "pantalla", modelo: "iphone-12", precioConMensaje: 110, precioSinMensaje: 140, imageUrl: IMGS["iphone-12"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-12-pro", deviceType: "iphone", familia: "iphone-12", categoria: "pantalla", modelo: "iphone-12-pro", precioConMensaje: 110, precioSinMensaje: 140, imageUrl: IMGS["iphone-12-pro"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-12-pro-max", deviceType: "iphone", familia: "iphone-12", categoria: "pantalla", modelo: "iphone-12-pro-max", precioConMensaje: 200, precioSinMensaje: 230, imageUrl: IMGS["iphone-12-pro-max"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-12-mini", deviceType: "iphone", familia: "iphone-12", categoria: "pantalla", modelo: "iphone-12-mini", precioConMensaje: 120, precioSinMensaje: 150, imageUrl: IMGS["iphone-12-mini"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-12", deviceType: "iphone", familia: "iphone-12", categoria: "pantalla", modelo: "iphone-12", precioConMensaje: 110, precioSinMensaje: 140, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-12-pro", deviceType: "iphone", familia: "iphone-12", categoria: "pantalla", modelo: "iphone-12-pro", precioConMensaje: 110, precioSinMensaje: 140, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12-pro"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-12-pro-max", deviceType: "iphone", familia: "iphone-12", categoria: "pantalla", modelo: "iphone-12-pro-max", precioConMensaje: 200, precioSinMensaje: 230, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12-pro-max"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-12-mini", deviceType: "iphone", familia: "iphone-12", categoria: "pantalla", modelo: "iphone-12-mini", precioConMensaje: 120, precioSinMensaje: 150, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12-mini"], tags: ["pantalla", "iphone"] },
 
 		// ==================== SERIE 13 ====================
-		{ id: "rep-pantalla-iphone-13", deviceType: "iphone", familia: "iphone-13", categoria: "pantalla", modelo: "iphone-13", precioConMensaje: 150, precioSinMensaje: 180, imageUrl: IMGS["iphone-13"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-13-pro", deviceType: "iphone", familia: "iphone-13", categoria: "pantalla", modelo: "iphone-13-pro", precioConMensaje: 190, precioSinMensaje: 220, imageUrl: IMGS["iphone-13-pro"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-13-pro-max", deviceType: "iphone", familia: "iphone-13", categoria: "pantalla", modelo: "iphone-13-pro-max", precioConMensaje: 240, precioSinMensaje: 270, imageUrl: IMGS["iphone-13-pro-max"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-13-mini", deviceType: "iphone", familia: "iphone-13", categoria: "pantalla", modelo: "iphone-13-mini", precioConMensaje: 170, precioSinMensaje: 200, imageUrl: IMGS["iphone-13-mini"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-13", deviceType: "iphone", familia: "iphone-13", categoria: "pantalla", modelo: "iphone-13", precioConMensaje: 150, precioSinMensaje: 180, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-13-pro", deviceType: "iphone", familia: "iphone-13", categoria: "pantalla", modelo: "iphone-13-pro", precioConMensaje: 190, precioSinMensaje: 220, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13-pro"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-13-pro-max", deviceType: "iphone", familia: "iphone-13", categoria: "pantalla", modelo: "iphone-13-pro-max", precioConMensaje: 240, precioSinMensaje: 270, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13-pro-max"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-13-mini", deviceType: "iphone", familia: "iphone-13", categoria: "pantalla", modelo: "iphone-13-mini", precioConMensaje: 170, precioSinMensaje: 200, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13-mini"], tags: ["pantalla", "iphone"] },
 
 		// ==================== SERIE 14 ====================
-		{ id: "rep-pantalla-iphone-14", deviceType: "iphone", familia: "iphone-14", categoria: "pantalla", modelo: "iphone-14", precioConMensaje: 260, precioSinMensaje: 300, imageUrl: IMGS["iphone-14"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-14-pro", deviceType: "iphone", familia: "iphone-14", categoria: "pantalla", modelo: "iphone-14-pro", precioConMensaje: 250, precioSinMensaje: 275, imageUrl: IMGS["iphone-14-pro"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-14-pro-max", deviceType: "iphone", familia: "iphone-14", categoria: "pantalla", modelo: "iphone-14-pro-max", precioConMensaje: 300, precioSinMensaje: 330, imageUrl: IMGS["iphone-14-pro-max"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-14", deviceType: "iphone", familia: "iphone-14", categoria: "pantalla", modelo: "iphone-14", precioConMensaje: 260, precioSinMensaje: 300, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-14-pro", deviceType: "iphone", familia: "iphone-14", categoria: "pantalla", modelo: "iphone-14-pro", precioConMensaje: 250, precioSinMensaje: 275, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-pro"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-14-pro-max", deviceType: "iphone", familia: "iphone-14", categoria: "pantalla", modelo: "iphone-14-pro-max", precioConMensaje: 300, precioSinMensaje: 330, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-pro-max"], tags: ["pantalla", "iphone"] },
 
 		// ==================== SERIE 15 ====================
-		{ id: "rep-pantalla-iphone-15-pro", deviceType: "iphone", familia: "iphone-15", categoria: "pantalla", modelo: "iphone-15-pro", precioConMensaje: 350, precioSinMensaje: 400, imageUrl: IMGS["iphone-15-pro"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-15-pro-max", deviceType: "iphone", familia: "iphone-15", categoria: "pantalla", modelo: "iphone-15-pro-max", precioConMensaje: 330, precioSinMensaje: 360, imageUrl: IMGS["iphone-15-pro-max"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-15-pro", deviceType: "iphone", familia: "iphone-15", categoria: "pantalla", modelo: "iphone-15-pro", precioConMensaje: 350, precioSinMensaje: 400, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15-pro"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-15-pro-max", deviceType: "iphone", familia: "iphone-15", categoria: "pantalla", modelo: "iphone-15-pro-max", precioConMensaje: 330, precioSinMensaje: 360, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15-pro-max"], tags: ["pantalla", "iphone"] },
 
 		// ==================== SERIE 17 ====================
-		{ id: "rep-pantalla-iphone-17-pro", deviceType: "iphone", familia: "iphone-17", categoria: "pantalla", modelo: "iphone-17-pro", precioConMensaje: 440, precioSinMensaje: 470, imageUrl: IMGS["iphone-17-pro"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-17-pro", deviceType: "iphone", familia: "iphone-17", categoria: "pantalla", modelo: "iphone-17-pro", precioConMensaje: 440, precioSinMensaje: 470, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17-pro"], tags: ["pantalla", "iphone"] },
 
 		// =====================================================
 		// BATERÍAS
 		// =====================================================
 
 		// ==================== MODELOS ANTIGUOS ====================
-		{ id: "rep-bateria-iphone-4-4s", deviceType: "iphone", familia: "iphone-4", categoria: "bateria", modelo: "iphone-4-4s", precioConMensaje: null, precioSinMensaje: 10, imageUrl: IMGS["iphone-4s"], tags: ["bateria", "iphone"] },
-		{ id: "rep-bateria-iphone-5-5s", deviceType: "iphone", familia: "iphone-5", categoria: "bateria", modelo: "iphone-5-5s", precioConMensaje: null, precioSinMensaje: 15, imageUrl: IMGS["iphone-5s"], tags: ["bateria", "iphone"] },
-		{ id: "rep-bateria-iphone-6", deviceType: "iphone", familia: "iphone-6", categoria: "bateria", modelo: "iphone-6", precioConMensaje: null, precioSinMensaje: 20, imageUrl: IMGS["iphone-6"], tags: ["bateria", "iphone"] },
-		{ id: "rep-bateria-iphone-6s", deviceType: "iphone", familia: "iphone-6", categoria: "bateria", modelo: "iphone-6s", precioConMensaje: null, precioSinMensaje: 20, imageUrl: IMGS["iphone-6s"], tags: ["bateria", "iphone"] },
-		{ id: "rep-bateria-iphone-6-plus", deviceType: "iphone", familia: "iphone-6", categoria: "bateria", modelo: "iphone-6-plus", precioConMensaje: null, precioSinMensaje: 25, imageUrl: IMGS["iphone-6-plus"], tags: ["bateria", "iphone"] },
-		{ id: "rep-bateria-iphone-7", deviceType: "iphone", familia: "iphone-7", categoria: "bateria", modelo: "iphone-7", precioConMensaje: null, precioSinMensaje: 30, imageUrl: IMGS["iphone-7"], tags: ["bateria", "iphone"] },
-		{ id: "rep-bateria-iphone-se-2020", deviceType: "iphone", familia: "iphone-se", categoria: "bateria", modelo: "iphone-se-2020", precioConMensaje: null, precioSinMensaje: 25, imageUrl: IMGS["iphone-se-2020"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-4-4s", deviceType: "iphone", familia: "iphone-4", categoria: "bateria", modelo: "iphone-4-4s", precioConMensaje: null, precioSinMensaje: 10, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-4s"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-5-5s", deviceType: "iphone", familia: "iphone-5", categoria: "bateria", modelo: "iphone-5-5s", precioConMensaje: null, precioSinMensaje: 15, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-5s"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-6", deviceType: "iphone", familia: "iphone-6", categoria: "bateria", modelo: "iphone-6", precioConMensaje: null, precioSinMensaje: 20, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-6"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-6s", deviceType: "iphone", familia: "iphone-6", categoria: "bateria", modelo: "iphone-6s", precioConMensaje: null, precioSinMensaje: 20, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-6s"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-6-plus", deviceType: "iphone", familia: "iphone-6", categoria: "bateria", modelo: "iphone-6-plus", precioConMensaje: null, precioSinMensaje: 25, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-6-plus"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-7", deviceType: "iphone", familia: "iphone-7", categoria: "bateria", modelo: "iphone-7", precioConMensaje: null, precioSinMensaje: 30, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-7"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-se-2020", deviceType: "iphone", familia: "iphone-se", categoria: "bateria", modelo: "iphone-se-2020", precioConMensaje: null, precioSinMensaje: 25, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-se-2020"], tags: ["bateria", "iphone"] },
 
 		// ==================== SERIE X ====================
-		// (solo X por ahora, pero ya está listo para agregar XS/XR si aparece)
-		{ id: "rep-bateria-iphone-x", deviceType: "iphone", familia: "iphone-x", categoria: "bateria", modelo: "iphone-x", precioConMensaje: null, precioSinMensaje: 40, imageUrl: IMGS["iphone-x"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-x", deviceType: "iphone", familia: "iphone-x", categoria: "bateria", modelo: "iphone-x", precioConMensaje: null, precioSinMensaje: 40, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-x"], tags: ["bateria", "iphone"] },
 
 		// ==================== SERIE 11 ====================
-		{ id: "rep-bateria-iphone-11", deviceType: "iphone", familia: "iphone-11", categoria: "bateria", modelo: "iphone-11", precioConMensaje: 45, precioSinMensaje: 75, imageUrl: IMGS["iphone-11"], tags: ["bateria", "iphone"] },
-		{ id: "rep-bateria-iphone-11-pro-max", deviceType: "iphone", familia: "iphone-11", categoria: "bateria", modelo: "iphone-11-pro-max", precioConMensaje: 49, precioSinMensaje: 79, imageUrl: IMGS["iphone-11-pro-max"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-11", deviceType: "iphone", familia: "iphone-11", categoria: "bateria", modelo: "iphone-11", precioConMensaje: 45, precioSinMensaje: 75, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-11"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-11-pro-max", deviceType: "iphone", familia: "iphone-11", categoria: "bateria", modelo: "iphone-11-pro-max", precioConMensaje: 49, precioSinMensaje: 79, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-11-pro-max"], tags: ["bateria", "iphone"] },
 
 		// ==================== SERIE 12 ====================
-		{ id: "rep-bateria-iphone-12", deviceType: "iphone", familia: "iphone-12", categoria: "bateria", modelo: "iphone-12", precioConMensaje: 50, precioSinMensaje: 80, imageUrl: IMGS["iphone-12"], tags: ["bateria", "iphone"] },
-		{ id: "rep-bateria-iphone-12-pro", deviceType: "iphone", familia: "iphone-12", categoria: "bateria", modelo: "iphone-12-pro", precioConMensaje: 55, precioSinMensaje: 85, imageUrl: IMGS["iphone-12-pro"], tags: ["bateria", "iphone"] },
-		{ id: "rep-bateria-iphone-12-pro-max", deviceType: "iphone", familia: "iphone-12", categoria: "bateria", modelo: "iphone-12-pro-max", precioConMensaje: 59, precioSinMensaje: 89, imageUrl: IMGS["iphone-12-pro-max"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-12", deviceType: "iphone", familia: "iphone-12", categoria: "bateria", modelo: "iphone-12", precioConMensaje: 50, precioSinMensaje: 80, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-12-pro", deviceType: "iphone", familia: "iphone-12", categoria: "bateria", modelo: "iphone-12-pro", precioConMensaje: 55, precioSinMensaje: 85, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12-pro"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-12-pro-max", deviceType: "iphone", familia: "iphone-12", categoria: "bateria", modelo: "iphone-12-pro-max", precioConMensaje: 59, precioSinMensaje: 89, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12-pro-max"], tags: ["bateria", "iphone"] },
 
 		// ==================== SERIE 13 ====================
-		{ id: "rep-bateria-iphone-13", deviceType: "iphone", familia: "iphone-13", categoria: "bateria", modelo: "iphone-13", precioConMensaje: 60, precioSinMensaje: 90, imageUrl: IMGS["iphone-13"], tags: ["bateria", "iphone"] },
-		{ id: "rep-bateria-iphone-13-pro-max", deviceType: "iphone", familia: "iphone-13", categoria: "bateria", modelo: "iphone-13-pro-max", precioConMensaje: 69, precioSinMensaje: 99, imageUrl: IMGS["iphone-13-pro-max"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-13", deviceType: "iphone", familia: "iphone-13", categoria: "bateria", modelo: "iphone-13", precioConMensaje: 60, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-13-pro-max", deviceType: "iphone", familia: "iphone-13", categoria: "bateria", modelo: "iphone-13-pro-max", precioConMensaje: 69, precioSinMensaje: 99, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13-pro-max"], tags: ["bateria", "iphone"] },
 
 		// ==================== SERIE 14 ====================
-		{ id: "rep-bateria-iphone-14", deviceType: "iphone", familia: "iphone-14", categoria: "bateria", modelo: "iphone-14", precioConMensaje: 60, precioSinMensaje: 90, imageUrl: IMGS["iphone-14"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-14", deviceType: "iphone", familia: "iphone-14", categoria: "bateria", modelo: "iphone-14", precioConMensaje: 60, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14"], tags: ["bateria", "iphone"] },
 
 		// ==================== SERIE 15 ====================
-		{ id: "rep-bateria-iphone-15-pro", deviceType: "iphone", familia: "iphone-15", categoria: "bateria", modelo: "iphone-15-pro", precioConMensaje: 65, precioSinMensaje: 95, imageUrl: IMGS["iphone-15-pro"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-15-pro", deviceType: "iphone", familia: "iphone-15", categoria: "bateria", modelo: "iphone-15-pro", precioConMensaje: 65, precioSinMensaje: 95, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15-pro"], tags: ["bateria", "iphone"] },
 
 		// ==================== SERIE 16 ====================
-		{ id: "rep-bateria-iphone-16-pro-max", deviceType: "iphone", familia: "iphone-16", categoria: "bateria", modelo: "iphone-16-pro-max", precioConMensaje: 69, precioSinMensaje: 99, imageUrl: IMGS["iphone-16-pro-max"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-16-pro-max", deviceType: "iphone", familia: "iphone-16", categoria: "bateria", modelo: "iphone-16-pro-max", precioConMensaje: 69, precioSinMensaje: 99, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16-pro-max"], tags: ["bateria", "iphone"] },
 	]);
 }

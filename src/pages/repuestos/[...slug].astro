@@ -6,88 +6,107 @@ import Footer from "../../components/Footer.astro";
 import Body from "../../components/Body.astro";
 import RepuestosPricing from "../../components/RepuestosPricing.astro";
 
-// Genera todos los paths posibles desde la base de datos
+// Orden de presentación de familias (del más nuevo al más viejo)
+const ORDEN_FAMILIAS = [
+  "iphone-17","iphone-16","iphone-15","iphone-14","iphone-13",
+  "iphone-12","iphone-11","iphone-xs","iphone-xr","iphone-x",
+  "iphone-se","iphone-7","iphone-6","iphone-5","iphone-4",
+];
+
 export async function getStaticPaths() {
   const todos = await db.select().from(Repuestos);
 
-  // Categorías únicas: ["pantalla", "bateria"]
-  const categorias = [...new Set(todos.map((r) => r.categoria))];
+  // Familias únicas
+  const familias = [...new Set(todos.map((r) => r.familia))];
 
-  // Por cada categoría, modelos únicos (sin OLED duplicado de modelo base)
-  const modelosPorCategoria: Record<string, string[]> = {};
-  for (const cat of categorias) {
-    modelosPorCategoria[cat] = [
-      ...new Set(todos.filter((r) => r.categoria === cat).map((r) => r.modelo)),
+  // Modelos base por familia (sin variantes -oled)
+  const modelosPorFamilia: Record<string, string[]> = {};
+  for (const familia of familias) {
+    modelosPorFamilia[familia] = [
+      ...new Set(
+        todos
+          .filter((r) => r.familia === familia && !r.modelo.endsWith("-oled"))
+          .map((r) => r.modelo)
+      ),
     ];
   }
 
-  const paths = [];
+  const paths: { params: { slug: string | undefined } }[] = [];
 
-  // /repuestos → slug = undefined
+  // /repuestos
   paths.push({ params: { slug: undefined } });
 
-  for (const cat of categorias) {
-    // /repuestos/pantalla  o  /repuestos/bateria
-    paths.push({ params: { slug: cat } });
+  for (const familia of familias) {
+    // /repuestos/iphone-12
+    paths.push({ params: { slug: familia } });
 
-    // /repuestos/pantalla/iphone-12  etc.
-    for (const modelo of modelosPorCategoria[cat]) {
-      paths.push({ params: { slug: `${cat}/${modelo}` } });
+    for (const modelo of modelosPorFamilia[familia]) {
+      // /repuestos/iphone-12/iphone-12-pro
+      paths.push({ params: { slug: `${familia}/${modelo}` } });
     }
   }
 
   return paths;
 }
 
-// Leer parámetros de la URL
+// ── Leer params ──────────────────────────────────────────
 const { slug } = Astro.params;
 const partes = slug ? slug.split("/") : [];
-const categoriaActiva = partes[0] ?? null;
-const modeloActivo = partes[1] ?? null;
+const familiaActiva = partes[0] ?? null;
+const modeloActivo  = partes[1] ?? null;
 
-// Consultar todos los repuestos
+// ── Datos ─────────────────────────────────────────────────
 const todos = await db.select().from(Repuestos);
 
-// Filtrar según la URL
-const repuestosFiltrados = todos
-  .filter((r) => {
-    if (categoriaActiva && r.categoria !== categoriaActiva) return false;
-    if (modeloActivo && r.modelo !== modeloActivo) return false;
-    return true;
-  })
-  .map((r) => ({
-    ...r,
-    tags: r.tags as string[] | null | undefined,
-  }));
+// Primer select: familias ordenadas
+const familiasBruto = [...new Set(todos.map((r) => r.familia))];
+const todasFamilias = [
+  ...ORDEN_FAMILIAS.filter((f) => familiasBruto.includes(f)),
+  ...familiasBruto.filter((f) => !ORDEN_FAMILIAS.includes(f)),
+];
 
-// Categorías y modelos disponibles para los filtros de navegación
-const todasCategorias = [...new Set(todos.map((r) => r.categoria))];
-const todosModelos = categoriaActiva
-  ? [...new Set(todos.filter((r) => r.categoria === categoriaActiva).map((r) => r.modelo))]
+// Segundo select: modelos base de la familia activa
+const modelosDeFamilia: string[] = familiaActiva
+  ? [
+      ...new Set(
+        todos
+          .filter((r) => r.familia === familiaActiva && !r.modelo.endsWith("-oled"))
+          .map((r) => r.modelo)
+      ),
+    ]
   : [];
 
-// Título dinámico para SEO
-function labelModelo(modelo: string): string {
-  return modelo
-    .split("-")
-    .map((w) =>
-      w === "iphone" ? "iPhone" : w === "pro" ? "Pro" : w === "max" ? "Max" :
-      w === "mini" ? "mini" : w === "plus" ? "Plus" : w === "oled" ? "OLED" :
-      w === "se" ? "SE" : w === "xs" ? "Xs" : w === "xr" ? "Xr" :
-      w.charAt(0).toUpperCase() + w.slice(1)
-    )
-    .join(" ");
+// Repuestos del modelo seleccionado (incluye variante OLED automáticamente)
+const repuestosDelModelo = modeloActivo
+  ? todos
+      .filter(
+        (r) => r.modelo === modeloActivo || r.modelo === `${modeloActivo}-oled`
+      )
+      .map((r) => ({ ...r, tags: r.tags as string[] | null | undefined }))
+  : [];
+
+// Imagen del modelo seleccionado
+const imagenDelModelo = repuestosDelModelo[0]?.imageUrl ?? null;
+
+// ── SEO ───────────────────────────────────────────────────
+function labelModelo(m: string): string {
+  return m.split("-").map((w) =>
+    w === "iphone" ? "iPhone" : w === "pro" ? "Pro" : w === "max" ? "Max" :
+    w === "mini" ? "mini" : w === "plus" ? "Plus" : w === "oled" ? "OLED" :
+    w === "se" ? "SE" : w === "xs" ? "Xs" : w === "xr" ? "Xr" :
+    w.charAt(0).toUpperCase() + w.slice(1)
+  ).join(" ");
 }
 
 const pageTitle = modeloActivo
-  ? `Precio ${categoriaActiva === "pantalla" ? "pantalla" : "batería"} ${labelModelo(modeloActivo)} | TeamCellMania`
-  : categoriaActiva
-  ? `Precios de ${categoriaActiva === "pantalla" ? "pantallas" : "baterías"} | TeamCellMania`
-  : "Precios de repuestos | TeamCellMania";
+  ? `Precio repuestos ${labelModelo(modeloActivo)} | TeamCellMania`
+  : familiaActiva
+  ? `Repuestos ${labelModelo(familiaActiva)} | TeamCellMania`
+  : "Precios de repuestos iPhone | TeamCellMania";
 
 const pageDescription = modeloActivo
-  ? `Consulta el precio de cambio de ${categoriaActiva} para ${labelModelo(modeloActivo)} en Azogues y Biblián.`
-  : "Precios de pantallas y baterías para iPhone en TeamCellMania, Azogues y Biblián, Ecuador.";
+  ? `Precio de pantalla y batería para ${labelModelo(modeloActivo)} en TeamCellMania, Azogues y Biblián.`
+  : "Consulta los precios de pantallas y baterías para iPhone en TeamCellMania, Azogues y Biblián, Ecuador.";
 ---
 
 <html lang="es" class="scroll-smooth">
@@ -96,6 +115,7 @@ const pageDescription = modeloActivo
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={`https://www.teamcellmania.com/repuestos${slug ? `/${slug}` : ""}`} />
     <link rel="icon" href="/favicon.ico" />
   </head>
 
@@ -103,11 +123,12 @@ const pageDescription = modeloActivo
     <Header />
     <main class="pt-[76px]">
       <RepuestosPricing
-        repuestos={repuestosFiltrados}
-        categoriaActiva={categoriaActiva}
+        familiaActiva={familiaActiva}
         modeloActivo={modeloActivo}
-        todasCategorias={todasCategorias}
-        todosModelos={todosModelos}
+        todasFamilias={todasFamilias}
+        modelosDeFamilia={modelosDeFamilia}
+        repuestosDelModelo={repuestosDelModelo}
+        imagenDelModelo={imagenDelModelo}
       />
     </main>
     <Footer />

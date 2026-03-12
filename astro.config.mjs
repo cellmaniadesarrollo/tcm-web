@@ -1,16 +1,16 @@
+// astro.config.mjs
 import { defineConfig, squooshImageService } from 'astro/config';
 import tailwind from "@astrojs/tailwind";
 import addClasses from 'rehype-add-classes';
 import react from "@astrojs/react";
 import { remarkReadingTime } from './remark-reading-time.mjs';
-
 import db from "@astrojs/db";
 
-// https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), react(), db()],
   image: {
-    service: squooshImageService()
+    service: squooshImageService(),
+    domains: ["teamcellmania-public.s3.us-east-1.amazonaws.com"],
   },
   markdown: {
     syntaxHighlight: 'prism',

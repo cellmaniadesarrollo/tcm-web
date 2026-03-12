@@ -72,5 +72,12 @@ export type Repuesto = {
 	precioSinMensaje: number | null;
 	descripcion?: string | null;
 	stock?: boolean | null;
-	tags?: string[] | null;
+	tags?: string[] | null | undefined;     // ← importante el undefined
+	calidad: string | null;                  // ← aquí estaba el error
+	garantiaDias: number | null;             // ← aquí estaba el otro error
+
+	// Campos extras que vienen de tu API (opcional, pero recomendado)
+	deviceType?: string;
+	familia?: string;
+	// si hay más campos que uses después, agrégalos aquí
 };

@@ -1,0 +1,638 @@
+[
+    {
+  "iphones_precios_pantallas_incell": {
+    "modelos": {
+      "iPhone 4-4S": {
+        "con_mensaje": null,
+        "sin_mensaje": 20
+      },
+      "iPhone 5-5S": {
+        "con_mensaje": null,
+        "sin_mensaje": 25
+      },
+      "iPhone 6 / 6S": {
+        "con_mensaje": null,
+        "sin_mensaje": 25
+      },
+      "iPhone 6 Plus": {
+        "con_mensaje": null,
+        "sin_mensaje": 40
+      },
+      "iPhone 6S Plus": {
+        "con_mensaje": null,
+        "sin_mensaje": 40
+      },
+      "iPhone 7": {
+        "con_mensaje": 50,
+        "sin_mensaje": null
+      },
+      "iPhone 7 Plus": {
+        "con_mensaje": 55,
+        "sin_mensaje": null
+      },
+      "iPhone 8": {
+        "con_mensaje": 50,
+        "sin_mensaje": null
+      },
+      "iPhone 8 Plus": {
+        "con_mensaje": 55,
+        "sin_mensaje": null
+      },
+      "iPhone X": {
+        "con_mensaje": 95,
+        "sin_mensaje": null
+      },
+      "iPhone XS": {
+        "con_mensaje": 95,
+        "sin_mensaje": null
+      },
+      "iPhone XR": {
+        "con_mensaje": 90,
+        "sin_mensaje": null
+      },
+      "iPhone XS Max": {
+        "con_mensaje": 105,
+        "sin_mensaje": null
+      },
+      "iPhone 11": {
+        "con_mensaje": 60,
+        "sin_mensaje": 90
+      },
+      "iPhone 11 Pro": {
+        "con_mensaje": 100,
+        "sin_mensaje": 130
+      },
+      "iPhone 11 Pro Max": {
+        "con_mensaje": 110,
+        "sin_mensaje": 140
+      },
+      "iPhone 12": {
+        "con_mensaje": 110,
+        "sin_mensaje": 140
+      },
+      "iPhone 12 Pro": {
+        "con_mensaje": 110,
+        "sin_mensaje": 140
+      },
+      "iPhone 12 Pro Max": {
+        "con_mensaje": 200,
+        "sin_mensaje": 230
+      },
+      "iPhone 12 mini": {
+        "con_mensaje": 120,
+        "sin_mensaje": 150
+      },
+      "iPhone 13": {
+        "con_mensaje": 150,
+        "sin_mensaje": 180
+      },
+      "iPhone 13 Pro": {
+        "con_mensaje": 190,
+        "sin_mensaje": 220
+      },
+      "iPhone 13 Pro Max": {
+        "con_mensaje": 240,
+        "sin_mensaje": 270
+      },
+      "iPhone 13 mini": {
+        "con_mensaje": 170,
+        "sin_mensaje": 200
+      },
+      "iPhone 14": {
+        "con_mensaje": 260,
+        "sin_mensaje": 300
+      },
+      "iPhone 14 Pro": {
+        "con_mensaje": 250,
+        "sin_mensaje": 275
+      },
+      "iPhone 14 Plus": {
+        "con_mensaje": 250,
+        "sin_mensaje": 275
+      },
+      "iPhone 14 Pro Max": {
+        "con_mensaje": 300,
+        "sin_mensaje": 330
+      },
+      "iPhone SE (2022)": {
+        "con_mensaje": 52,
+        "sin_mensaje": null
+      },
+      "iPhone 15": {
+        "con_mensaje": 250,
+        "sin_mensaje": 250
+      },
+      "iPhone 15 Pro": {
+        "con_mensaje": 350,
+        "sin_mensaje": 400
+      },
+      "iPhone 15 Pro Max": {
+        "con_mensaje": 330,
+        "sin_mensaje": 360
+      },
+      "iPhone 16": {
+        "con_mensaje": null,
+        "sin_mensaje": 120
+      },
+      "iPhone 16 Pro": {
+        "con_mensaje": null,
+        "sin_mensaje": 140
+      },
+      "iPhone 16 Plus": {
+        "con_mensaje": null,
+        "sin_mensaje": 140
+      },
+      "iPhone 16 Pro Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 150
+      },
+      "iPhone 16e": {
+        "con_mensaje": null,
+        "sin_mensaje": 140
+      },
+      "iPhone 17": {
+        "con_mensaje": null,
+        "sin_mensaje": 180
+      },
+      "iPhone 17 Pro": {
+        "con_mensaje": null,
+        "sin_mensaje": 200
+      },
+      "iPhone 17 Air": {
+        "con_mensaje": null,
+        "sin_mensaje": 220
+      },
+      "iPhone 17 Pro Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 220
+      }
+    }
+  }
+},
+
+{
+  "iphones_precios_baterias_originales": {
+    "modelos": {
+      "iPhone 4-4S": {
+        "con_mensaje": null,
+        "sin_mensaje": 10
+      },
+      "iPhone 5-5S": {
+        "con_mensaje": null,
+        "sin_mensaje": 15
+      },
+      "iPhone 6": {
+        "con_mensaje": null,
+        "sin_mensaje": 20
+      },
+      "iPhone 6S": {
+        "con_mensaje": null,
+        "sin_mensaje": 20
+      },
+      "iPhone 6 Plus": {
+        "con_mensaje": null,
+        "sin_mensaje": 25
+      },
+      "iPhone 6S Plus": {
+        "con_mensaje": null,
+        "sin_mensaje": 25
+      },
+      "iPhone 7": {
+        "con_mensaje": null,
+        "sin_mensaje": 30
+      },
+      "iPhone 7 Plus": {
+        "con_mensaje": null,
+        "sin_mensaje": 30
+      },
+      "iPhone 8": {
+        "con_mensaje": null,
+        "sin_mensaje": 30
+      },
+      "iPhone 8 Plus": {
+        "con_mensaje": null,
+        "sin_mensaje": 30
+      },
+      "iPhone SE (1ra Gen)": {
+        "con_mensaje": null,
+        "sin_mensaje": 25
+      },
+      "iPhone SE (2da Gen)": {
+        "con_mensaje": null,
+        "sin_mensaje": 35
+      },
+      "iPhone SE (3ra Gen)": {
+        "con_mensaje": null,
+        "sin_mensaje": null
+      },
+      "iPhone X": {
+        "con_mensaje": null,
+        "sin_mensaje": 40
+      },
+      "iPhone XS": {
+        "con_mensaje": null,
+        "sin_mensaje": 40
+      },
+      "iPhone XR": {
+        "con_mensaje": null,
+        "sin_mensaje": 40
+      },
+      "iPhone XS Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 45
+      },
+      "iPhone 11": {
+        "con_mensaje": 45,
+        "sin_mensaje": 75
+      },
+      "iPhone 11 Pro": {
+        "con_mensaje": 45,
+        "sin_mensaje": 75
+      },
+      "iPhone 11 Pro Max": {
+        "con_mensaje": 49,
+        "sin_mensaje": 79
+      },
+      "iPhone 12": {
+        "con_mensaje": 50,
+        "sin_mensaje": 80
+      },
+      "iPhone 12 Pro": {
+        "con_mensaje": 55,
+        "sin_mensaje": 85
+      },
+      "iPhone 12 Pro Max": {
+        "con_mensaje": 59,
+        "sin_mensaje": 89
+      },
+      "iPhone 12 mini": {
+        "con_mensaje": 49,
+        "sin_mensaje": 79
+      },
+      "iPhone 13": {
+        "con_mensaje": 60,
+        "sin_mensaje": 90
+      },
+      "iPhone 13 Pro": {
+        "con_mensaje": 65,
+        "sin_mensaje": 95
+      },
+      "iPhone 13 Pro Max": {
+        "con_mensaje": 69,
+        "sin_mensaje": 99
+      },
+      "iPhone 13 mini": {
+        "con_mensaje": 59,
+        "sin_mensaje": 89
+      },
+      "iPhone 14": {
+        "con_mensaje": 60,
+        "sin_mensaje": 90
+      },
+      "iPhone 14 Pro": {
+        "con_mensaje": 65,
+        "sin_mensaje": 95
+      },
+      "iPhone 14 Pro Max": {
+        "con_mensaje": 69,
+        "sin_mensaje": 99
+      },
+      "iPhone 14 Plus": {
+        "con_mensaje": 60,
+        "sin_mensaje": 90
+      },
+      "iPhone 15": {
+        "con_mensaje": 60,
+        "sin_mensaje": 90
+      },
+      "iPhone 15 Pro": {
+        "con_mensaje": 65,
+        "sin_mensaje": 95
+      },
+      "iPhone 15 Pro Max": {
+        "con_mensaje": 69,
+        "sin_mensaje": 99
+      },
+      "iPhone 15 Plus": {
+        "con_mensaje": 60,
+        "sin_mensaje": 90
+      },
+      "iPhone 16": {
+        "con_mensaje": 60,
+        "sin_mensaje": 90
+      },
+      "iPhone 16 Pro": {
+        "con_mensaje": 65,
+        "sin_mensaje": 95
+      },
+      "iPhone 16 Pro Max": {
+        "con_mensaje": 69,
+        "sin_mensaje": 99
+      },
+      "iPhone 16 Plus": {
+        "con_mensaje": 60,
+        "sin_mensaje": 90
+      },
+      "iPhone 16 E": {
+        "con_mensaje": 60,
+        "sin_mensaje": 90
+      }
+    }
+  }
+},
+
+
+{
+  "iphones_precios_pantallas_incell": {
+    "tipo": "solo_sin_mensaje_glass_incell",
+    "notas": "Precios actualizados de las tablas corregidas (sin con_mensaje)",
+    "modelos": {
+      "iPhone X": {
+        "con_mensaje": null,
+        "sin_mensaje": 40
+      },
+      "iPhone XS": {
+        "con_mensaje": null,
+        "sin_mensaje": 45
+      },
+      "iPhone XR": {
+        "con_mensaje": null,
+        "sin_mensaje": 45
+      },
+      "iPhone XS Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 50
+      },
+      "iPhone 11": {
+        "con_mensaje": null,
+        "sin_mensaje": 60
+      },
+      "iPhone 11 Pro": {
+        "con_mensaje": null,
+        "sin_mensaje": 65
+      },
+      "iPhone 11 Pro Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 70
+      },
+      "iPhone 12": {
+        "con_mensaje": null,
+        "sin_mensaje": 55
+      },
+      "iPhone 12 Pro": {
+        "con_mensaje": null,
+        "sin_mensaje": 55
+      },
+      "iPhone 12 Pro Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 70
+      },
+      "iPhone 12 mini": {
+        "con_mensaje": null,
+        "sin_mensaje": 50
+      },
+      "iPhone 13": {
+        "con_mensaje": null,
+        "sin_mensaje": 60
+      },
+      "iPhone 13 Pro": {
+        "con_mensaje": null,
+        "sin_mensaje": 70
+      },
+      "iPhone 13 Pro Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 80
+      },
+      "iPhone 13 mini": {
+        "con_mensaje": null,
+        "sin_mensaje": 60
+      },
+      "iPhone SE (3ra Gen)": {
+        "con_mensaje": null,
+        "sin_mensaje": 50
+      },
+      "iPhone 14": {
+        "con_mensaje": null,
+        "sin_mensaje": 65
+      },
+      "iPhone 14 Pro": {
+        "con_mensaje": null,
+        "sin_mensaje": 70
+      },
+      "iPhone 14 Pro Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 90
+      },
+      "iPhone 14 Plus": {
+        "con_mensaje": null,
+        "sin_mensaje": 70
+      },
+      "iPhone 15": {
+        "con_mensaje": null,
+        "sin_mensaje": 70
+      },
+      "iPhone 15 Pro": {
+        "con_mensaje": null,
+        "sin_mensaje": 80
+      },
+      "iPhone 15 Pro Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 100
+      },
+      "iPhone 15 Plus": {
+        "con_mensaje": null,
+        "sin_mensaje": 80
+      },
+      "iPhone 16": {
+        "con_mensaje": null,
+        "sin_mensaje": 85
+      },
+      "iPhone 16e": {
+        "con_mensaje": null,
+        "sin_mensaje": 85
+      },
+      "iPhone 15 Plus": {
+        "con_mensaje": null,
+        "sin_mensaje": 85
+      },
+      "iPhone 16 Pro": {
+        "con_mensaje": null,
+        "sin_mensaje": 90
+      },
+      "iPhone 16 Pro Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 110
+      },
+      "iPhone 17": {
+        "con_mensaje": null,
+        "sin_mensaje": 120
+      },
+      "iPhone 17 Pro": {
+        "con_mensaje": null,
+        "sin_mensaje": 140
+      },
+      "iPhone 17 Air": {
+        "con_mensaje": null,
+        "sin_mensaje": 145
+      },
+      "iPhone 17 Pro Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 160
+      }
+    }
+  }
+},
+
+{
+  "iphones_precios_backcovers": {
+    "tipo": "back_cover_tapa_trasera",
+    "notas": "Precios de tapas traseras (back covers), sin distinción con/sin mensaje",
+    "modelos": {
+      "iPhone 8": {
+        "con_mensaje": null,
+        "sin_mensaje": 40
+      },
+      "iPhone 8 Plus": {
+        "con_mensaje": null,
+        "sin_mensaje": 45
+      },
+      "iPhone SE (2da Gen)": {
+        "con_mensaje": null,
+        "sin_mensaje": 45
+      },
+      "iPhone X": {
+        "con_mensaje": null,
+        "sin_mensaje": 60
+      },
+      "iPhone XS": {
+        "con_mensaje": null,
+        "sin_mensaje": 65
+      },
+      "iPhone XR": {
+        "con_mensaje": null,
+        "sin_mensaje": 60
+      },
+      "iPhone XS Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 70
+      },
+      "iPhone 11": {
+        "con_mensaje": null,
+        "sin_mensaje": 65
+      },
+      "iPhone 11 Pro": {
+        "con_mensaje": null,
+        "sin_mensaje": 70
+      },
+      "iPhone 11 Pro Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 75
+      },
+      "iPhone 12": {
+        "con_mensaje": null,
+        "sin_mensaje": 80
+      },
+      "iPhone 12 Pro": {
+        "con_mensaje": null,
+        "sin_mensaje": 85
+      },
+      "iPhone 12 Pro Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 90
+      },
+      "iPhone 12 mini": {
+        "con_mensaje": null,
+        "sin_mensaje": 75
+      },
+      "iPhone 13": {
+        "con_mensaje": null,
+        "sin_mensaje": 85
+      },
+      "iPhone 13 Pro": {
+        "con_mensaje": null,
+        "sin_mensaje": 90
+      },
+      "iPhone 13 Pro Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 100
+      },
+      "iPhone 13 mini": {
+        "con_mensaje": null,
+        "sin_mensaje": 80
+      },
+      "iPhone SE (3ra Gen)": {
+        "con_mensaje": null,
+        "sin_mensaje": 80
+      },
+      "iPhone 14": {
+        "con_mensaje": null,
+        "sin_mensaje": 90
+      },
+      "iPhone 14 Pro": {
+        "con_mensaje": null,
+        "sin_mensaje": 95
+      },
+      "iPhone 14 Plus": {
+        "con_mensaje": null,
+        "sin_mensaje": 95
+      },
+      "iPhone 14 Pro Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 110
+      },
+      "iPhone 15": {
+        "con_mensaje": null,
+        "sin_mensaje": 105
+      },
+      "iPhone 15 Pro": {
+        "con_mensaje": null,
+        "sin_mensaje": 125
+      },
+      "iPhone 15 Plus": {
+        "con_mensaje": null,
+        "sin_mensaje": 125
+      },
+      "iPhone 15 Pro Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 130
+      },
+      "iPhone 16": {
+        "con_mensaje": null,
+        "sin_mensaje": 85
+      },
+      "iPhone 16e": {
+        "con_mensaje": null,
+        "sin_mensaje": 85
+      },
+      "iPhone 15 Plus": {
+        "con_mensaje": null,
+        "sin_mensaje": 85
+      },
+      "iPhone 16 Pro": {
+        "con_mensaje": null,
+        "sin_mensaje": 90
+      },
+      "iPhone 16 Pro Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 110
+      },
+      "iPhone 17": {
+        "con_mensaje": null,
+        "sin_mensaje": 120
+      },
+      "iPhone 17 Pro": {
+        "con_mensaje": null,
+        "sin_mensaje": 140
+      },
+      "iPhone 17 Air": {
+        "con_mensaje": null,
+        "sin_mensaje": 145
+      },
+      "iPhone 17 Pro Max": {
+        "con_mensaje": null,
+        "sin_mensaje": 160
+      }
+    }
+  }
+}
+]

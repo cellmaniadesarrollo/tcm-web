@@ -4,57 +4,72 @@ import { Videos, Locations, db, Repuestos } from "astro:db";
 const S3 = "https://teamcellmania-public.s3.us-east-1.amazonaws.com/TCM-web/repuestos-cotizacion";
 const img = (name: string) => `${S3}/${name}`;
 
-// Imágenes por modelo base (los OLED comparten imagen con su base)
+// ─────────────────────────────────────────────
+// IMGS  — agregar img = falta subir la imagen
+// ─────────────────────────────────────────────
 const IMGS: Record<string, string> = {
+	// ── Modelos antiguos ──
 	"iphone-4s": img("apple-iphone-4s-all-sides.jpg"),
 	"iphone-5s": img("gsmarena_003.jpg"),
 	"iphone-6": img("apple-iphone-6-1.jpg"),
 	"iphone-6s": img("apple-iphone-6s-2.jpg"),
 	"iphone-6-plus": img("apple-iphone6s-plus-1.jpg"),
+	"iphone-6s-plus": img("apple-iphone-6s-plus.jpg"),
 	"iphone-7": img("apple-iphone-7-1.jpg"),
+	"iphone-7-plus": img("apple-iphone-7-plus-r2.jpg"),
+	"iphone-8": img("apple-iphone-8-new.jpg"),
+	"iphone-8-plus": img("apple-iphone-8-plus-new.jpg"),
+	"iphone-se-1": img("apple-iphone-5se-ofic.jpg"),
 	"iphone-se-2020": img("apple-iphone-se-2020-2.jpg"),
-	// Agregado: para iPhone SE 2022 (3ra gen, diseño casi idéntico al SE 2020, puedes usar el mismo o uno nuevo)
-	"iphone-se-2022": img("agregar img"),  // Sugerencia: sube "apple-iphone-se-2022.jpg" (busca en GSMArena o Apple official photos)
+	"iphone-se-2022": img("apple-iphone-se-2022.jpg"),
 
+	// ── Serie X ──
 	"iphone-x": img("apple-iphone-x-new-1.jpg"),
 	"iphone-xs": img("apple-iphone-xs-new.jpg"),
 	"iphone-xr": img("apple-iphone-xr-new.jpg"),
 	"iphone-xs-max": img("apple-iphone-xs-max-new.jpg"),
 
+	// ── Serie 11 ──
 	"iphone-11": img("apple-iphone-11.jpg"),
 	"iphone-11-pro": img("apple-iphone-11-pro.jpg"),
 	"iphone-11-pro-max": img("apple-iphone-11-pro-max-.jpg"),
 
+	// ── Serie 12 ──
 	"iphone-12": img("apple-iphone-12.jpg"),
 	"iphone-12-mini": img("apple-iphone-12-mini.jpg"),
 	"iphone-12-pro": img("apple-iphone-12-pro--.jpg"),
 	"iphone-12-pro-max": img("apple-iphone-12-pro-max-.jpg"),
 
+	// ── Serie 13 ──
 	"iphone-13": img("apple-iphone-13.jpg"),
 	"iphone-13-mini": img("apple-iphone-13-mini.jpg"),
 	"iphone-13-pro": img("apple-iphone-13-pro.jpg"),
 	"iphone-13-pro-max": img("apple-iphone-13-pro-max.jpg"),
 
+	// ── Serie 14 ──
 	"iphone-14": img("apple-iphone-14.jpg"),
+	"iphone-14-plus": img("apple-iphone-14-plus.jpg"),
 	"iphone-14-pro": img("apple-iphone-14-pro.jpg"),
 	"iphone-14-pro-max": img("apple-iphone-14-pro-max-.jpg"),
 
-	// Agregado: para iPhone 15 base (no tenías, solo Pro y Pro Max)
-	// Actualizaciones / confirmaciones para modelos recientes
-	"iphone-15": img("apple-iphone-15.jpg"),  // Oficial de GSMArena / Apple Newsroom 2023 – ahora disponible 
+	// ── Serie 15 ──
+	"iphone-15": img("apple-iphone-15.jpg"),
+	"iphone-15-plus": img("apple-iphone-15-plus-.jpg"),
+	"iphone-15-pro": img("apple-iphone-15-pro-max.jpg"),
+	"iphone-15-pro-max": img("apple-iphone-15-pro-max.jpg"),
 
-	// iPhone 16 series (oficiales 2024-2025)
-	"iphone-16": img("apple-iphone-16.jpg"),  // GSMArena oficial: colores Black/White/Pink/Teal/Ultramarine
-	"iphone-16-plus": img("agregar img"),     // O usa "apple-iphone-16-plus.jpg" si subes (similar al 16 pero más grande)
-	"iphone-16-pro": img("agregar img"),      // GSMArena tiene galería, nómbralo "apple-iphone-16-pro.jpg"
-	"iphone-16-pro-max": img("apple-iphone-16-pro-max.jpg"),  // Ya lo tenías, confirmado oficial
-	"iphone-16e": img("agregar img"),         // Entry-level 2025, GSMArena tiene fotos oficiales – "apple-iphone-16e.jpg"
+	// ── Serie 16 ──
+	"iphone-16": img("apple-iphone-16.jpg"),
+	"iphone-16-plus": img("apple-iphone-16-plus.jpg"),
+	"iphone-16-pro": img("apple-iphone-16-pro.jpg"),
+	"iphone-16-pro-max": img("apple-iphone-16-pro-max.jpg"),
+	"iphone-16e": img("apple-iphone-16e.jpg"),
 
-	// iPhone 17 series (lanzados 2025, fotos oficiales y renders precisos)
-	"iphone-17": img("agregar img"),          // Base: "apple-iphone-17.jpg" de Apple Newsroom
-	"iphone-17-pro": img("apple-iphone-17-pro.jpg"),  // Ya lo tenías, pero confirma si es render o foto oficial post-lanzamiento
-	"iphone-17-pro-max": img("agregar img"),  // Diseño nuevo (cámara horizontal en renders/leaks), "apple-iphone-17-pro-max.jpg" o similar de Apple 2025
-	"iphone-17-air": img("agregar img"),      // Ultra-delgado, muchos renders/concepts en Sketchfab/YouTube/Macworld – "apple-iphone-17-air.jpg" cuando Apple lo publique oficial
+	// ── Serie 17 ──
+	"iphone-17": img("apple-iphone-17.jpg"),   // ← FALTA IMAGEN
+	"iphone-17-air": img("apple-iphone-air.jpg"),   // ← FALTA IMAGEN
+	"iphone-17-pro": img("apple-iphone-17-pro.jpg"),
+	"iphone-17-pro-max": img("apple-iphone-17-pro-max.jpg"),   // ← FALTA IMAGEN
 };
 
 export default async function seed() {
@@ -85,1043 +100,247 @@ export default async function seed() {
 	]);
 
 	await db.insert(Repuestos).values([
-		// =====================================================
-		// PANTALLAS
-		// =====================================================
 
-		// ==================== SERIE X (X / XS / XR / XS Max) ====================
-		{ id: "rep-pantalla-iphone-x", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-x", precioConMensaje: 70, precioSinMensaje: 100, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-x"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-x-oled", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-x-oled", precioConMensaje: null, precioSinMensaje: 70, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-x"], tags: ["pantalla", "iphone"] },
+		// ═══════════════════════════════════════════════════════════
+		// PANTALLAS INCELL  (fuente: iphones_precios_pantallas_incell)
+		// ═══════════════════════════════════════════════════════════
 
-		{ id: "rep-pantalla-iphone-xs", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xs", precioConMensaje: 100, precioSinMensaje: null, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xs"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-xs-oled", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xs-oled", precioConMensaje: 70, precioSinMensaje: null, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xs"], tags: ["pantalla", "iphone"] },
+		// ── Modelos antiguos ──────────────────────────────────────
+		{ id: "rep-pantalla-iphone-4-4s", deviceType: "iphone", familia: "iphone-4", categoria: "pantalla", modelo: "iphone-4-4s", precioConMensaje: null, precioSinMensaje: 20, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-4s"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-5-5s", deviceType: "iphone", familia: "iphone-5", categoria: "pantalla", modelo: "iphone-5-5s", precioConMensaje: null, precioSinMensaje: 25, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-5s"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-6", deviceType: "iphone", familia: "iphone-6", categoria: "pantalla", modelo: "iphone-6", precioConMensaje: null, precioSinMensaje: 25, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-6"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-6s", deviceType: "iphone", familia: "iphone-6", categoria: "pantalla", modelo: "iphone-6s", precioConMensaje: null, precioSinMensaje: 25, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-6s"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-6-plus", deviceType: "iphone", familia: "iphone-6", categoria: "pantalla", modelo: "iphone-6-plus", precioConMensaje: null, precioSinMensaje: 40, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-6-plus"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-6s-plus", deviceType: "iphone", familia: "iphone-6", categoria: "pantalla", modelo: "iphone-6s-plus", precioConMensaje: null, precioSinMensaje: 40, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-6s-plus"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-7", deviceType: "iphone", familia: "iphone-7", categoria: "pantalla", modelo: "iphone-7", precioConMensaje: 50, precioSinMensaje: null, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-7"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-7-plus", deviceType: "iphone", familia: "iphone-7", categoria: "pantalla", modelo: "iphone-7-plus", precioConMensaje: 55, precioSinMensaje: null, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-7-plus"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-8", deviceType: "iphone", familia: "iphone-8", categoria: "pantalla", modelo: "iphone-8", precioConMensaje: 50, precioSinMensaje: null, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-8"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-8-plus", deviceType: "iphone", familia: "iphone-8", categoria: "pantalla", modelo: "iphone-8-plus", precioConMensaje: 55, precioSinMensaje: null, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-8-plus"], tags: ["pantalla", "iphone"] },
 
-		{ id: "rep-pantalla-iphone-xr", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xr", precioConMensaje: null, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xr"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-xr-oled", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xr-oled", precioConMensaje: null, precioSinMensaje: 60, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xr"], tags: ["pantalla", "iphone"] },
+		// ── SE 2022 ───────────────────────────────────────────────
+		{ id: "rep-pantalla-iphone-se-2022", deviceType: "iphone", familia: "iphone-se", categoria: "pantalla", modelo: "iphone-se-2022", precioConMensaje: 52, precioSinMensaje: null, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-se-2022"], tags: ["pantalla", "iphone", "se"] },
 
-		{ id: "rep-pantalla-iphone-xs-max", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xs-max", precioConMensaje: null, precioSinMensaje: 120, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xs-max"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-xs-max-oled", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xs-max-oled", precioConMensaje: null, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xs-max"], tags: ["pantalla", "iphone"] },
+		// ── Serie X ───────────────────────────────────────────────
+		{ id: "rep-pantalla-iphone-x", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-x", precioConMensaje: 95, precioSinMensaje: null, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-x"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-xs", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xs", precioConMensaje: 95, precioSinMensaje: null, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xs"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-xr", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xr", precioConMensaje: 90, precioSinMensaje: null, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xr"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-xs-max", deviceType: "iphone", familia: "iphone-x", categoria: "pantalla", modelo: "iphone-xs-max", precioConMensaje: 105, precioSinMensaje: null, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xs-max"], tags: ["pantalla", "iphone"] },
 
-		// ==================== SERIE 11 ====================
+		// ── Serie 11 ──────────────────────────────────────────────
 		{ id: "rep-pantalla-iphone-11", deviceType: "iphone", familia: "iphone-11", categoria: "pantalla", modelo: "iphone-11", precioConMensaje: 60, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-11"], tags: ["pantalla", "iphone"] },
 		{ id: "rep-pantalla-iphone-11-pro", deviceType: "iphone", familia: "iphone-11", categoria: "pantalla", modelo: "iphone-11-pro", precioConMensaje: 100, precioSinMensaje: 130, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-11-pro"], tags: ["pantalla", "iphone"] },
 		{ id: "rep-pantalla-iphone-11-pro-max", deviceType: "iphone", familia: "iphone-11", categoria: "pantalla", modelo: "iphone-11-pro-max", precioConMensaje: 110, precioSinMensaje: 140, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-11-pro-max"], tags: ["pantalla", "iphone"] },
 
-		// ==================== SERIE 12 ====================
+		// ── Serie 12 ──────────────────────────────────────────────
 		{ id: "rep-pantalla-iphone-12", deviceType: "iphone", familia: "iphone-12", categoria: "pantalla", modelo: "iphone-12", precioConMensaje: 110, precioSinMensaje: 140, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12"], tags: ["pantalla", "iphone"] },
 		{ id: "rep-pantalla-iphone-12-pro", deviceType: "iphone", familia: "iphone-12", categoria: "pantalla", modelo: "iphone-12-pro", precioConMensaje: 110, precioSinMensaje: 140, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12-pro"], tags: ["pantalla", "iphone"] },
 		{ id: "rep-pantalla-iphone-12-pro-max", deviceType: "iphone", familia: "iphone-12", categoria: "pantalla", modelo: "iphone-12-pro-max", precioConMensaje: 200, precioSinMensaje: 230, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12-pro-max"], tags: ["pantalla", "iphone"] },
 		{ id: "rep-pantalla-iphone-12-mini", deviceType: "iphone", familia: "iphone-12", categoria: "pantalla", modelo: "iphone-12-mini", precioConMensaje: 120, precioSinMensaje: 150, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12-mini"], tags: ["pantalla", "iphone"] },
 
-		// ==================== SERIE 13 ====================
+		// ── Serie 13 ──────────────────────────────────────────────
 		{ id: "rep-pantalla-iphone-13", deviceType: "iphone", familia: "iphone-13", categoria: "pantalla", modelo: "iphone-13", precioConMensaje: 150, precioSinMensaje: 180, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13"], tags: ["pantalla", "iphone"] },
 		{ id: "rep-pantalla-iphone-13-pro", deviceType: "iphone", familia: "iphone-13", categoria: "pantalla", modelo: "iphone-13-pro", precioConMensaje: 190, precioSinMensaje: 220, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13-pro"], tags: ["pantalla", "iphone"] },
 		{ id: "rep-pantalla-iphone-13-pro-max", deviceType: "iphone", familia: "iphone-13", categoria: "pantalla", modelo: "iphone-13-pro-max", precioConMensaje: 240, precioSinMensaje: 270, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13-pro-max"], tags: ["pantalla", "iphone"] },
 		{ id: "rep-pantalla-iphone-13-mini", deviceType: "iphone", familia: "iphone-13", categoria: "pantalla", modelo: "iphone-13-mini", precioConMensaje: 170, precioSinMensaje: 200, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13-mini"], tags: ["pantalla", "iphone"] },
 
-		// ==================== SERIE 14 ====================
-		{
-			id: "rep-pantalla-iphone-14",
-			deviceType: "iphone",
-			familia: "iphone-14",
-			categoria: "pantalla",
-			modelo: "iphone-14",
-			precioConMensaje: 190,
-			precioSinMensaje: 220,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-14"],
-			tags: ["pantalla", "iphone"]
-		},
+		// ── Serie 14 ──────────────────────────────────────────────
+		{ id: "rep-pantalla-iphone-14", deviceType: "iphone", familia: "iphone-14", categoria: "pantalla", modelo: "iphone-14", precioConMensaje: 260, precioSinMensaje: 300, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-14-plus", deviceType: "iphone", familia: "iphone-14", categoria: "pantalla", modelo: "iphone-14-plus", precioConMensaje: 250, precioSinMensaje: 275, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-plus"], tags: ["pantalla", "iphone"] },
 		{ id: "rep-pantalla-iphone-14-pro", deviceType: "iphone", familia: "iphone-14", categoria: "pantalla", modelo: "iphone-14-pro", precioConMensaje: 250, precioSinMensaje: 275, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-pro"], tags: ["pantalla", "iphone"] },
 		{ id: "rep-pantalla-iphone-14-pro-max", deviceType: "iphone", familia: "iphone-14", categoria: "pantalla", modelo: "iphone-14-pro-max", precioConMensaje: 300, precioSinMensaje: 330, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-pro-max"], tags: ["pantalla", "iphone"] },
 
-		// ==================== SERIE 15 ====================
-		{
-			id: "rep-pantalla-iphone-15",
-			deviceType: "iphone",
-			familia: "iphone-15",
-			categoria: "pantalla",
-			modelo: "iphone-15",
-			precioConMensaje: 250,
-			precioSinMensaje: 250,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-15"],
-			tags: ["pantalla", "iphone"]
-		},
-		{
-			id: "rep-pantalla-iphone-15-pro",
-			deviceType: "iphone",
-			familia: "iphone-15",
-			categoria: "pantalla",
-			modelo: "iphone-15-pro",
-			precioConMensaje: 260,
-			precioSinMensaje: 290,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-15-pro"],
-			tags: ["pantalla", "iphone"]
-		},
+		// ── Serie 15 ──────────────────────────────────────────────
+		{ id: "rep-pantalla-iphone-15", deviceType: "iphone", familia: "iphone-15", categoria: "pantalla", modelo: "iphone-15", precioConMensaje: 250, precioSinMensaje: 250, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-15-pro", deviceType: "iphone", familia: "iphone-15", categoria: "pantalla", modelo: "iphone-15-pro", precioConMensaje: 350, precioSinMensaje: 400, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15-pro"], tags: ["pantalla", "iphone"] },
 		{ id: "rep-pantalla-iphone-15-pro-max", deviceType: "iphone", familia: "iphone-15", categoria: "pantalla", modelo: "iphone-15-pro-max", precioConMensaje: 330, precioSinMensaje: 360, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15-pro-max"], tags: ["pantalla", "iphone"] },
 
-		// ==================== SERIE 17 ====================
-		{ id: "rep-pantalla-iphone-17-pro", deviceType: "iphone", familia: "iphone-17", categoria: "pantalla", modelo: "iphone-17-pro", precioConMensaje: 440, precioSinMensaje: 470, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17-pro"], tags: ["pantalla", "iphone"] },
+		// ── Serie 16 ──────────────────────────────────────────────
+		{ id: "rep-pantalla-iphone-16", deviceType: "iphone", familia: "iphone-16", categoria: "pantalla", modelo: "iphone-16", precioConMensaje: null, precioSinMensaje: 120, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-16-plus", deviceType: "iphone", familia: "iphone-16", categoria: "pantalla", modelo: "iphone-16-plus", precioConMensaje: null, precioSinMensaje: 140, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16-plus"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-16-pro", deviceType: "iphone", familia: "iphone-16", categoria: "pantalla", modelo: "iphone-16-pro", precioConMensaje: null, precioSinMensaje: 140, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16-pro"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-16-pro-max", deviceType: "iphone", familia: "iphone-16", categoria: "pantalla", modelo: "iphone-16-pro-max", precioConMensaje: null, precioSinMensaje: 150, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16-pro-max"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-16e", deviceType: "iphone", familia: "iphone-16", categoria: "pantalla", modelo: "iphone-16e", precioConMensaje: null, precioSinMensaje: 140, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16e"], tags: ["pantalla", "iphone"] },
 
-		// =====================================================
-		// BATERÍAS
-		// =====================================================
+		// ── Serie 17 ──────────────────────────────────────────────
+		{ id: "rep-pantalla-iphone-17", deviceType: "iphone", familia: "iphone-17", categoria: "pantalla", modelo: "iphone-17", precioConMensaje: null, precioSinMensaje: 180, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-17-air", deviceType: "iphone", familia: "iphone-17", categoria: "pantalla", modelo: "iphone-17-air", precioConMensaje: null, precioSinMensaje: 220, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17-air"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-17-pro", deviceType: "iphone", familia: "iphone-17", categoria: "pantalla", modelo: "iphone-17-pro", precioConMensaje: null, precioSinMensaje: 200, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17-pro"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-17-pro-max", deviceType: "iphone", familia: "iphone-17", categoria: "pantalla", modelo: "iphone-17-pro-max", precioConMensaje: null, precioSinMensaje: 220, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17-pro-max"], tags: ["pantalla", "iphone"] },
 
-		// ==================== MODELOS ANTIGUOS ====================
+
+		// ═══════════════════════════════════════════════════════════
+		// BATERÍAS  (fuente: iphones_precios_baterias_originales)
+		// ═══════════════════════════════════════════════════════════
+
+		// ── Modelos antiguos ──────────────────────────────────────
 		{ id: "rep-bateria-iphone-4-4s", deviceType: "iphone", familia: "iphone-4", categoria: "bateria", modelo: "iphone-4-4s", precioConMensaje: null, precioSinMensaje: 10, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-4s"], tags: ["bateria", "iphone"] },
 		{ id: "rep-bateria-iphone-5-5s", deviceType: "iphone", familia: "iphone-5", categoria: "bateria", modelo: "iphone-5-5s", precioConMensaje: null, precioSinMensaje: 15, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-5s"], tags: ["bateria", "iphone"] },
 		{ id: "rep-bateria-iphone-6", deviceType: "iphone", familia: "iphone-6", categoria: "bateria", modelo: "iphone-6", precioConMensaje: null, precioSinMensaje: 20, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-6"], tags: ["bateria", "iphone"] },
 		{ id: "rep-bateria-iphone-6s", deviceType: "iphone", familia: "iphone-6", categoria: "bateria", modelo: "iphone-6s", precioConMensaje: null, precioSinMensaje: 20, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-6s"], tags: ["bateria", "iphone"] },
 		{ id: "rep-bateria-iphone-6-plus", deviceType: "iphone", familia: "iphone-6", categoria: "bateria", modelo: "iphone-6-plus", precioConMensaje: null, precioSinMensaje: 25, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-6-plus"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-6s-plus", deviceType: "iphone", familia: "iphone-6", categoria: "bateria", modelo: "iphone-6s-plus", precioConMensaje: null, precioSinMensaje: 25, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-6s-plus"], tags: ["bateria", "iphone"] },
 		{ id: "rep-bateria-iphone-7", deviceType: "iphone", familia: "iphone-7", categoria: "bateria", modelo: "iphone-7", precioConMensaje: null, precioSinMensaje: 30, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-7"], tags: ["bateria", "iphone"] },
-		{ id: "rep-bateria-iphone-se-2020", deviceType: "iphone", familia: "iphone-se", categoria: "bateria", modelo: "iphone-se-2020", precioConMensaje: null, precioSinMensaje: 25, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-se-2020"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-7-plus", deviceType: "iphone", familia: "iphone-7", categoria: "bateria", modelo: "iphone-7-plus", precioConMensaje: null, precioSinMensaje: 30, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-7-plus"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-8", deviceType: "iphone", familia: "iphone-8", categoria: "bateria", modelo: "iphone-8", precioConMensaje: null, precioSinMensaje: 30, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-8"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-8-plus", deviceType: "iphone", familia: "iphone-8", categoria: "bateria", modelo: "iphone-8-plus", precioConMensaje: null, precioSinMensaje: 30, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-8-plus"], tags: ["bateria", "iphone"] },
 
-		// ==================== SERIE X ====================
+		// ── SE ────────────────────────────────────────────────────
+		{ id: "rep-bateria-iphone-se-1", deviceType: "iphone", familia: "iphone-se", categoria: "bateria", modelo: "iphone-se-1", precioConMensaje: null, precioSinMensaje: 25, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-se-1"], tags: ["bateria", "iphone", "se"] },
+		{ id: "rep-bateria-iphone-se-2020", deviceType: "iphone", familia: "iphone-se", categoria: "bateria", modelo: "iphone-se-2020", precioConMensaje: null, precioSinMensaje: 35, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-se-2020"], tags: ["bateria", "iphone", "se"] },
+
+		// ── Serie X ───────────────────────────────────────────────
 		{ id: "rep-bateria-iphone-x", deviceType: "iphone", familia: "iphone-x", categoria: "bateria", modelo: "iphone-x", precioConMensaje: null, precioSinMensaje: 40, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-x"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-xs", deviceType: "iphone", familia: "iphone-x", categoria: "bateria", modelo: "iphone-xs", precioConMensaje: null, precioSinMensaje: 40, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xs"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-xr", deviceType: "iphone", familia: "iphone-x", categoria: "bateria", modelo: "iphone-xr", precioConMensaje: null, precioSinMensaje: 40, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xr"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-xs-max", deviceType: "iphone", familia: "iphone-x", categoria: "bateria", modelo: "iphone-xs-max", precioConMensaje: null, precioSinMensaje: 45, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xs-max"], tags: ["bateria", "iphone"] },
 
-		// ==================== SERIE 11 ====================
+		// ── Serie 11 ──────────────────────────────────────────────
 		{ id: "rep-bateria-iphone-11", deviceType: "iphone", familia: "iphone-11", categoria: "bateria", modelo: "iphone-11", precioConMensaje: 45, precioSinMensaje: 75, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-11"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-11-pro", deviceType: "iphone", familia: "iphone-11", categoria: "bateria", modelo: "iphone-11-pro", precioConMensaje: 45, precioSinMensaje: 75, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-11-pro"], tags: ["bateria", "iphone"] },
 		{ id: "rep-bateria-iphone-11-pro-max", deviceType: "iphone", familia: "iphone-11", categoria: "bateria", modelo: "iphone-11-pro-max", precioConMensaje: 49, precioSinMensaje: 79, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-11-pro-max"], tags: ["bateria", "iphone"] },
 
-		// ==================== SERIE 12 ====================
+		// ── Serie 12 ──────────────────────────────────────────────
 		{ id: "rep-bateria-iphone-12", deviceType: "iphone", familia: "iphone-12", categoria: "bateria", modelo: "iphone-12", precioConMensaje: 50, precioSinMensaje: 80, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-12-mini", deviceType: "iphone", familia: "iphone-12", categoria: "bateria", modelo: "iphone-12-mini", precioConMensaje: 49, precioSinMensaje: 79, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12-mini"], tags: ["bateria", "iphone"] },
 		{ id: "rep-bateria-iphone-12-pro", deviceType: "iphone", familia: "iphone-12", categoria: "bateria", modelo: "iphone-12-pro", precioConMensaje: 55, precioSinMensaje: 85, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12-pro"], tags: ["bateria", "iphone"] },
 		{ id: "rep-bateria-iphone-12-pro-max", deviceType: "iphone", familia: "iphone-12", categoria: "bateria", modelo: "iphone-12-pro-max", precioConMensaje: 59, precioSinMensaje: 89, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12-pro-max"], tags: ["bateria", "iphone"] },
 
-		// ==================== SERIE 13 ====================
+		// ── Serie 13 ──────────────────────────────────────────────
 		{ id: "rep-bateria-iphone-13", deviceType: "iphone", familia: "iphone-13", categoria: "bateria", modelo: "iphone-13", precioConMensaje: 60, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-13-mini", deviceType: "iphone", familia: "iphone-13", categoria: "bateria", modelo: "iphone-13-mini", precioConMensaje: 59, precioSinMensaje: 89, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13-mini"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-13-pro", deviceType: "iphone", familia: "iphone-13", categoria: "bateria", modelo: "iphone-13-pro", precioConMensaje: 65, precioSinMensaje: 95, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13-pro"], tags: ["bateria", "iphone"] },
 		{ id: "rep-bateria-iphone-13-pro-max", deviceType: "iphone", familia: "iphone-13", categoria: "bateria", modelo: "iphone-13-pro-max", precioConMensaje: 69, precioSinMensaje: 99, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13-pro-max"], tags: ["bateria", "iphone"] },
 
-		// ==================== SERIE 14 ====================
+		// ── Serie 14 ──────────────────────────────────────────────
 		{ id: "rep-bateria-iphone-14", deviceType: "iphone", familia: "iphone-14", categoria: "bateria", modelo: "iphone-14", precioConMensaje: 60, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-14-plus", deviceType: "iphone", familia: "iphone-14", categoria: "bateria", modelo: "iphone-14-plus", precioConMensaje: 60, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-plus"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-14-pro", deviceType: "iphone", familia: "iphone-14", categoria: "bateria", modelo: "iphone-14-pro", precioConMensaje: 65, precioSinMensaje: 95, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-pro"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-14-pro-max", deviceType: "iphone", familia: "iphone-14", categoria: "bateria", modelo: "iphone-14-pro-max", precioConMensaje: 69, precioSinMensaje: 99, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-pro-max"], tags: ["bateria", "iphone"] },
 
-		// ==================== SERIE 15 ====================
+		// ── Serie 15 ──────────────────────────────────────────────
+		{ id: "rep-bateria-iphone-15", deviceType: "iphone", familia: "iphone-15", categoria: "bateria", modelo: "iphone-15", precioConMensaje: 60, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-15-plus", deviceType: "iphone", familia: "iphone-15", categoria: "bateria", modelo: "iphone-15-plus", precioConMensaje: 60, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15-plus"], tags: ["bateria", "iphone"] },
 		{ id: "rep-bateria-iphone-15-pro", deviceType: "iphone", familia: "iphone-15", categoria: "bateria", modelo: "iphone-15-pro", precioConMensaje: 65, precioSinMensaje: 95, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15-pro"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-15-pro-max", deviceType: "iphone", familia: "iphone-15", categoria: "bateria", modelo: "iphone-15-pro-max", precioConMensaje: 69, precioSinMensaje: 99, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15-pro-max"], tags: ["bateria", "iphone"] },
 
-		// ==================== SERIE 16 ====================
+		// ── Serie 16 ──────────────────────────────────────────────
+		{ id: "rep-bateria-iphone-16", deviceType: "iphone", familia: "iphone-16", categoria: "bateria", modelo: "iphone-16", precioConMensaje: 60, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-16-plus", deviceType: "iphone", familia: "iphone-16", categoria: "bateria", modelo: "iphone-16-plus", precioConMensaje: 60, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16-plus"], tags: ["bateria", "iphone"] },
+		{ id: "rep-bateria-iphone-16-pro", deviceType: "iphone", familia: "iphone-16", categoria: "bateria", modelo: "iphone-16-pro", precioConMensaje: 65, precioSinMensaje: 95, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16-pro"], tags: ["bateria", "iphone"] },
 		{ id: "rep-bateria-iphone-16-pro-max", deviceType: "iphone", familia: "iphone-16", categoria: "bateria", modelo: "iphone-16-pro-max", precioConMensaje: 69, precioSinMensaje: 99, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16-pro-max"], tags: ["bateria", "iphone"] },
-
-		{
-			id: "rep-pantalla-iphone-se-2022",
-			deviceType: "iphone",
-			familia: "iphone-se",
-			categoria: "pantalla",
-			modelo: "iphone-se-2022",
-			precioConMensaje: 52,
-			precioSinMensaje: null,         // no aparece SIN SMS en la tabla
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-se-2020"] || "", // usa el más cercano o agrega imagen
-			tags: ["pantalla", "iphone", "se"]
-		},
-
-		{
-			id: "rep-pantalla-iphone-16-pro-max",
-			deviceType: "iphone",
-			familia: "iphone-16",
-			categoria: "pantalla",
-			modelo: "iphone-16-pro-max",
-			precioConMensaje: 300,          // valor estimado razonable (ajusta si tienes el real)
-			precioSinMensaje: 330,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-16-pro-max"],
-			tags: ["pantalla", "iphone"]
-		},
-
-		{
-			id: "rep-pantalla-iphone-17-pro-max",
-			deviceType: "iphone",
-			familia: "iphone-17",
-			categoria: "pantalla",
-			modelo: "iphone-17-pro-max",
-			precioConMensaje: 480,          // estimado (sube un poco respecto al Pro)
-			precioSinMensaje: 520,          // estimado
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-17-pro"] || "", // ajusta cuando tengas imagen
-			tags: ["pantalla", "iphone"]
-		},
+		{ id: "rep-bateria-iphone-16e", deviceType: "iphone", familia: "iphone-16", categoria: "bateria", modelo: "iphone-16e", precioConMensaje: 60, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16e"], tags: ["bateria", "iphone"] },
 
 
-		// =====================================================
-		// GLASS (VIDRIO FRONTAL DE PANTALLA - solo glass, no full display)
-		// =====================================================
+		// ═══════════════════════════════════════════════════════════
+		// GLASS INCELL  (fuente: solo_sin_mensaje_glass_incell)
+		// ═══════════════════════════════════════════════════════════
 
-		// Serie X
-		{
-			id: "rep-glass-iphone-x",
-			deviceType: "iphone",
-			familia: "iphone-x",
-			categoria: "glass",
-			modelo: "iphone-x",
-			precioConMensaje: null,
-			precioSinMensaje: 40,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-x"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-xs",
-			deviceType: "iphone",
-			familia: "iphone-x",
-			categoria: "glass",
-			modelo: "iphone-xs",
-			precioConMensaje: null,
-			precioSinMensaje: 45,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-xs"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-xr",
-			deviceType: "iphone",
-			familia: "iphone-x",
-			categoria: "glass",
-			modelo: "iphone-xr",
-			precioConMensaje: null,
-			precioSinMensaje: 45,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-xr"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-xs-max",
-			deviceType: "iphone",
-			familia: "iphone-x",
-			categoria: "glass",
-			modelo: "iphone-xs-max",
-			precioConMensaje: null,
-			precioSinMensaje: 50,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-xs-max"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
+		// ── Serie X ───────────────────────────────────────────────
+		{ id: "rep-glass-iphone-x", deviceType: "iphone", familia: "iphone-x", categoria: "glass", modelo: "iphone-x", precioConMensaje: null, precioSinMensaje: 40, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-x"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-xs", deviceType: "iphone", familia: "iphone-x", categoria: "glass", modelo: "iphone-xs", precioConMensaje: null, precioSinMensaje: 45, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xs"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-xr", deviceType: "iphone", familia: "iphone-x", categoria: "glass", modelo: "iphone-xr", precioConMensaje: null, precioSinMensaje: 45, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xr"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-xs-max", deviceType: "iphone", familia: "iphone-x", categoria: "glass", modelo: "iphone-xs-max", precioConMensaje: null, precioSinMensaje: 50, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xs-max"], tags: ["glass", "vidrio-frontal", "iphone"] },
 
-		// Serie 11
-		{
-			id: "rep-glass-iphone-11",
-			deviceType: "iphone",
-			familia: "iphone-11",
-			categoria: "glass",
-			modelo: "iphone-11",
-			precioConMensaje: null,
-			precioSinMensaje: 60,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-11"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-11-pro",
-			deviceType: "iphone",
-			familia: "iphone-11",
-			categoria: "glass",
-			modelo: "iphone-11-pro",
-			precioConMensaje: null,
-			precioSinMensaje: 65,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-11-pro"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-11-pro-max",
-			deviceType: "iphone",
-			familia: "iphone-11",
-			categoria: "glass",
-			modelo: "iphone-11-pro-max",
-			precioConMensaje: null,
-			precioSinMensaje: 70,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-11-pro-max"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
+		// ── SE 2022 ───────────────────────────────────────────────
+		{ id: "rep-glass-iphone-se-2022", deviceType: "iphone", familia: "iphone-se", categoria: "glass", modelo: "iphone-se-2022", precioConMensaje: null, precioSinMensaje: 50, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-se-2022"], tags: ["glass", "vidrio-frontal", "iphone", "se"] },
 
-		// Serie 12
-		{
-			id: "rep-glass-iphone-12",
-			deviceType: "iphone",
-			familia: "iphone-12",
-			categoria: "glass",
-			modelo: "iphone-12",
-			precioConMensaje: null,
-			precioSinMensaje: 55,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-12"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-12-pro",
-			deviceType: "iphone",
-			familia: "iphone-12",
-			categoria: "glass",
-			modelo: "iphone-12-pro",
-			precioConMensaje: null,
-			precioSinMensaje: 55,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-12-pro"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-12-pro-max",
-			deviceType: "iphone",
-			familia: "iphone-12",
-			categoria: "glass",
-			modelo: "iphone-12-pro-max",
-			precioConMensaje: null,
-			precioSinMensaje: 70,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-12-pro-max"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-12-mini",
-			deviceType: "iphone",
-			familia: "iphone-12",
-			categoria: "glass",
-			modelo: "iphone-12-mini",
-			precioConMensaje: null,
-			precioSinMensaje: 50,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-12-mini"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
+		// ── Serie 11 ──────────────────────────────────────────────
+		{ id: "rep-glass-iphone-11", deviceType: "iphone", familia: "iphone-11", categoria: "glass", modelo: "iphone-11", precioConMensaje: null, precioSinMensaje: 60, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-11"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-11-pro", deviceType: "iphone", familia: "iphone-11", categoria: "glass", modelo: "iphone-11-pro", precioConMensaje: null, precioSinMensaje: 65, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-11-pro"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-11-pro-max", deviceType: "iphone", familia: "iphone-11", categoria: "glass", modelo: "iphone-11-pro-max", precioConMensaje: null, precioSinMensaje: 70, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-11-pro-max"], tags: ["glass", "vidrio-frontal", "iphone"] },
 
-		// Serie 13
-		{
-			id: "rep-glass-iphone-13",
-			deviceType: "iphone",
-			familia: "iphone-13",
-			categoria: "glass",
-			modelo: "iphone-13",
-			precioConMensaje: null,
-			precioSinMensaje: 60,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-13"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-13-pro",
-			deviceType: "iphone",
-			familia: "iphone-13",
-			categoria: "glass",
-			modelo: "iphone-13-pro",
-			precioConMensaje: null,
-			precioSinMensaje: 70,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-13-pro"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-13-pro-max",
-			deviceType: "iphone",
-			familia: "iphone-13",
-			categoria: "glass",
-			modelo: "iphone-13-pro-max",
-			precioConMensaje: null,
-			precioSinMensaje: 80,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-13-pro-max"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-13-mini",
-			deviceType: "iphone",
-			familia: "iphone-13",
-			categoria: "glass",
-			modelo: "iphone-13-mini",
-			precioConMensaje: null,
-			precioSinMensaje: 60,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-13-mini"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
+		// ── Serie 12 ──────────────────────────────────────────────
+		{ id: "rep-glass-iphone-12", deviceType: "iphone", familia: "iphone-12", categoria: "glass", modelo: "iphone-12", precioConMensaje: null, precioSinMensaje: 55, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-12-mini", deviceType: "iphone", familia: "iphone-12", categoria: "glass", modelo: "iphone-12-mini", precioConMensaje: null, precioSinMensaje: 50, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12-mini"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-12-pro", deviceType: "iphone", familia: "iphone-12", categoria: "glass", modelo: "iphone-12-pro", precioConMensaje: null, precioSinMensaje: 55, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12-pro"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-12-pro-max", deviceType: "iphone", familia: "iphone-12", categoria: "glass", modelo: "iphone-12-pro-max", precioConMensaje: null, precioSinMensaje: 70, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12-pro-max"], tags: ["glass", "vidrio-frontal", "iphone"] },
 
-		// SE 3ra generación (2022)
-		{
-			id: "rep-glass-iphone-se-2022",
-			deviceType: "iphone",
-			familia: "iphone-se",
-			categoria: "glass",
-			modelo: "iphone-se-2022",
-			precioConMensaje: null,
-			precioSinMensaje: 50,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-se-2022"] || IMGS["iphone-se-2020"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone", "se"]
-		},
+		// ── Serie 13 ──────────────────────────────────────────────
+		{ id: "rep-glass-iphone-13", deviceType: "iphone", familia: "iphone-13", categoria: "glass", modelo: "iphone-13", precioConMensaje: null, precioSinMensaje: 60, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-13-mini", deviceType: "iphone", familia: "iphone-13", categoria: "glass", modelo: "iphone-13-mini", precioConMensaje: null, precioSinMensaje: 60, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13-mini"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-13-pro", deviceType: "iphone", familia: "iphone-13", categoria: "glass", modelo: "iphone-13-pro", precioConMensaje: null, precioSinMensaje: 70, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13-pro"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-13-pro-max", deviceType: "iphone", familia: "iphone-13", categoria: "glass", modelo: "iphone-13-pro-max", precioConMensaje: null, precioSinMensaje: 80, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13-pro-max"], tags: ["glass", "vidrio-frontal", "iphone"] },
 
-		// Serie 14
-		{
-			id: "rep-glass-iphone-14",
-			deviceType: "iphone",
-			familia: "iphone-14",
-			categoria: "glass",
-			modelo: "iphone-14",
-			precioConMensaje: null,
-			precioSinMensaje: 65,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-14"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-14-pro",
-			deviceType: "iphone",
-			familia: "iphone-14",
-			categoria: "glass",
-			modelo: "iphone-14-pro",
-			precioConMensaje: null,
-			precioSinMensaje: 70,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-14-pro"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-14-pro-max",
-			deviceType: "iphone",
-			familia: "iphone-14",
-			categoria: "glass",
-			modelo: "iphone-14-pro-max",
-			precioConMensaje: null,
-			precioSinMensaje: 90,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-14-pro-max"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-14-plus",
-			deviceType: "iphone",
-			familia: "iphone-14",
-			categoria: "glass",
-			modelo: "iphone-14-plus",
-			precioConMensaje: null,
-			precioSinMensaje: 70,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-14"] || img("agregar img"),
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
+		// ── Serie 14 ──────────────────────────────────────────────
+		{ id: "rep-glass-iphone-14", deviceType: "iphone", familia: "iphone-14", categoria: "glass", modelo: "iphone-14", precioConMensaje: null, precioSinMensaje: 65, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-14-plus", deviceType: "iphone", familia: "iphone-14", categoria: "glass", modelo: "iphone-14-plus", precioConMensaje: null, precioSinMensaje: 70, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-plus"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-14-pro", deviceType: "iphone", familia: "iphone-14", categoria: "glass", modelo: "iphone-14-pro", precioConMensaje: null, precioSinMensaje: 70, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-pro"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-14-pro-max", deviceType: "iphone", familia: "iphone-14", categoria: "glass", modelo: "iphone-14-pro-max", precioConMensaje: null, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-pro-max"], tags: ["glass", "vidrio-frontal", "iphone"] },
 
-		// Serie 15
-		{
-			id: "rep-glass-iphone-15",
-			deviceType: "iphone",
-			familia: "iphone-15",
-			categoria: "glass",
-			modelo: "iphone-15",
-			precioConMensaje: null,
-			precioSinMensaje: 70,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-15"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-15-pro",
-			deviceType: "iphone",
-			familia: "iphone-15",
-			categoria: "glass",
-			modelo: "iphone-15-pro",
-			precioConMensaje: null,
-			precioSinMensaje: 80,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-15-pro"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-15-pro-max",
-			deviceType: "iphone",
-			familia: "iphone-15",
-			categoria: "glass",
-			modelo: "iphone-15-pro-max",
-			precioConMensaje: null,
-			precioSinMensaje: 100,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-15-pro-max"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-15-plus",
-			deviceType: "iphone",
-			familia: "iphone-15",
-			categoria: "glass",
-			modelo: "iphone-15-plus",
-			precioConMensaje: null,
-			precioSinMensaje: 80,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-15"] || img("agregar img"),
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
+		// ── Serie 15 ──────────────────────────────────────────────
+		{ id: "rep-glass-iphone-15", deviceType: "iphone", familia: "iphone-15", categoria: "glass", modelo: "iphone-15", precioConMensaje: null, precioSinMensaje: 70, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-15-plus", deviceType: "iphone", familia: "iphone-15", categoria: "glass", modelo: "iphone-15-plus", precioConMensaje: null, precioSinMensaje: 80, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15-plus"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-15-pro", deviceType: "iphone", familia: "iphone-15", categoria: "glass", modelo: "iphone-15-pro", precioConMensaje: null, precioSinMensaje: 80, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15-pro"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-15-pro-max", deviceType: "iphone", familia: "iphone-15", categoria: "glass", modelo: "iphone-15-pro-max", precioConMensaje: null, precioSinMensaje: 100, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15-pro-max"], tags: ["glass", "vidrio-frontal", "iphone"] },
 
-		// Serie 16
-		{
-			id: "rep-glass-iphone-16",
-			deviceType: "iphone",
-			familia: "iphone-16",
-			categoria: "glass",
-			modelo: "iphone-16",
-			precioConMensaje: null,
-			precioSinMensaje: 85,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: img("agregar img"),
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-16e",
-			deviceType: "iphone",
-			familia: "iphone-16",
-			categoria: "glass",
-			modelo: "iphone-16e",
-			precioConMensaje: null,
-			precioSinMensaje: 85,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: img("agregar img"),
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-16-pro",
-			deviceType: "iphone",
-			familia: "iphone-16",
-			categoria: "glass",
-			modelo: "iphone-16-pro",
-			precioConMensaje: null,
-			precioSinMensaje: 90,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: img("agregar img"),
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-16-pro-max",
-			deviceType: "iphone",
-			familia: "iphone-16",
-			categoria: "glass",
-			modelo: "iphone-16-pro-max",
-			precioConMensaje: null,
-			precioSinMensaje: 110,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-16-pro-max"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
+		// ── Serie 16 ──────────────────────────────────────────────
+		{ id: "rep-glass-iphone-16", deviceType: "iphone", familia: "iphone-16", categoria: "glass", modelo: "iphone-16", precioConMensaje: null, precioSinMensaje: 85, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-16e", deviceType: "iphone", familia: "iphone-16", categoria: "glass", modelo: "iphone-16e", precioConMensaje: null, precioSinMensaje: 85, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16e"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-16-pro", deviceType: "iphone", familia: "iphone-16", categoria: "glass", modelo: "iphone-16-pro", precioConMensaje: null, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16-pro"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-16-pro-max", deviceType: "iphone", familia: "iphone-16", categoria: "glass", modelo: "iphone-16-pro-max", precioConMensaje: null, precioSinMensaje: 110, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16-pro-max"], tags: ["glass", "vidrio-frontal", "iphone"] },
 
-		// Serie 17
-		{
-			id: "rep-glass-iphone-17",
-			deviceType: "iphone",
-			familia: "iphone-17",
-			categoria: "glass",
-			modelo: "iphone-17",
-			precioConMensaje: null,
-			precioSinMensaje: 120,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: img("agregar img"),
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-17-pro",
-			deviceType: "iphone",
-			familia: "iphone-17",
-			categoria: "glass",
-			modelo: "iphone-17-pro",
-			precioConMensaje: null,
-			precioSinMensaje: 140,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-17-pro"],
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		{
-			id: "rep-glass-iphone-17-air",
-			deviceType: "iphone",
-			familia: "iphone-17",
-			categoria: "glass",
-			modelo: "iphone-17-air",
-			precioConMensaje: null,
-			precioSinMensaje: 145,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: img("agregar img"),
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone", "air"]
-		},
-		{
-			id: "rep-glass-iphone-17-pro-max",
-			deviceType: "iphone",
-			familia: "iphone-17",
-			categoria: "glass",
-			modelo: "iphone-17-pro-max",
-			precioConMensaje: null,
-			precioSinMensaje: 160,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-17-pro-max"] || img("agregar img"),
-			tags: ["glass", "vidrio-frontal", "pantalla", "iphone"]
-		},
-		// ===================================================== 
-		// BACK GLASS / TAPA TRASERA / VIDRIO TRASERO
-		// =====================================================
+		// ── Serie 17 ──────────────────────────────────────────────
+		{ id: "rep-glass-iphone-17", deviceType: "iphone", familia: "iphone-17", categoria: "glass", modelo: "iphone-17", precioConMensaje: null, precioSinMensaje: 120, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-17-air", deviceType: "iphone", familia: "iphone-17", categoria: "glass", modelo: "iphone-17-air", precioConMensaje: null, precioSinMensaje: 145, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17-air"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-17-pro", deviceType: "iphone", familia: "iphone-17", categoria: "glass", modelo: "iphone-17-pro", precioConMensaje: null, precioSinMensaje: 140, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17-pro"], tags: ["glass", "vidrio-frontal", "iphone"] },
+		{ id: "rep-glass-iphone-17-pro-max", deviceType: "iphone", familia: "iphone-17", categoria: "glass", modelo: "iphone-17-pro-max", precioConMensaje: null, precioSinMensaje: 160, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17-pro-max"], tags: ["glass", "vidrio-frontal", "iphone"] },
 
-		// Serie X / XS / XR / XS Max (precios antiguos +20)
-		{
-			id: "rep-backglass-iphone-x",
-			deviceType: "iphone",
-			familia: "iphone-x",
-			categoria: "backcover",
-			modelo: "iphone-x",
-			precioConMensaje: null,
-			precioSinMensaje: 60,  // 40 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-x"],
-			tags: ["backcover", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-xs",
-			deviceType: "iphone",
-			familia: "iphone-x",
-			categoria: "backcover",
-			modelo: "iphone-xs",
-			precioConMensaje: null,
-			precioSinMensaje: 65,  // 45 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-xs"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-xr",
-			deviceType: "iphone",
-			familia: "iphone-x",
-			categoria: "backcover",
-			modelo: "iphone-xr",
-			precioConMensaje: null,
-			precioSinMensaje: 65,  // 45 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-xr"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-xs-max",
-			deviceType: "iphone",
-			familia: "iphone-x",
-			categoria: "backcover",
-			modelo: "iphone-xs-max",
-			precioConMensaje: null,
-			precioSinMensaje: 70,  // 50 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-xs-max"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
 
-		// Serie 11 (precios +20)
-		{
-			id: "rep-backglass-iphone-11",
-			deviceType: "iphone",
-			familia: "iphone-11",
-			categoria: "backcover",
-			modelo: "iphone-11",
-			precioConMensaje: null,
-			precioSinMensaje: 80,  // 60 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-11"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-11-pro",
-			deviceType: "iphone",
-			familia: "iphone-11",
-			categoria: "backcover",
-			modelo: "iphone-11-pro",
-			precioConMensaje: null,
-			precioSinMensaje: 85,  // 65 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-11-pro"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-11-pro-max",
-			deviceType: "iphone",
-			familia: "iphone-11",
-			categoria: "backcover",
-			modelo: "iphone-11-pro-max",
-			precioConMensaje: null,
-			precioSinMensaje: 90,  // 70 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-11-pro-max"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
+		// ═══════════════════════════════════════════════════════════
+		// BACK COVER / TAPA TRASERA  (fuente: iphones_precios_backcovers)
+		// ═══════════════════════════════════════════════════════════
+		// ── Modelos con back cover ────────────────────────────────
+		{ id: "rep-backglass-iphone-8", deviceType: "iphone", familia: "iphone-8", categoria: "backcover", modelo: "iphone-8", precioConMensaje: null, precioSinMensaje: 60, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-8"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-8-plus", deviceType: "iphone", familia: "iphone-8", categoria: "backcover", modelo: "iphone-8-plus", precioConMensaje: null, precioSinMensaje: 65, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-8-plus"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-se-2020", deviceType: "iphone", familia: "iphone-se", categoria: "backcover", modelo: "iphone-se-2020", precioConMensaje: null, precioSinMensaje: 65, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-se-2020"], tags: ["backcover", "tapa-trasera", "iphone", "se"] },
+		{ id: "rep-backglass-iphone-se-2022", deviceType: "iphone", familia: "iphone-se", categoria: "backcover", modelo: "iphone-se-2022", precioConMensaje: null, precioSinMensaje: 100, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-se-2022"], tags: ["backcover", "tapa-trasera", "iphone", "se"] },
 
-		// Serie 12 (+20)
-		{
-			id: "rep-backglass-iphone-12",
-			deviceType: "iphone",
-			familia: "iphone-12",
-			categoria: "backcover",
-			modelo: "iphone-12",
-			precioConMensaje: null,
-			precioSinMensaje: 75,  // 55 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-12"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-12-pro",
-			deviceType: "iphone",
-			familia: "iphone-12",
-			categoria: "backcover",
-			modelo: "iphone-12-pro",
-			precioConMensaje: null,
-			precioSinMensaje: 75,  // 55 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-12-pro"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-12-pro-max",
-			deviceType: "iphone",
-			familia: "iphone-12",
-			categoria: "backcover",
-			modelo: "iphone-12-pro-max",
-			precioConMensaje: null,
-			precioSinMensaje: 90,  // 70 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-12-pro-max"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-12-mini",
-			deviceType: "iphone",
-			familia: "iphone-12",
-			categoria: "backcover",
-			modelo: "iphone-12-mini",
-			precioConMensaje: null,
-			precioSinMensaje: 70,  // 50 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-12-mini"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
+		// ── Serie X ───────────────────────────────────────────────
+		{ id: "rep-backglass-iphone-x", deviceType: "iphone", familia: "iphone-x", categoria: "backcover", modelo: "iphone-x", precioConMensaje: null, precioSinMensaje: 80, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-x"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-xs", deviceType: "iphone", familia: "iphone-x", categoria: "backcover", modelo: "iphone-xs", precioConMensaje: null, precioSinMensaje: 85, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xs"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-xr", deviceType: "iphone", familia: "iphone-x", categoria: "backcover", modelo: "iphone-xr", precioConMensaje: null, precioSinMensaje: 80, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xr"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-xs-max", deviceType: "iphone", familia: "iphone-x", categoria: "backcover", modelo: "iphone-xs-max", precioConMensaje: null, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-xs-max"], tags: ["backcover", "tapa-trasera", "iphone"] },
 
-		// Serie 13 (+20)
-		{
-			id: "rep-backglass-iphone-13",
-			deviceType: "iphone",
-			familia: "iphone-13",
-			categoria: "backcover",
-			modelo: "iphone-13",
-			precioConMensaje: null,
-			precioSinMensaje: 80,  // 60 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-13"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-13-pro",
-			deviceType: "iphone",
-			familia: "iphone-13",
-			categoria: "backcover",
-			modelo: "iphone-13-pro",
-			precioConMensaje: null,
-			precioSinMensaje: 90,  // 70 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-13-pro"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-13-pro-max",
-			deviceType: "iphone",
-			familia: "iphone-13",
-			categoria: "backcover",
-			modelo: "iphone-13-pro-max",
-			precioConMensaje: null,
-			precioSinMensaje: 100,  // 80 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-13-pro-max"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-13-mini",
-			deviceType: "iphone",
-			familia: "iphone-13",
-			categoria: "backcover",
-			modelo: "iphone-13-mini",
-			precioConMensaje: null,
-			precioSinMensaje: 80,  // 60 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-13-mini"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
+		// ── Serie 11 ──────────────────────────────────────────────
+		{ id: "rep-backglass-iphone-11", deviceType: "iphone", familia: "iphone-11", categoria: "backcover", modelo: "iphone-11", precioConMensaje: null, precioSinMensaje: 85, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-11"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-11-pro", deviceType: "iphone", familia: "iphone-11", categoria: "backcover", modelo: "iphone-11-pro", precioConMensaje: null, precioSinMensaje: 90, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-11-pro"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-11-pro-max", deviceType: "iphone", familia: "iphone-11", categoria: "backcover", modelo: "iphone-11-pro-max", precioConMensaje: null, precioSinMensaje: 95, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-11-pro-max"], tags: ["backcover", "tapa-trasera", "iphone"] },
 
-		// SE 3ra gen (nuevo, precio directo)
-		{
-			id: "rep-backglass-iphone-se-2022",
-			deviceType: "iphone",
-			familia: "iphone-se",
-			categoria: "backcover",
-			modelo: "iphone-se-2022",
-			precioConMensaje: null,
-			precioSinMensaje: 50,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-se-2022"] || img("agregar img"),
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone", "se"]
-		},
+		// ── Serie 12 ──────────────────────────────────────────────
+		{ id: "rep-backglass-iphone-12", deviceType: "iphone", familia: "iphone-12", categoria: "backcover", modelo: "iphone-12", precioConMensaje: null, precioSinMensaje: 100, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-12-mini", deviceType: "iphone", familia: "iphone-12", categoria: "backcover", modelo: "iphone-12-mini", precioConMensaje: null, precioSinMensaje: 95, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12-mini"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-12-pro", deviceType: "iphone", familia: "iphone-12", categoria: "backcover", modelo: "iphone-12-pro", precioConMensaje: null, precioSinMensaje: 105, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12-pro"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-12-pro-max", deviceType: "iphone", familia: "iphone-12", categoria: "backcover", modelo: "iphone-12-pro-max", precioConMensaje: null, precioSinMensaje: 110, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-12-pro-max"], tags: ["backcover", "tapa-trasera", "iphone"] },
 
-		// Serie 14 (+20 donde aplica, nuevos como Plus directo)
-		{
-			id: "rep-backglass-iphone-14",
-			deviceType: "iphone",
-			familia: "iphone-14",
-			categoria: "backcover",
-			modelo: "iphone-14",
-			precioConMensaje: null,
-			precioSinMensaje: 85,  // 65 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-14"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-14-pro",
-			deviceType: "iphone",
-			familia: "iphone-14",
-			categoria: "backcover",
-			modelo: "iphone-14-pro",
-			precioConMensaje: null,
-			precioSinMensaje: 90,  // 70 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-14-pro"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-14-pro-max",
-			deviceType: "iphone",
-			familia: "iphone-14",
-			categoria: "backcover",
-			modelo: "iphone-14-pro-max",
-			precioConMensaje: null,
-			precioSinMensaje: 110,  // 90 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-14-pro-max"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-14-plus",
-			deviceType: "iphone",
-			familia: "iphone-14",
-			categoria: "backcover",
-			modelo: "iphone-14-plus",
-			precioConMensaje: null,
-			precioSinMensaje: 70,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: img("agregar img"),  // no tenías específico
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
+		// ── Serie 13 ──────────────────────────────────────────────
+		{ id: "rep-backglass-iphone-13", deviceType: "iphone", familia: "iphone-13", categoria: "backcover", modelo: "iphone-13", precioConMensaje: null, precioSinMensaje: 105, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-13-mini", deviceType: "iphone", familia: "iphone-13", categoria: "backcover", modelo: "iphone-13-mini", precioConMensaje: null, precioSinMensaje: 100, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13-mini"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-13-pro", deviceType: "iphone", familia: "iphone-13", categoria: "backcover", modelo: "iphone-13-pro", precioConMensaje: null, precioSinMensaje: 110, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13-pro"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-13-pro-max", deviceType: "iphone", familia: "iphone-13", categoria: "backcover", modelo: "iphone-13-pro-max", precioConMensaje: null, precioSinMensaje: 120, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-13-pro-max"], tags: ["backcover", "tapa-trasera", "iphone"] },
 
-		// Serie 15 (+20 donde aplica)
-		{
-			id: "rep-backglass-iphone-15",
-			deviceType: "iphone",
-			familia: "iphone-15",
-			categoria: "backcover",
-			modelo: "iphone-15",
-			precioConMensaje: null,
-			precioSinMensaje: 90,  // 70 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-15"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-15-pro",
-			deviceType: "iphone",
-			familia: "iphone-15",
-			categoria: "backcover",
-			modelo: "iphone-15-pro",
-			precioConMensaje: null,
-			precioSinMensaje: 100,  // 80 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-15-pro"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-15-pro-max",
-			deviceType: "iphone",
-			familia: "iphone-15",
-			categoria: "backcover",
-			modelo: "iphone-15-pro-max",
-			precioConMensaje: null,
-			precioSinMensaje: 120,  // 100 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-15-pro-max"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-15-plus",
-			deviceType: "iphone",
-			familia: "iphone-15",
-			categoria: "backcover",
-			modelo: "iphone-15-plus",
-			precioConMensaje: null,
-			precioSinMensaje: 100,  // 80 + 20
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: img("agregar img"),
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
+		// ── Serie 14 ──────────────────────────────────────────────
+		{ id: "rep-backglass-iphone-14", deviceType: "iphone", familia: "iphone-14", categoria: "backcover", modelo: "iphone-14", precioConMensaje: null, precioSinMensaje: 110, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-14-plus", deviceType: "iphone", familia: "iphone-14", categoria: "backcover", modelo: "iphone-14-plus", precioConMensaje: null, precioSinMensaje: 115, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-plus"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-14-pro", deviceType: "iphone", familia: "iphone-14", categoria: "backcover", modelo: "iphone-14-pro", precioConMensaje: null, precioSinMensaje: 115, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-pro"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-14-pro-max", deviceType: "iphone", familia: "iphone-14", categoria: "backcover", modelo: "iphone-14-pro-max", precioConMensaje: null, precioSinMensaje: 130, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-pro-max"], tags: ["backcover", "tapa-trasera", "iphone"] },
 
-		// Serie 16 y derivados (precios directos de tabla, nuevos)
-		{
-			id: "rep-backglass-iphone-16",
-			deviceType: "iphone",
-			familia: "iphone-16",
-			categoria: "backcover",
-			modelo: "iphone-16",
-			precioConMensaje: null,
-			precioSinMensaje: 85,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: img("agregar img"),
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-16e",
-			deviceType: "iphone",
-			familia: "iphone-16",
-			categoria: "backcover",
-			modelo: "iphone-16e",
-			precioConMensaje: null,
-			precioSinMensaje: 85,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: img("agregar img"),
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-16-pro",
-			deviceType: "iphone",
-			familia: "iphone-16",
-			categoria: "backcover",
-			modelo: "iphone-16-pro",
-			precioConMensaje: null,
-			precioSinMensaje: 90,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: img("agregar img"),
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-16-pro-max",
-			deviceType: "iphone",
-			familia: "iphone-16",
-			categoria: "backcover",
-			modelo: "iphone-16-pro-max",
-			precioConMensaje: null,
-			precioSinMensaje: 110,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-16-pro-max"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
+		// ── Serie 15 ──────────────────────────────────────────────
+		{ id: "rep-backglass-iphone-15", deviceType: "iphone", familia: "iphone-15", categoria: "backcover", modelo: "iphone-15", precioConMensaje: null, precioSinMensaje: 125, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-15-plus", deviceType: "iphone", familia: "iphone-15", categoria: "backcover", modelo: "iphone-15-plus", precioConMensaje: null, precioSinMensaje: 145, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15-plus"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-15-pro", deviceType: "iphone", familia: "iphone-15", categoria: "backcover", modelo: "iphone-15-pro", precioConMensaje: null, precioSinMensaje: 145, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15-pro"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-15-pro-max", deviceType: "iphone", familia: "iphone-15", categoria: "backcover", modelo: "iphone-15-pro-max", precioConMensaje: null, precioSinMensaje: 150, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15-pro-max"], tags: ["backcover", "tapa-trasera", "iphone"] },
 
-		// Serie 17 (precios directos, nuevos)
-		{
-			id: "rep-backglass-iphone-17",
-			deviceType: "iphone",
-			familia: "iphone-17",
-			categoria: "backcover",
-			modelo: "iphone-17",
-			precioConMensaje: null,
-			precioSinMensaje: 120,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: img("agregar img"),
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-17-pro",
-			deviceType: "iphone",
-			familia: "iphone-17",
-			categoria: "backcover",
-			modelo: "iphone-17-pro",
-			precioConMensaje: null,
-			precioSinMensaje: 140,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-17-pro"],
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
-		{
-			id: "rep-backglass-iphone-17-air",
-			deviceType: "iphone",
-			familia: "iphone-17",
-			categoria: "backcover",
-			modelo: "iphone-17-air",
-			precioConMensaje: null,
-			precioSinMensaje: 145,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: img("agregar img"),
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone", "air"]
-		},
-		{
-			id: "rep-backglass-iphone-17-pro-max",
-			deviceType: "iphone",
-			familia: "iphone-17",
-			categoria: "backcover",
-			modelo: "iphone-17-pro-max",
-			precioConMensaje: null,
-			precioSinMensaje: 160,
-			calidad: "original",
-			garantiaDias: 180,
-			imageUrl: IMGS["iphone-17-pro-max"] || img("agregar img"),
-			tags: ["back-glass", "tapa-trasera", "vidrio-trasero", "iphone"]
-		},
+		// ── Serie 16 ──────────────────────────────────────────────
+		{ id: "rep-backglass-iphone-16", deviceType: "iphone", familia: "iphone-16", categoria: "backcover", modelo: "iphone-16", precioConMensaje: null, precioSinMensaje: 105, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-16e", deviceType: "iphone", familia: "iphone-16", categoria: "backcover", modelo: "iphone-16e", precioConMensaje: null, precioSinMensaje: 105, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16e"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-16-pro", deviceType: "iphone", familia: "iphone-16", categoria: "backcover", modelo: "iphone-16-pro", precioConMensaje: null, precioSinMensaje: 110, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16-pro"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-16-pro-max", deviceType: "iphone", familia: "iphone-16", categoria: "backcover", modelo: "iphone-16-pro-max", precioConMensaje: null, precioSinMensaje: 130, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16-pro-max"], tags: ["backcover", "tapa-trasera", "iphone"] },
+
+		// ── Serie 17 ──────────────────────────────────────────────
+		{ id: "rep-backglass-iphone-17", deviceType: "iphone", familia: "iphone-17", categoria: "backcover", modelo: "iphone-17", precioConMensaje: null, precioSinMensaje: 140, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-17-air", deviceType: "iphone", familia: "iphone-17", categoria: "backcover", modelo: "iphone-17-air", precioConMensaje: null, precioSinMensaje: 165, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17-air"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-17-pro", deviceType: "iphone", familia: "iphone-17", categoria: "backcover", modelo: "iphone-17-pro", precioConMensaje: null, precioSinMensaje: 160, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17-pro"], tags: ["backcover", "tapa-trasera", "iphone"] },
+		{ id: "rep-backglass-iphone-17-pro-max", deviceType: "iphone", familia: "iphone-17", categoria: "backcover", modelo: "iphone-17-pro-max", precioConMensaje: null, precioSinMensaje: 180, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17-pro-max"], tags: ["backcover", "tapa-trasera", "iphone"] },
+
 	]);
 }

@@ -81,3 +81,5 @@ export type Repuesto = {
 	familia?: string;
 	// si hay más campos que uses después, agrégalos aquí
 };
+
+

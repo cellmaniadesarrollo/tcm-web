@@ -5,8 +5,10 @@ import type { Repuesto } from "../types";
 interface Props {
   familiaActiva: string | null;
   modeloActivo: string | null;
+  categoriaActiva: string | null;
   todasFamilias: string[];
   modelosDeFamilia: string[];
+  categoriasDeFamilia: string[];
   repuestosDelModelo: Repuesto[];
   imagenDelModelo: string | null;
 }
@@ -14,10 +16,12 @@ interface Props {
 const {
   familiaActiva,
   modeloActivo,
+  categoriaActiva,
   todasFamilias,
   modelosDeFamilia,
+  categoriasDeFamilia,
   repuestosDelModelo,
-  imagenDelModelo, 
+  imagenDelModelo,
 } = Astro.props;
 
 function labelModelo(m: string): string {
@@ -29,7 +33,16 @@ function labelModelo(m: string): string {
   ).join(" ");
 }
 
-// Etiqueta y color según calidad
+function labelCategoria(c: string): string {
+  const map: Record<string, string> = {
+    pantalla: "Pantalla",
+    bateria: "Batería",
+    backcover: "Backcover",
+    glass: "Glass",
+  };
+  return map[c] ?? c.charAt(0).toUpperCase() + c.slice(1);
+}
+
 function calidadLabel(c: string | null | undefined): { texto: string; clases: string } {
   switch (c) {
     case "original":  return { texto: "⭐ Original Apple",    clases: "bg-blue-50 text-blue-700 border border-blue-200" };
@@ -39,10 +52,21 @@ function calidadLabel(c: string | null | undefined): { texto: string; clases: st
   }
 }
 
-const pantallas        = repuestosDelModelo.filter((r) => r.categoria === "pantalla");
-const baterias         = repuestosDelModelo.filter((r) => r.categoria === "bateria");
+// Solo los repuestos de la categoría elegida
+const repuestosFiltrados = categoriaActiva
+  ? repuestosDelModelo.filter((r) => r.categoria === categoriaActiva)
+  : [];
+
+const pantallas        = repuestosFiltrados.filter((r) => r.categoria === "pantalla");
+const baterias         = repuestosFiltrados.filter((r) => r.categoria === "bateria");
+const backovers        = repuestosFiltrados.filter((r) => r.categoria === "backcover");
+const glasses          = repuestosFiltrados.filter((r) => r.categoria === "glass");
+
 const pantallaEstandar = pantallas.filter((r) => !r.modelo.endsWith("-oled"));
 const pantallaOled     = pantallas.filter((r) =>  r.modelo.endsWith("-oled"));
+
+// Mostrar explicación IC solo para pantalla y batería
+const mostrarExplicacionIC = categoriaActiva === "pantalla" || categoriaActiva === "bateria";
 
 // WhatsApp
 const WA_NUMBER = "593969010178";
@@ -85,6 +109,7 @@ const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
     justify-content: center;
     flex-shrink: 0;
   }
+  .step-badge.muted { background: #d1d5db; }
 
   .price-option {
     border: 1.5px solid #e5e7eb;
@@ -122,75 +147,88 @@ const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
         Selecciona tu iPhone
       </h1>
       <p class="text-gray-500 text-base max-w-md mx-auto">
-        Elige tu modelo y ve al instante el precio de pantalla y batería.
-        Todos los precios incluyen instalación profesional.
+        Elige tu modelo y repuesto para ver el precio al instante.
+        Precios incluyen instalación por técnico calificado.
       </p>
     </div>
 
-    <!-- SELECTORES -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-3">
-  <div class="space-y-5">
+    <!-- ── SELECTORES ── -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-3">
 
-    <div>
-      <div class="flex items-center gap-2 mb-2">
-        <span class="step-badge">1</span>
-        <label for="select-familia" class="text-sm font-semibold text-gray-700">
-          Elige el modelo de iPhone
-        </label>
-      </div>
-      <div class="select-wrapper">
-        <select
-          id="select-familia"
-          class="select-custom w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 pr-10 text-gray-800 font-medium text-base cursor-pointer transition"
-          onchange="window.location.href = this.value"
-        >
-          <option value="" disabled hidden selected={!familiaActiva}>
-            iPhone…
-          </option>
-          
-          {todasFamilias.map((f) => (
-            <option value={`/repuestos/${f}`} selected={familiaActiva === f}>
-              {labelModelo(f)}
-            </option>
-          ))}
-        </select>
-      </div>
-    </div>
-
-    <div>
-      <div class="flex items-center gap-2 mb-2">
-        <span class={`step-badge ${!familiaActiva ? "opacity-40" : ""}`}>2</span>
-        <label for="select-modelo" class={`text-sm font-semibold ${!familiaActiva ? "text-gray-400" : "text-gray-700"}`}>
-          Elige la variante
-        </label>
-      </div>
-      <div class="select-wrapper">
-        <select
-          id="select-modelo"
-          disabled={!familiaActiva || modelosDeFamilia.length === 0}
-          class="select-custom w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3.5 pr-10 text-gray-800 font-medium text-base cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed"
-          onchange="window.location.href = this.value"
-        >
-          <option
-            value=""
-            disabled
-            hidden
-            selected={!modeloActivo}
+      <!-- Paso 1: Familia — fila completa -->
+      <div class="mb-4">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="step-badge">1</span>
+          <label for="select-familia" class="text-sm font-semibold text-gray-700">
+            Modelo de iPhone
+          </label>
+        </div>
+        <div class="select-wrapper">
+          <select
+            id="select-familia"
+            class="select-custom w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 pr-10 text-gray-800 font-medium text-base cursor-pointer transition"
           >
-            {familiaActiva ? `${labelModelo(familiaActiva)}…` : "Primero elige el modelo"}
-          </option>
+            <option value="" disabled hidden selected={!familiaActiva}>iPhone…</option>
+            {todasFamilias.map((f) => (
+              <option value={f} selected={familiaActiva === f}>{labelModelo(f)}</option>
+            ))}
+          </select>
+        </div>
+      </div>
 
-          {modelosDeFamilia.map((m) => (
-            <option value={`/repuestos/${familiaActiva}/${m}`} selected={modeloActivo === m}>
-              {labelModelo(m)}
-            </option>
-          ))}
-        </select>
+      <!-- Pasos 2 y 3: dos columnas -->
+      <div class="grid grid-cols-2 gap-3">
+
+        <!-- Paso 2: Variante -->
+        <div>
+          <div class="flex items-center gap-1.5 mb-2">
+            <span class={`step-badge${!familiaActiva ? " muted" : ""}`}>2</span>
+            <label for="select-modelo" class={`text-sm font-semibold ${!familiaActiva ? "text-gray-400" : "text-gray-700"}`}>
+              Variante
+            </label>
+          </div>
+          <div class="select-wrapper">
+            <select
+              id="select-modelo"
+              disabled={!familiaActiva || modelosDeFamilia.length === 0}
+              class="select-custom w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-3 pr-8 text-gray-800 font-medium text-sm cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <option value="" disabled hidden selected={!modeloActivo}>
+                {familiaActiva ? `${labelModelo(familiaActiva)}…` : "Primero elige"}
+              </option>
+              {modelosDeFamilia.map((m) => (
+                <option value={m} selected={modeloActivo === m}>{labelModelo(m)}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <!-- Paso 3: Categoría -->
+        <div>
+          <div class="flex items-center gap-1.5 mb-2">
+            <span class={`step-badge${!modeloActivo ? " muted" : ""}`}>3</span>
+            <label for="select-categoria" class={`text-sm font-semibold ${!modeloActivo ? "text-gray-400" : "text-gray-700"}`}>
+              Repuesto
+            </label>
+          </div>
+          <div class="select-wrapper">
+            <select
+              id="select-categoria"
+              disabled={!modeloActivo || categoriasDeFamilia.length === 0}
+              class="select-custom w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-3 pr-8 text-gray-800 font-medium text-sm cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <option value="" disabled hidden selected={!categoriaActiva}>
+                {modeloActivo ? "Tipo…" : "Primero elige"}
+              </option>
+              {categoriasDeFamilia.map((c) => (
+                <option value={c} selected={categoriaActiva === c}>{labelCategoria(c)}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
       </div>
     </div>
-
-  </div>
-</div>
 
     <!-- Link ayuda -->
     <p class="text-center text-xs text-gray-400 mb-8">
@@ -205,7 +243,7 @@ const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
       </a>
     </p>
 
-    <!-- ESTADO VACÍO -->
+    <!-- ESTADO: sin modelo -->
     {!modeloActivo && (
       <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-14 text-center">
         <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-5">
@@ -219,11 +257,25 @@ const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
       </div>
     )}
 
+    <!-- ESTADO: modelo OK pero sin categoría -->
+    {modeloActivo && !categoriaActiva && (
+      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-10 text-center">
+        <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>
+        </div>
+        <p class="text-gray-500 font-medium text-base">Elige el tipo de repuesto</p>
+        <p class="text-gray-300 text-sm mt-1">Pantalla, batería, backcover o glass</p>
+      </div>
+    )}
+
     <!-- RESULTADO -->
-    {modeloActivo && (
+    {modeloActivo && categoriaActiva && (
       <div class="fade-up space-y-5">
 
-        <!-- Imagen + nombre -->
+        <!-- Imagen + nombre del modelo -->
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 flex flex-col sm:flex-row items-center gap-6">
           {imagenDelModelo ? (
             <div class="shrink-0 flex items-center justify-center w-32 h-40">
@@ -247,8 +299,9 @@ const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
             <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
               {labelModelo(modeloActivo)}
             </h2>
-            <p class="text-sm text-gray-400">
-              Precios incluyen mano de obra · Azogues &amp; Biblián
+            <p class="text-sm text-gray-500 font-medium">{labelCategoria(categoriaActiva)}</p>
+            <p class="text-sm text-gray-400 mt-0.5">
+              Instalación incluida · Atendemos en Azogues, Biblián y envíos a todo Ecuador
             </p>
             {imagenDelModelo && (
               <p class="text-xs text-gray-300 mt-2">
@@ -261,7 +314,7 @@ const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
         </div>
 
         <!-- ── PANTALLA ── -->
-        {pantallas.length > 0 && (
+        {categoriaActiva === "pantalla" && pantallas.length > 0 && (
           <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div class="px-6 pt-6 pb-4 border-b border-gray-100 flex items-center gap-3">
               <div class="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center shrink-0">
@@ -278,7 +331,6 @@ const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
 
             <div class="p-4 space-y-3">
 
-              {/* ✅ RECOMENDADO: sin mensaje */}
               {[...pantallaEstandar, ...pantallaOled]
                 .filter((r) => r.precioSinMensaje != null)
                 .map((r) => {
@@ -288,40 +340,23 @@ const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
                       <div class="flex items-start justify-between gap-4">
                         <div class="flex-1">
                           <div class="flex items-center gap-2 flex-wrap mb-1">
-                            <span class="text-sm font-bold text-gray-900">
-                              {r.modelo.endsWith("-oled") ? "OLED" : "Estándar"} · Sin advertencia
-                            </span>
-                            <span class="text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full font-bold">
-                              ✓ Recomendado
-                            </span>
-                            {r.modelo.endsWith("-oled") && (
-                              <span class="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-semibold">OLED</span>
-                            )}
+                            <span class="text-sm font-bold text-gray-900">Sin advertencia</span>
+                            <span class="text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full font-bold">✓ Recomendado</span>
+                            <span class={`text-xs px-2 py-0.5 rounded-full font-semibold ${cal.clases}`}>{cal.texto}</span>
                           </div>
-                          <p class="text-xs text-blue-700 mb-2">
-                            Incluye chip · Sin mensajes de iOS · Experiencia original
-                          </p>
-                          {/* Calidad + Garantía */}
-                          <div class="flex items-center gap-2 flex-wrap">
-                            <span class={`text-xs px-2 py-0.5 rounded-full font-semibold ${cal.clases}`}>
-                              {cal.texto}
+                          <p class="text-xs text-blue-700 mb-2">Requiere trasplantar el chip original de tu iPhone (lo hacemos nosotros)</p>
+                          {r.garantiaDias && (
+                            <span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-green-50 text-green-700 border border-green-200">
+                              🛡 Garantía {r.garantiaDias} días
                             </span>
-                            {r.garantiaDias && (
-                              <span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-green-50 text-green-700 border border-green-200">
-                                🛡 Garantía {r.garantiaDias} Meses
-                              </span>
-                            )}
-                          </div>
+                          )}
                         </div>
-                        <div class="text-right shrink-0">
-                          <span class="text-2xl font-bold text-blue-700">${r.precioSinMensaje}</span>
-                        </div>
+                        <span class="text-2xl font-bold text-blue-700 shrink-0">${r.precioSinMensaje}</span>
                       </div>
                     </div>
                   );
                 })}
 
-              {/* ⚠️ CON AVISO */}
               {[...pantallaEstandar, ...pantallaOled]
                 .filter((r) => r.precioConMensaje != null)
                 .map((r) => {
@@ -331,34 +366,18 @@ const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
                       <div class="flex items-start justify-between gap-4">
                         <div class="flex-1">
                           <div class="flex items-center gap-2 flex-wrap mb-1">
-                            <span class="text-sm font-semibold text-gray-700">
-                              {r.modelo.endsWith("-oled") ? "OLED" : "Estándar"} · Con advertencia
-                            </span>
-                            <span class="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-semibold">
-                              ⚠ Aparece aviso de iOS
-                            </span>
-                            {r.modelo.endsWith("-oled") && (
-                              <span class="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-semibold">OLED</span>
-                            )}
+                            <span class="text-sm font-semibold text-gray-700">Con advertencia</span>
+                            <span class="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-semibold">⚠ Aviso de iOS</span>
+                            <span class={`text-xs px-2 py-0.5 rounded-full font-semibold ${cal.clases}`}>{cal.texto}</span>
                           </div>
-                          <p class="text-xs text-gray-400 mb-2">
-                            Sin chip · Funciona normal · iOS muestra aviso en Historial de piezas
-                          </p>
-                          {/* Calidad + Garantía */}
-                          <div class="flex items-center gap-2 flex-wrap">
-                            <span class={`text-xs px-2 py-0.5 rounded-full font-semibold ${cal.clases}`}>
-                              {cal.texto}
+                          <p class="text-xs text-gray-400 mb-2">iOS muestra aviso de "pieza no verificada" · Funciona 100% normal</p>
+                          {r.garantiaDias && (
+                            <span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-green-50 text-green-700 border border-green-200">
+                              🛡 Garantía {r.garantiaDias} días
                             </span>
-                            {r.garantiaDias && (
-                              <span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-green-50 text-green-700 border border-green-200">
-                                🛡 Garantía {r.garantiaDias} Meses
-                              </span>
-                            )}
-                          </div>
+                          )}
                         </div>
-                        <div class="text-right shrink-0">
-                          <span class="text-2xl font-bold text-gray-700">${r.precioConMensaje}</span>
-                        </div>
+                        <span class="text-2xl font-bold text-gray-700 shrink-0">${r.precioConMensaje}</span>
                       </div>
                     </div>
                   );
@@ -369,7 +388,7 @@ const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
         )}
 
         <!-- ── BATERÍA ── -->
-        {baterias.length > 0 && (
+        {categoriaActiva === "bateria" && baterias.length > 0 && (
           <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div class="px-6 pt-6 pb-4 border-b border-gray-100 flex items-center gap-3">
               <div class="w-9 h-9 bg-green-50 rounded-xl flex items-center justify-center shrink-0">
@@ -386,189 +405,208 @@ const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
 
             <div class="p-4 space-y-3">
 
-              {/* ✅ RECOMENDADO: sin aviso */}
-              {baterias
-                .filter((r) => r.precioSinMensaje != null)
-                .map((r) => {
-                  const cal = calidadLabel(r.calidad);
-                  return (
-                    <div class="price-option recommended">
-                      <div class="flex items-start justify-between gap-4">
-                        <div class="flex-1">
-                          <div class="flex items-center gap-2 flex-wrap mb-1">
-                            <span class="text-sm font-bold text-gray-900">Sin advertencia</span>
-                            <span class="text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full font-bold">
-                              ✓ Recomendado
-                            </span>
-                          </div>
-                          <p class="text-xs text-blue-700 mb-2">
-                            Incluye chip · Muestra salud de batería · Sin avisos en Ajustes
-                          </p>
-                          <div class="flex items-center gap-2 flex-wrap">
-                            <span class={`text-xs px-2 py-0.5 rounded-full font-semibold ${cal.clases}`}>
-                              {cal.texto}
-                            </span>
-                            {r.garantiaDias && (
-                              <span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-green-50 text-green-700 border border-green-200">
-                                🛡 Garantía {r.garantiaDias} días
-                              </span>
-                            )}
-                          </div>
+              {baterias.filter((r) => r.precioSinMensaje != null).map((r) => {
+                const cal = calidadLabel(r.calidad);
+                return (
+                  <div class="price-option recommended">
+                    <div class="flex items-start justify-between gap-4">
+                      <div class="flex-1">
+                        <div class="flex items-center gap-2 flex-wrap mb-1">
+                          <span class="text-sm font-bold text-gray-900">Sin advertencia</span>
+                          <span class="text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full font-bold">✓ Recomendado</span>
+                          <span class={`text-xs px-2 py-0.5 rounded-full font-semibold ${cal.clases}`}>{cal.texto}</span>
                         </div>
-                        <span class="text-2xl font-bold text-blue-700 shrink-0">${r.precioSinMensaje}</span>
+                        <p class="text-xs text-blue-700 mb-2">Requiere trasplantar el chip original de tu iPhone (lo hacemos nosotros)</p>
+                        {r.garantiaDias && (
+                          <span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-green-50 text-green-700 border border-green-200">
+                            🛡 Garantía {r.garantiaDias} días
+                          </span>
+                        )}
                       </div>
+                      <span class="text-2xl font-bold text-blue-700 shrink-0">${r.precioSinMensaje}</span>
                     </div>
-                  );
-                })}
+                  </div>
+                );
+              })}
 
-              {/* ⚠️ CON AVISO */}
-              {baterias
-                .filter((r) => r.precioConMensaje != null)
-                .map((r) => {
-                  const cal = calidadLabel(r.calidad);
-                  return (
-                    <div class="price-option">
-                      <div class="flex items-start justify-between gap-4">
-                        <div class="flex-1">
-                          <div class="flex items-center gap-2 flex-wrap mb-1">
-                            <span class="text-sm font-semibold text-gray-700">Con advertencia</span>
-                            <span class="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-semibold">
-                              ⚠ Aparece aviso de iOS
-                            </span>
-                          </div>
-                          <p class="text-xs text-gray-400 mb-2">
-                            Sin chip · Funciona normal · Puede aparecer aviso en Ajustes → Batería
-                          </p>
-                          <div class="flex items-center gap-2 flex-wrap">
-                            <span class={`text-xs px-2 py-0.5 rounded-full font-semibold ${cal.clases}`}>
-                              {cal.texto}
-                            </span>
-                            {r.garantiaDias && (
-                              <span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-green-50 text-green-700 border border-green-200">
-                                🛡 Garantía {r.garantiaDias} días
-                              </span>
-                            )}
-                          </div>
+              {baterias.filter((r) => r.precioConMensaje != null).map((r) => {
+                const cal = calidadLabel(r.calidad);
+                return (
+                  <div class="price-option">
+                    <div class="flex items-start justify-between gap-4">
+                      <div class="flex-1">
+                        <div class="flex items-center gap-2 flex-wrap mb-1">
+                          <span class="text-sm font-semibold text-gray-700">Con advertencia</span>
+                          <span class="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-semibold">⚠ Aviso de iOS</span>
+                          <span class={`text-xs px-2 py-0.5 rounded-full font-semibold ${cal.clases}`}>{cal.texto}</span>
                         </div>
-                        <span class="text-2xl font-bold text-gray-700 shrink-0">${r.precioConMensaje}</span>
+                        <p class="text-xs text-gray-400 mb-2">Sin IC · Funciona normal · Puede aparecer aviso en Ajustes → Batería → Salud de la batería</p>
+                        {r.garantiaDias && (
+                          <span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-green-50 text-green-700 border border-green-200">
+                            🛡 Garantía {r.garantiaDias} días
+                          </span>
+                        )}
                       </div>
+                      <span class="text-2xl font-bold text-gray-700 shrink-0">${r.precioConMensaje}</span>
                     </div>
-                  );
-                })}
+                  </div>
+                );
+              })}
 
             </div>
           </div>
         )}
 
-        <!-- ── EXPLICACIÓN CHIP ── -->
-        <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6">
-          <h4 class="font-bold text-gray-900 text-base mb-4 flex items-center gap-2">
-            <svg class="w-5 h-5 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z" />
-            </svg>
-            ¿Qué significa "sin advertencia" o "con advertencia"?
-          </h4>
-
-          <div class="space-y-3">
-            <div class="bg-white rounded-xl p-4 border border-blue-100">
-              <div class="flex items-start gap-3">
-                <span class="text-lg mt-0.5">✅</span>
-                <div>
-                  <p class="font-bold text-gray-900 text-sm mb-1">
-                    Sin advertencia · Incluye chip <span class="text-blue-600">(recomendado)</span>
-                  </p>
-                  <p class="text-xs text-gray-500 leading-relaxed">
-                    El iPhone <strong>no muestra ningún aviso</strong> en
-                    Ajustes → General → Historial de piezas y servicio.
-                    La experiencia es idéntica a un repuesto original.
-                    True Tone y demás funciones trabajan con normalidad.
-                  </p>
-                </div>
+        <!-- ── BACKCOVER ── -->
+        {categoriaActiva === "backcover" && backovers.length > 0 && (
+          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="px-6 pt-6 pb-4 border-b border-gray-100 flex items-center gap-3">
+              <div class="w-9 h-9 bg-slate-50 rounded-xl flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-bold text-gray-900 text-base">Backcover</h3>
+                <p class="text-xs text-gray-400">Cambio de tapa trasera con instalación incluida</p>
               </div>
             </div>
+            <div class="p-4 space-y-3">
+              {backovers.map((r) => {
+                const cal = calidadLabel(r.calidad);
+                const precio = r.precioSinMensaje ?? r.precioConMensaje;
+                return (
+                  <div class="price-option">
+                    <div class="flex items-start justify-between gap-4">
+                      <div class="flex-1">
+                        <span class="text-sm font-semibold text-gray-800">{labelModelo(r.modelo)}</span>
+                        <div class="flex items-center gap-2 flex-wrap mt-2">
+                          <span class={`text-xs px-2 py-0.5 rounded-full font-semibold ${cal.clases}`}>{cal.texto}</span>
+                          {r.garantiaDias && (
+                            <span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-green-50 text-green-700 border border-green-200">
+                              🛡 Garantía {r.garantiaDias} días
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <span class="text-2xl font-bold text-gray-800 shrink-0">${precio}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
-            <div class="bg-white rounded-xl p-4 border border-gray-200">
-              <div class="flex items-start gap-3">
-                <span class="text-lg mt-0.5">⚠️</span>
-                <div>
-                  <p class="font-bold text-gray-900 text-sm mb-1">Con advertencia · Sin chip</p>
-                  <p class="text-xs text-gray-500 leading-relaxed">
-                    Aparece el aviso permanente de <em>"pieza no verificada"</em> en Ajustes.
-                    El teléfono funciona con total normalidad, pero el mensaje es visible.
-                    Es la opción más económica si el aviso no te molesta.
-                  </p>
-                </div>
+        <!-- ── GLASS ── -->
+        {categoriaActiva === "glass" && glasses.length > 0 && (
+          <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="px-6 pt-6 pb-4 border-b border-gray-100 flex items-center gap-3">
+              <div class="w-9 h-9 bg-cyan-50 rounded-xl flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-bold text-gray-900 text-base">Glass</h3>
+                <p class="text-xs text-gray-400">Cambio de cristal frontal con instalación incluida</p>
               </div>
             </div>
-
-            <p class="text-xs text-gray-400 px-1">
-              <strong>Nota:</strong> En modelos iPhone 14 en adelante, algunas funciones como
-              True Tone o la calibración de batería pueden variar según el repuesto.
-              <a
-                href="https://support.apple.com/es-es/108888"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-blue-500 underline ml-1"
-              >
-                Ver aviso de Apple ↗
-              </a>
-            </p>
+            <div class="p-4 space-y-3">
+              {glasses.map((r) => {
+                const cal = calidadLabel(r.calidad);
+                const precio = r.precioSinMensaje ?? r.precioConMensaje;
+                return (
+                  <div class="price-option">
+                    <div class="flex items-start justify-between gap-4">
+                      <div class="flex-1">
+                        <span class="text-sm font-semibold text-gray-800">{labelModelo(r.modelo)}</span>
+                        <div class="flex items-center gap-2 flex-wrap mt-2">
+                          <span class={`text-xs px-2 py-0.5 rounded-full font-semibold ${cal.clases}`}>{cal.texto}</span>
+                          {r.garantiaDias && (
+                            <span class="text-xs px-2 py-0.5 rounded-full font-semibold bg-green-50 text-green-700 border border-green-200">
+                              🛡 Garantía {r.garantiaDias} días
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <span class="text-2xl font-bold text-gray-800 shrink-0">${precio}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
 
-        <!-- ── FAQ ── -->
-        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <div class="px-6 py-4 border-b border-gray-100">
-            <h4 class="font-bold text-gray-900 text-base">Preguntas frecuentes</h4>
+        <!-- ── EXPLICACIÓN IC (solo pantalla y batería) ── -->
+        {mostrarExplicacionIC && (
+          <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6">
+            <h4 class="font-bold text-gray-900 text-base mb-4 flex items-center gap-2">
+              <svg class="w-5 h-5 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z" />
+              </svg>
+              ¿Por qué algunos repuestos muestran aviso en iOS y otros no?
+            </h4>
+
+            <div class="space-y-3">
+              <div class="bg-white rounded-xl p-4 border border-blue-100">
+                <div class="flex items-start gap-3">
+                  <span class="text-lg mt-0.5">✅</span>
+                  <div>
+                    <p class="font-bold text-gray-900 text-sm mb-1">
+                      Sin aviso <span class="text-blue-600">(opción recomendada)</span>
+                    </p>
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                      Transferimos el chip electrónico original (llamado IC) de tu pantalla o batería vieja
+                      a la pieza nueva. De esta forma iOS reconoce la pieza como válida y
+                      <strong>no muestra ningún mensaje</strong> en Ajustes.
+                    </p>
+                    <p class="text-xs text-gray-400 leading-relaxed mt-2">
+                      Funciona muy bien en la mayoría de iPhone 11 a 15. En modelos iPhone 16
+                      (y posiblemente más nuevos) muchas veces ya no es necesario este paso.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white rounded-xl p-4 border border-gray-200">
+                <div class="flex items-start gap-3">
+                  <span class="text-lg mt-0.5">⚠️</span>
+                  <div>
+                    <p class="font-bold text-gray-900 text-sm mb-1">Con aviso</p>
+                    <p class="text-xs text-gray-600 leading-relaxed">
+                      La pieza no lleva el chip original → iOS muestra un mensaje permanente tipo
+                      <em>"pieza no verificada"</em> o <em>"no se puede confirmar que es original"</em>.
+                    </p>
+                    <p class="text-xs text-gray-400 leading-relaxed mt-1">
+                      El teléfono funciona completamente normal (llama, carga, pantalla responde, etc.).
+                      Solo es un aviso informativo.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <p class="text-xs text-gray-400 px-1">
+                <strong>Importante:</strong> En iPhone 14 y superiores algunas funciones (como True Tone
+                o el porcentaje exacto de batería) pueden comportarse diferente según la pieza y la versión de iOS.
+                <a
+                  href="https://support.apple.com/es-es/HT212653"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-blue-500 underline ml-1"
+                >
+                  Más información oficial de Apple ↗
+                </a>
+              </p>
+            </div>
           </div>
-          <div class="divide-y divide-gray-100">
+        )}
 
-            <details class="px-6 py-4">
-              <summary class="flex items-center justify-between gap-4 text-sm font-semibold text-gray-800">
-                ¿Cuánto tarda la instalación?
-                <svg class="chevron w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                </svg>
-              </summary>
-              <p class="text-xs text-gray-500 leading-relaxed mt-3">
-                La mayoría de reparaciones se realizan el mismo día, generalmente entre 30 minutos
-                y 2 horas según el modelo y disponibilidad de piezas.
-              </p>
-            </details> 
-
-            <details class="px-6 py-4">
-              <summary class="flex items-center justify-between gap-4 text-sm font-semibold text-gray-800">
-                ¿Se mantiene Face ID y Touch ID?
-                <svg class="chevron w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                </svg>
-              </summary>
-              <p class="text-xs text-gray-500 leading-relaxed mt-3">
-                Sí. Face ID y Touch ID <strong>no se ven afectados</strong> por el cambio de pantalla o batería.
-                Estos módulos se transfieren o están en otros componentes del equipo.
-              </p>
-            </details>
-
-            <details class="px-6 py-4">
-              <summary class="flex items-center justify-between gap-4 text-sm font-semibold text-gray-800">
-                ¿Hacen envíos a otras ciudades?
-                <svg class="chevron w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                </svg>
-              </summary>
-<p class="text-xs text-gray-500 leading-relaxed mt-3">
-                ✅ Enviamos a todo Ecuador.<br>
-                También atendemos presencialmente en nuestras sucursales de<br>
-                Azogues (Principal) y Biblián.<br>
-                Escríbenos por WhatsApp para coordinar tu envío o visita.
-              </p>
-            </details>
-
-          </div>
-        </div>
-
-        <!-- ── CTA FINAL ── -->
+        <!-- ── CTA ── -->
         <div class="bg-gray-900 rounded-2xl p-6 text-center">
           <p class="text-white font-bold text-lg mb-1">¿Listo para reparar tu iPhone?</p>
           <p class="text-gray-400 text-sm mb-5">
@@ -598,6 +636,59 @@ const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
             </a>
           </div>
         </div>
+        <!-- ── FAQ ── -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-100">
+            <h4 class="font-bold text-gray-900 text-base">Preguntas frecuentes</h4>
+          </div>
+          <div class="divide-y divide-gray-100">
+
+            <details class="px-6 py-4">
+              <summary class="flex items-center justify-between gap-4 text-sm font-semibold text-gray-800">
+                ¿Cuánto tarda la instalación?
+                <svg class="chevron w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </summary>
+              <p class="text-xs text-gray-500 leading-relaxed mt-3">
+                La mayoría de reparaciones se realizan el mismo día, generalmente entre 30 minutos
+                y 2 horas según el modelo y disponibilidad de piezas.
+              </p>
+            </details>
+
+            <details class="px-6 py-4">
+              <summary class="flex items-center justify-between gap-4 text-sm font-semibold text-gray-800">
+                ¿Se mantiene Face ID y Touch ID?
+                <svg class="chevron w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </summary>
+              <p class="text-xs text-gray-500 leading-relaxed mt-3">
+                Sí. Face ID y Touch ID <strong>no se ven afectados</strong> por el cambio de pantalla o batería,
+                siempre que no se dañe el sensor frontal durante el proceso.
+                Estos módulos se transfieren o están en otros componentes del equipo.
+              </p>
+            </details>
+
+            <details class="px-6 py-4">
+              <summary class="flex items-center justify-between gap-4 text-sm font-semibold text-gray-800">
+                ¿Hacen envíos a otras ciudades?
+                <svg class="chevron w-4 h-4 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </summary>
+              <p class="text-xs text-gray-500 leading-relaxed mt-3">
+                ✅ Enviamos a todo Ecuador.<br>
+                También atendemos presencialmente en nuestras sucursales de<br>
+                Azogues (Principal) y Biblián.<br>
+                Escríbenos por WhatsApp para coordinar tu envío o visita.
+              </p>
+            </details>
+
+          </div>
+        </div>
+
+
 
       </div>
     )}
@@ -606,13 +697,24 @@ const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
 </section>
 
 <script>
-  const selFamilia = document.getElementById("select-familia") as HTMLSelectElement | null;
-  const selModelo  = document.getElementById("select-modelo")  as HTMLSelectElement | null;
+  const selFamilia   = document.getElementById("select-familia")   as HTMLSelectElement | null;
+  const selModelo    = document.getElementById("select-modelo")    as HTMLSelectElement | null;
+  const selCategoria = document.getElementById("select-categoria") as HTMLSelectElement | null;
 
   selFamilia?.addEventListener("change", () => {
-    window.location.href = selFamilia.value;
+    window.location.href = `/repuestos/${selFamilia!.value}`;
   });
+
   selModelo?.addEventListener("change", () => {
-    if (!selModelo.disabled) window.location.href = selModelo.value;
+    if (selModelo!.disabled) return;
+    window.location.href = `/repuestos/${selFamilia?.value ?? ""}/${selModelo!.value}`;
+  });
+
+  selCategoria?.addEventListener("change", () => {
+    if (selCategoria!.disabled) return;
+    const familia   = selFamilia?.value   ?? "";
+    const modelo    = selModelo?.value    ?? "";
+    const categoria = selCategoria!.value;
+    window.location.href = `/repuestos/${familia}/${modelo}/${categoria}`;
   });
 </script>

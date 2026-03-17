@@ -30,12 +30,31 @@ export async function getStaticPaths() {
   }
 
   const paths: { params: { slug: string | undefined } }[] = [];
+
+  // /repuestos
   paths.push({ params: { slug: undefined } });
 
   for (const familia of familias) {
+    // /repuestos/iphone-12
     paths.push({ params: { slug: familia } });
+
     for (const modelo of modelosPorFamilia[familia]) {
+      // /repuestos/iphone-12/iphone-12-pro
       paths.push({ params: { slug: `${familia}/${modelo}` } });
+
+      // /repuestos/iphone-12/iphone-12-pro/pantalla  (y demás categorías)
+      const categorias = [
+        ...new Set(
+          todos
+            .filter(
+              (r) => r.modelo === modelo || r.modelo === `${modelo}-oled`
+            )
+            .map((r) => r.categoria)
+        ),
+      ];
+      for (const categoria of categorias) {
+        paths.push({ params: { slug: `${familia}/${modelo}/${categoria}` } });
+      }
     }
   }
 
@@ -44,9 +63,10 @@ export async function getStaticPaths() {
 
 // ── Params ───────────────────────────────────────────────
 const { slug } = Astro.params;
-const partes = slug ? slug.split("/") : [];
-const familiaActiva = partes[0] ?? null;
-const modeloActivo  = partes[1] ?? null;
+const partes          = slug ? slug.split("/") : [];
+const familiaActiva   = partes[0] ?? null;
+const modeloActivo    = partes[1] ?? null;
+const categoriaActiva = partes[2] ?? null;
 
 // ── Datos ────────────────────────────────────────────────
 const todos = await db.select().from(Repuestos);
@@ -67,6 +87,20 @@ const modelosDeFamilia: string[] = familiaActiva
     ]
   : [];
 
+// Categorías disponibles para el modelo activo (las que tengan datos en DB)
+const categoriasDeFamilia: string[] = modeloActivo
+  ? [
+      ...new Set(
+        todos
+          .filter(
+            (r) => r.modelo === modeloActivo || r.modelo === `${modeloActivo}-oled`
+          )
+          .map((r) => r.categoria)
+      ),
+    ]
+  : [];
+
+// Todos los repuestos del modelo (el componente filtra por categoría)
 const repuestosDelModelo = modeloActivo
   ? todos
       .filter(
@@ -87,21 +121,38 @@ function labelModelo(m: string): string {
   ).join(" ");
 }
 
+function labelCategoria(c: string): string {
+  const map: Record<string, string> = {
+    pantalla: "pantalla",
+    bateria: "batería",
+    backcover: "backcover",
+    glass: "glass",
+  };
+  return map[c] ?? c;
+}
+
 // ── SEO meta ─────────────────────────────────────────────
-const pageTitle = modeloActivo
+const pageTitle = categoriaActiva && modeloActivo
+  ? `Precio ${labelCategoria(categoriaActiva)} ${labelModelo(modeloActivo)} | TeamCellMania`
+  : modeloActivo
   ? `Precio repuestos ${labelModelo(modeloActivo)} | TeamCellMania`
   : familiaActiva
   ? `Repuestos ${labelModelo(familiaActiva)} | TeamCellMania`
   : "Precios de repuestos iPhone | TeamCellMania";
 
-const pageDescription = modeloActivo
+const pageDescription = categoriaActiva && modeloActivo
+  ? `Precio de ${labelCategoria(categoriaActiva)} para ${labelModelo(modeloActivo)} en TeamCellMania, Azogues y Biblián. Piezas de calidad con garantía. Instalación incluida.`
+  : modeloActivo
   ? `Precio de pantalla y batería para ${labelModelo(modeloActivo)} en TeamCellMania, Azogues y Biblián. Piezas de calidad con garantía. Instalación incluida.`
   : "Consulta los precios de pantallas y baterías para iPhone en TeamCellMania, Azogues y Biblián, Ecuador. Instalación profesional incluida.";
 
 const canonicalUrl = `https://www.teamcellmania.com/repuestos${slug ? `/${slug}` : ""}`;
 
 // ── JSON-LD Schema.org ────────────────────────────────────
-// Solo se genera cuando hay un modelo específico seleccionado
+const repuestosParaSchema = categoriaActiva
+  ? repuestosDelModelo.filter((r) => r.categoria === categoriaActiva)
+  : repuestosDelModelo;
+
 const jsonLd = modeloActivo
   ? {
       "@context": "https://schema.org",
@@ -109,12 +160,18 @@ const jsonLd = modeloActivo
       "name": `Repuestos ${labelModelo(modeloActivo)} - TeamCellMania`,
       "description": pageDescription,
       "url": canonicalUrl,
-      "numberOfItems": repuestosDelModelo.length,
-      "itemListElement": repuestosDelModelo
-        .filter((r) => !r.modelo.endsWith("-oled")) // evitar duplicados
+      "numberOfItems": repuestosParaSchema.length,
+      "itemListElement": repuestosParaSchema
+        .filter((r) => !r.modelo.endsWith("-oled"))
         .flatMap((r, i) => {
           const items = [];
-          const nombreBase = r.categoria === "pantalla" ? "Pantalla" : "Batería";
+          const nombreBase = r.categoria === "pantalla"
+            ? "Pantalla"
+            : r.categoria === "bateria"
+            ? "Batería"
+            : r.categoria === "backcover"
+            ? "Backcover"
+            : "Glass";
           const nombreModelo = labelModelo(r.modelo);
 
           if (r.precioSinMensaje != null) {
@@ -123,8 +180,8 @@ const jsonLd = modeloActivo
               "position": i * 2 + 1,
               "item": {
                 "@type": "Offer",
-                "name": `${nombreBase} ${nombreModelo} sin advertencia`,
-                "description": `Cambio de ${nombreBase.toLowerCase()} para ${nombreModelo} con chip incluido. Sin avisos de iOS. Instalación incluida.`,
+                "name": `${nombreBase} ${nombreModelo}${["pantalla","bateria"].includes(r.categoria) ? " sin advertencia" : ""}`,
+                "description": `Cambio de ${nombreBase.toLowerCase()} para ${nombreModelo}. Instalación incluida.`,
                 "price": r.precioSinMensaje,
                 "priceCurrency": "USD",
                 "availability": "https://schema.org/InStock",
@@ -151,7 +208,7 @@ const jsonLd = modeloActivo
               "item": {
                 "@type": "Offer",
                 "name": `${nombreBase} ${nombreModelo} con advertencia`,
-                "description": `Cambio de ${nombreBase.toLowerCase()} para ${nombreModelo} sin chip. Funciona normal, iOS puede mostrar aviso. Instalación incluida.`,
+                "description": `Cambio de ${nombreBase.toLowerCase()} para ${nombreModelo} sin IC. Funciona normal, iOS puede mostrar aviso. Instalación incluida.`,
                 "price": r.precioConMensaje,
                 "priceCurrency": "USD",
                 "availability": "https://schema.org/InStock",
@@ -266,8 +323,10 @@ const localBusinessLd = {
       <RepuestosPricing
         familiaActiva={familiaActiva}
         modeloActivo={modeloActivo}
+        categoriaActiva={categoriaActiva}
         todasFamilias={todasFamilias}
         modelosDeFamilia={modelosDeFamilia}
+        categoriasDeFamilia={categoriasDeFamilia}
         repuestosDelModelo={repuestosDelModelo}
         imagenDelModelo={imagenDelModelo}
       />

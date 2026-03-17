@@ -134,6 +134,27 @@ const address = {
       transform: translateY(0);
     }
   }
+
+
+  
+
+#contenedor-cotiza {
+  transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(-50%) translateX(0);
+  box-shadow: -8px 0 40px -8px rgba(79, 70, 229, 0.18), -2px 0 0 0 rgba(79,70,229,0.12);
+  border-radius: 20px 0 0 20px;
+  overflow: hidden;
+}
+
+#contenedor-cotiza.es-minimizado {
+  transform: translateY(-50%) translateX(calc(100% - 48px));
+}
+
+@media (max-width: 768px) {
+  #contenedor-cotiza.es-minimizado {
+    transform: translateY(-50%) translateX(calc(100% - 42px));
+  }
+}
 </style>
 
 <html lang="es" class="scroll-smooth">
@@ -313,8 +334,124 @@ const address = {
         </section>
         </div>
       </section>
+<!-- Flotante cotización -->
+<!-- Flotante cotización -->
+<div id="contenedor-cotiza" class="fixed right-0 top-1/2 -translate-y-1/2 z-50 flex items-center">
 
+  <!-- Pestaña lateral -->
+  <button
+    id="pestana-click"
+    aria-label="Abrir cotizador"
+    class="relative bg-black py-6 px-3 rounded-l-2xl flex flex-col items-center gap-3 cursor-pointer
+           hover:bg-zinc-800 active:bg-zinc-900 transition-colors duration-200 border-none outline-none"
+  >
+    <svg class="w-5 h-5 text-white" viewBox="0 0 814 1000" fill="currentColor">
+      <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.5 135.4-317.3 269-317.3 70.1 0 128.4 46.4 172.5 46.4 42.8 0 109.6-49 192.5-49 30.6 0 132.4 2.6 198.3 99zm-234-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/>
+    </svg>
+    <span class="[writing-mode:vertical-lr] text-white text-[10px] font-bold uppercase tracking-[0.18em] rotate-180 select-none">
+      Cotizar
+    </span>
+  </button>
+
+  <!-- Panel expandido -->
+  <div class="bg-white border border-gray-200 rounded-l-none shadow-none" style="min-width: 300px; border-left: none;">
+
+    <!-- Botón cerrar -->
+    <div class="flex justify-end px-4 pt-3">
+      <button
+        id="btn-cerrar"
+        aria-label="Cerrar"
+        class="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors text-gray-500 border-none cursor-pointer"
+      >
+        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="px-5 pb-5 flex flex-col gap-3">
+      <!-- Título -->
+      <div>
+        <h3 class="text-[20px] font-extrabold text-gray-900 leading-tight tracking-tight">
+          ¡Repara tu iPhone <span style="color: #007AFF;">HOY!</span>
+        </h3>
+        <!-- Chips -->
+        <p class="mt-1.5 text-[12px] font-semibold tracking-wide" style="color: #007AFF;">
+          Pantalla&nbsp;•&nbsp;Batería&nbsp;•&nbsp;Glass&nbsp;•&nbsp;Backcover
+        </p>
+      </div>
+
+      <!-- Info -->
+      <div class="flex flex-col gap-1 text-[13px] text-gray-600 leading-snug">
+        <p>
+          Piezas <strong style="color: #34C759;" class="font-bold">originales</strong> Apple&nbsp;·&nbsp;
+           
+        </p>
+        <p class="text-gray-500">
+          En <strong class="text-gray-700 font-semibold">Azogues</strong> y
+          <strong class="text-gray-700 font-semibold">Biblián</strong>
+          &nbsp;— Respuesta rápida
+        </p>
+      </div>
+
+      <!-- CTA -->
+      
+       <a href="/repuestos"
+        class="mt-1 flex items-center justify-between text-white font-bold text-[14px] rounded-xl px-5 py-3 transition-colors duration-200 no-underline"
+        style="background: #34C759;"
+        onmouseover="this.style.background='#2EBB50'" 
+        onmouseout="this.style.background='#34C759'"
+      >
+        <span>¡Cotizar GRATIS ahora!</span>
+        <svg class="w-4 h-4 ml-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
       <Footer />
     </main>
+<script>
+  const contenedor = document.getElementById('contenedor-cotiza');
+  let temporizadorCierre: number | undefined;
+
+  function gestionarEstado(minimizar: boolean) {
+    if (!contenedor) return;
+    if (minimizar) {
+      contenedor.classList.add('es-minimizado');
+    } else {
+      contenedor.classList.remove('es-minimizado');
+      clearTimeout(temporizadorCierre);
+    }
+  }
+
+  contenedor?.addEventListener('mouseenter', () => gestionarEstado(false));
+  contenedor?.addEventListener('mouseleave', () => {
+    temporizadorCierre = window.setTimeout(() => gestionarEstado(true), 1500);
+  });
+
+  document.getElementById('pestana-click')?.addEventListener('click', () => {
+    if (contenedor?.classList.contains('es-minimizado')) {
+      gestionarEstado(false);
+    } else {
+      gestionarEstado(true);
+    }
+  });
+
+  document.getElementById('btn-cerrar')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    gestionarEstado(true);
+  });
+
+  window.addEventListener('load', () => {
+    if (!contenedor) return;
+    gestionarEstado(false);
+    temporizadorCierre = window.setTimeout(() => {
+      if (!contenedor.matches(':hover')) gestionarEstado(true);
+    }, 10000);
+  });
+</script>
   </Body>
 </html>

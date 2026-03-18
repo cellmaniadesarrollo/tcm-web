@@ -205,52 +205,7 @@ const Slider = () => {
         </div>
       </SwiperSlide>
 
-      {/* Slide 1 - LCD Lenovo Tab M10 */}
-		<SwiperSlide>
-		<div className="relative w-full h-[600px] md:h-[500px] bg-gradient-to-r from-indigo-900 to-purple-800">
-			<div className="absolute inset-0 bg-black/20 z-10" />
-			
-			<div className="container mx-auto h-full px-4 md:px-8 flex items-center">
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-				<div className="text-center md:text-left z-20">
-				<h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-					<span className="block">LCD LENOVO</span>
-					<span className="text-indigo-300">TAB M10</span>
-				</h2>
-				<p className="text-lg text-indigo-100 mb-6 max-w-lg">
-					Pantallas de repuesto de alta calidad para tu tablet Lenovo
-				</p>
-				<a
-					href={`${STOREPAGE_URL}/products/lcd-para-lenovo-tab-m10`}
-					target="_blank"
-					rel="noopener noreferrer"
-					className="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg transition-all duration-300"
-				>
-					<span className="mr-2">Comprar ahora</span>
-					<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-					</svg>
-				</a>
-				</div>
-				
-				<div className="flex justify-center z-20 space-x-6">
-				<img
-					src="/images/products/P6.webp"
-					className="h-72 w-auto object-contain transition-transform duration-500 hover:scale-105"
-					alt="LCD Lenovo Tab M10"
-					loading="eager"
-				/>
-				<img
-					src="/images/products/P5.webp"
-					className="h-72 w-auto object-contain transition-transform duration-500 hover:scale-105"
-					alt="LCD Lenovo Tab M10"
-					loading="eager"
-				/>
-				</div>
-			</div>
-			</div>
-		</div>
-		</SwiperSlide>
+
 
 		{/* Slide 2 - LCD Vivo Y33s */}
 		<SwiperSlide>
@@ -387,48 +342,7 @@ const Slider = () => {
 		</div>
 		</SwiperSlide>
 
-		{/* Slide 5 - MacBook Air */}
-		<SwiperSlide>
-		<div className="relative w-full h-[600px] md:h-[500px] bg-gradient-to-r from-gray-700 to-gray-500">
-			<div className="absolute inset-0 bg-black/30 z-10" />
-			
-			<div className="container mx-auto h-full px-4 md:px-8 flex items-center">
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-				<div className="text-center md:text-left z-20">
-				<h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-					<span className="block">MacBook Air</span>
-					<span className="text-gray-300">11.6" MD711LL/B</span>
-				</h2>
-				<p className="text-lg text-gray-200 mb-6 max-w-lg">
-					Laptop ultradelgada con pantalla HD+
-				</p>
-				<a
-					href={`${STOREPAGE_URL}/products/macbook-air`}
-					target="_blank"
-					rel="noopener noreferrer"
-					className="inline-flex items-center px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-bold rounded-lg transition-all duration-300"
-				>
-					<span className="mr-2">Comprar ahora</span>
-					<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-					</svg>
-				</a>
-				</div>
-				
-				<div className="flex justify-center z-20">
-				<img
-					src="/images/products/remont_macbookair_head.webp"
-					className="h-80 w-auto object-contain transition-transform duration-500 hover:scale-105"
-					alt="MacBook Air 11.6"
-					loading="eager"
-				/>
-				</div>
-			</div>
-			</div>
-		</div>
-		</SwiperSlide>
-
-		{/* Slide 6 - LCD LG Tribute */}
+ 		{/* Slide 6 - LCD LG Tribute */}
 		<SwiperSlide>
 		<div className="relative w-full h-[600px] md:h-[500px] bg-gradient-to-r from-green-900 to-teal-800">
 			<div className="absolute inset-0 bg-black/20 z-10" />

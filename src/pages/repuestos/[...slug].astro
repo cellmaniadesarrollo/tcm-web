@@ -8,11 +8,43 @@ import RepuestosPricing from "../../components/RepuestosPricing.astro";
 
 // Orden de presentación de familias (del más nuevo al más viejo)
 const ORDEN_FAMILIAS = [
-  "iphone-17","iphone-16","iphone-15","iphone-14","iphone-13",
-  "iphone-12","iphone-11","iphone-xs","iphone-xr","iphone-x",
-  "iphone-se","iphone-7","iphone-6","iphone-5","iphone-4",
+  "iphone-17",
+  "iphone-16",
+  "iphone-15",
+  "iphone-14",
+  "iphone-13",
+  "iphone-12",
+  "iphone-11",
+  "iphone-x",   
+  "iphone-se",  
+  "iphone-8",    
+  "iphone-7",
+  "iphone-6",    
+  "iphone-5",
+  "iphone-4",
 ];
-
+// ── NUEVO ──────────────────────────────────────────────────
+const ORDEN_MODELOS: Record<string, number> = {
+  // Serie 4/5/6/7/8
+  "iphone-4-4s": 1,
+  "iphone-5-5s": 1,
+  "iphone-6": 1, "iphone-6-plus": 2, "iphone-6s": 3, "iphone-6s-plus": 4,
+  "iphone-7": 1, "iphone-7-plus": 2,
+  "iphone-8": 1, "iphone-8-plus": 2,
+  // SE
+  "iphone-se-1": 1, "iphone-se-2020": 2, "iphone-se-2022": 3,
+  // Serie X
+  "iphone-x": 1, "iphone-xr": 2, "iphone-xs": 3, "iphone-xs-max": 4,
+  // Serie 11-17 (mini/base/plus/air → pro → pro max)
+  "iphone-11": 1, "iphone-11-pro": 2, "iphone-11-pro-max": 3,
+  "iphone-12-mini": 1, "iphone-12": 2, "iphone-12-pro": 3, "iphone-12-pro-max": 4,
+  "iphone-13-mini": 1, "iphone-13": 2, "iphone-13-pro": 3, "iphone-13-pro-max": 4,
+  "iphone-14": 1, "iphone-14-plus": 2, "iphone-14-pro": 3, "iphone-14-pro-max": 4,
+  "iphone-15": 1, "iphone-15-plus": 2, "iphone-15-pro": 3, "iphone-15-pro-max": 4,
+  "iphone-16e": 1, "iphone-16": 2, "iphone-16-plus": 3, "iphone-16-pro": 4, "iphone-16-pro-max": 5,
+  "iphone-17": 1, "iphone-17-air": 2, "iphone-17-pro": 3, "iphone-17-pro-max": 4,
+};
+const ORDEN_CATEGORIAS = ["pantalla", "bateria", "glass", "backcover"];
 export async function getStaticPaths() {
   const todos = await db.select().from(Repuestos);
 
@@ -78,26 +110,19 @@ const todasFamilias = [
 ];
 
 const modelosDeFamilia: string[] = familiaActiva
-  ? [
-      ...new Set(
-        todos
-          .filter((r) => r.familia === familiaActiva && !r.modelo.endsWith("-oled"))
-          .map((r) => r.modelo)
-      ),
-    ]
+  ? [...new Set(
+      todos
+        .filter((r) => r.familia === familiaActiva && !r.modelo.endsWith("-oled"))
+        .map((r) => r.modelo)
+    )].sort((a, b) => (ORDEN_MODELOS[a] ?? 99) - (ORDEN_MODELOS[b] ?? 99))
   : [];
 
-// Categorías disponibles para el modelo activo (las que tengan datos en DB)
 const categoriasDeFamilia: string[] = modeloActivo
-  ? [
-      ...new Set(
-        todos
-          .filter(
-            (r) => r.modelo === modeloActivo || r.modelo === `${modeloActivo}-oled`
-          )
-          .map((r) => r.categoria)
-      ),
-    ]
+  ? [...new Set(
+      todos
+        .filter((r) => r.modelo === modeloActivo || r.modelo === `${modeloActivo}-oled`)
+        .map((r) => r.categoria)
+    )].sort((a, b) => ORDEN_CATEGORIAS.indexOf(a) - ORDEN_CATEGORIAS.indexOf(b))
   : [];
 
 // Todos los repuestos del modelo (el componente filtra por categoría)

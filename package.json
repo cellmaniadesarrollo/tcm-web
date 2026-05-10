@@ -41,11 +41,5 @@
   },
   "overrides": {
     "zod-to-json-schema": "^3.23.5"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "sharp",
-      "esbuild"
-    ]
   }
 }

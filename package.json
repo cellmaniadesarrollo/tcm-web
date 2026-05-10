@@ -12,6 +12,7 @@
   "dependencies": {
     "@astrojs/check": "^0.8.3",
     "@astrojs/db": "^0.12.0",
+    "@astrojs/partytown": "^2.1.7",
     "@astrojs/react": "^3.6.0",
     "@astrojs/rss": "^4.0.7",
     "@astrojs/tailwind": "^5.1.0",

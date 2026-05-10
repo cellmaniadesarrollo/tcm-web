@@ -6,8 +6,19 @@ import react from "@astrojs/react";
 import { remarkReadingTime } from './remark-reading-time.mjs';
 import db from "@astrojs/db";
 
+import partytown from "@astrojs/partytown";
+
 export default defineConfig({
-  integrations: [tailwind(), react(), db()],
+  integrations: [
+    tailwind(),
+    react(),
+    db(),
+    partytown({
+      config: {
+        forward: ["dataLayer.push", "gtag"]
+      },
+    })
+  ],
   image: {
     service: squooshImageService(),
     domains: ["teamcellmania-public.s3.us-east-1.amazonaws.com"],

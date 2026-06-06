@@ -147,6 +147,7 @@ export default async function seed() {
 		{ id: "rep-pantalla-iphone-14", deviceType: "iphone", familia: "iphone-14", categoria: "pantalla", modelo: "iphone-14", precioConMensaje: 190, precioSinMensaje: 220, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14"], tags: ["pantalla", "iphone"] },
 		{ id: "rep-pantalla-iphone-14-plus", deviceType: "iphone", familia: "iphone-14", categoria: "pantalla", modelo: "iphone-14-plus", precioConMensaje: 250, precioSinMensaje: 275, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-plus"], tags: ["pantalla", "iphone"] },
 		{ id: "rep-pantalla-iphone-14-pro", deviceType: "iphone", familia: "iphone-14", categoria: "pantalla", modelo: "iphone-14-pro", precioConMensaje: 250, precioSinMensaje: 275, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-pro"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-14-max", deviceType: "iphone", familia: "iphone-14", categoria: "pantalla", modelo: "iphone-14-max", precioConMensaje: 250, precioSinMensaje: 275, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-pro"], tags: ["pantalla", "iphone"] },
 		{ id: "rep-pantalla-iphone-14-pro-max", deviceType: "iphone", familia: "iphone-14", categoria: "pantalla", modelo: "iphone-14-pro-max", precioConMensaje: 300, precioSinMensaje: 330, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-14-pro-max"], tags: ["pantalla", "iphone"] },
 
 		// ── Serie 15 ──────────────────────────────────────────────
@@ -155,7 +156,7 @@ export default async function seed() {
 		{ id: "rep-pantalla-iphone-15-pro-max", deviceType: "iphone", familia: "iphone-15", categoria: "pantalla", modelo: "iphone-15-pro-max", precioConMensaje: 330, precioSinMensaje: 360, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-15-pro-max"], tags: ["pantalla", "iphone"] },
 
 		// ── Serie 16 ──────────────────────────────────────────────
-		{ id: "rep-pantalla-iphone-16", deviceType: "iphone", familia: "iphone-16", categoria: "pantalla", modelo: "iphone-16", precioConMensaje: null, precioSinMensaje: 120, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16"], tags: ["pantalla", "iphone"] },
+		//{ id: "rep-pantalla-iphone-16", deviceType: "iphone", familia: "iphone-16", categoria: "pantalla", modelo: "iphone-16", precioConMensaje: null, precioSinMensaje: 120, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16"], tags: ["pantalla", "iphone"] },
 		//{ id: "rep-pantalla-iphone-16-plus", deviceType: "iphone", familia: "iphone-16", categoria: "pantalla", modelo: "iphone-16-plus", precioConMensaje: null, precioSinMensaje: 140, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16-plus"], tags: ["pantalla", "iphone"] },
 		//{ id: "rep-pantalla-iphone-16-pro", deviceType: "iphone", familia: "iphone-16", categoria: "pantalla", modelo: "iphone-16-pro", precioConMensaje: null, precioSinMensaje: 140, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16-pro"], tags: ["pantalla", "iphone"] },
 		//{ id: "rep-pantalla-iphone-16-pro-max", deviceType: "iphone", familia: "iphone-16", categoria: "pantalla", modelo: "iphone-16-pro-max", precioConMensaje: null, precioSinMensaje: 150, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-16-pro-max"], tags: ["pantalla", "iphone"] },
@@ -164,7 +165,7 @@ export default async function seed() {
 		// ── Serie 17 ──────────────────────────────────────────────
 		{ id: "rep-pantalla-iphone-17", deviceType: "iphone", familia: "iphone-17", categoria: "pantalla", modelo: "iphone-17", precioConMensaje: 300, precioSinMensaje: 340, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17"], tags: ["pantalla", "iphone"] },
 		//{ id: "rep-pantalla-iphone-17-air", deviceType: "iphone", familia: "iphone-17", categoria: "pantalla", modelo: "iphone-17-air", precioConMensaje: null, precioSinMensaje: 220, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17-air"], tags: ["pantalla", "iphone"] },
-		{ id: "rep-pantalla-iphone-17-pro", deviceType: "iphone", familia: "iphone-17", categoria: "pantalla", modelo: "iphone-17-pro", precioConMensaje: 240, precioSinMensaje: 270, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17-pro"], tags: ["pantalla", "iphone"] },
+		{ id: "rep-pantalla-iphone-17-pro", deviceType: "iphone", familia: "iphone-17", categoria: "pantalla", modelo: "iphone-17-pro", precioConMensaje: 440, precioSinMensaje: 470, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17-pro"], tags: ["pantalla", "iphone"] },
 		//{ id: "rep-pantalla-iphone-17-pro-max", deviceType: "iphone", familia: "iphone-17", categoria: "pantalla", modelo: "iphone-17-pro-max", precioConMensaje: null, precioSinMensaje: 220, calidad: "original", garantiaDias: 180, imageUrl: IMGS["iphone-17-pro-max"], tags: ["pantalla", "iphone"] },
 
 

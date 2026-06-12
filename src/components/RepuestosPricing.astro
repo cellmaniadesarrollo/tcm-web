@@ -45,7 +45,7 @@ function labelCategoria(c: string): string {
 
 function calidadLabel(c: string | null | undefined): { texto: string; clases: string } {
   switch (c) {
-    case "original":  return { texto: "⭐ Original Apple",    clases: "bg-blue-50 text-blue-700 border border-blue-200" };
+    case "original":  return { texto: "⭐ Original",    clases: "bg-blue-50 text-blue-700 border border-blue-200" };
     case "premium":   return { texto: "✦ Premium",            clases: "bg-violet-50 text-violet-700 border border-violet-200" };
     case "estandar":  return { texto: "Estándar",             clases: "bg-gray-100 text-gray-600 border border-gray-200" };
     default:          return { texto: "Alta calidad",         clases: "bg-gray-100 text-gray-600 border border-gray-200" };

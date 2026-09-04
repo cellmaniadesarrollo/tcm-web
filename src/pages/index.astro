@@ -195,8 +195,8 @@ const address = {
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#1e40af" />
 
     <!-- Schema.org mejorado -->
-    <script type="application/ld+json">
-    {JSON.stringify({
+ <!-- Schema.org mejorado (Corregido para Astro + Meta Pixel) -->
+    <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Store",
       "name": "TeamCellMania",
@@ -243,8 +243,7 @@ const address = {
         "https://www.instagram.com/teamcellmania",
         "https://twitter.com/teamcellmania"
       ]
-    })}
-    </script>
+    })} />
  
 <!-- Google Adsense (Verificación y Script de Anuncios) -->
     <meta name="google-adsense-account" content="ca-pub-8627688040171449">

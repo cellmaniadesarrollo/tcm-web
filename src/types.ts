@@ -70,6 +70,7 @@ export type Repuesto = {
 	modelo: string;
 	precioConMensaje: number | null;
 	precioSinMensaje: number | null;
+	precioSoloRepuesto?: number | null;
 	descripcion?: string | null;
 	stock?: boolean | null;
 	tags?: string[] | null | undefined;     // ← importante el undefined
@@ -80,6 +81,7 @@ export type Repuesto = {
 	deviceType?: string;
 	familia?: string;
 	// si hay más campos que uses después, agrégalos aquí
+
 };
 
 

@@ -30,6 +30,7 @@ const Repuestos = defineTable({
 		modelo: column.text(),                                 // "iphone-12-pro" → segundo select
 		precioConMensaje: column.number({ optional: true }),
 		precioSinMensaje: column.number({ optional: true }),
+		precioSoloRepuesto: column.number({ optional: true }),
 		descripcion: column.text({ optional: true }),
 		stock: column.boolean({ optional: true, default: true }),
 		imageUrl: column.text({ optional: true }),             // URL S3 de la foto
